@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.0
-Release:	8.3
+Release:	8.4
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -106,6 +106,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Sat Jan 31 2004 Jakub Jelinek <jakub@redhat.com> 4.6.0-8.4
+- fix previous patch
+
 * Fri Jan 30 2004 Jakub Jelinek <jakub@redhat.com> 4.6.0-8.3
 - update php.syntax file (#112645)
 - fix crash with large syntax file (#112644)
