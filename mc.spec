@@ -1,12 +1,12 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.4
+Release:	0.5
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
 #Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
-%define date 20050202
+%define date 20050309
 Source0:	mc-%{version}-%{date}.tar.bz2
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
@@ -28,7 +28,7 @@ best features are its ability to FTP, view tar and zip files, and to
 poke into RPMs for specific files.
 
 %prep
-%setup -q -n mc-%{version}-%{date}
+%setup -q -n mc-%{version}
 
 %patch0 -p1 -b .utf8
 %patch1 -p1 -b .extensions
@@ -96,7 +96,7 @@ done
 popd
 
 %build
-export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
+export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-pointer-sign"
 %configure --with-screen=slang \
 	     --host=%{_host} --build=%{_build} \
 	     --target=%{_target_platform} \
@@ -168,6 +168,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Thu Mar  3 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.5
+- update from CVS
+- sync the .utf8 patch with upstream
+- fix infinite loop hang when copying/deleting some strangely
+  named files (#150569)
+
 * Wed Feb  9 2005 Jindrich Novy <jnovy@redhat.com>
 - don't use acs_map with not UTF8-ized slang (#147559)
 
