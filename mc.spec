@@ -168,6 +168,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Mon Feb  7 2005 Jindrich Novy <jnovy@redhat.com>
+- warning fix in .utf8 patch, missing inclusion of wchar.h in
+  view.c (#147168)
+
 * Wed Feb  2 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.4
 - update from CVS (fixes #143586)
 - merge all UTF-8 related patches to single .utf8 patch
