@@ -1,12 +1,12 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.1
+Release:	0.2
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
 #Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
-%define date 20041209
+%define date 20041215
 Source0:	mc-%{version}-%{date}.tar.bz2
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
@@ -22,7 +22,7 @@ Patch5:		mc-CVS-utf8-help.patch
 Patch6:		mc-CVS-extensions.patch
 Patch7:		mc-CVS-promptfix.patch
 Patch8:		mc-CVS-uglydir.patch
-Patch9:		mc-CVS-msglen.patch
+Patch9:		mc-CVS-msglen.patch 
 Patch10:	mc-CVS-fish-upload.patch
 
 %description
@@ -178,6 +178,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Wed Dec 15 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.2
+- update from CVS - problem in uzip.in fixed by upstream (#141844)
+- fix msglen patch to deal with wide UTF-8 characters (#141875)
+
 * Wed Dec  9 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.1
 - update from CVS
 - sync UTF-8 patches with upstream
