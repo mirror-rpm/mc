@@ -1,7 +1,7 @@
 Summary: A user-friendly file manager and visual shell.
 Name:		mc
 Version:	4.5.55
-Release:	5
+Release: 10
 Copyright:	GPL
 Group: System Environment/Shells
 Source0:	ftp://ftp.gnome.org/pub/GNOME/sources/mc/mc-%{version}.tar.gz
@@ -51,6 +51,7 @@ Patch45:   mc-4.5.55-vcsa.patch
 Patch46:   mc-4.5.55-zsh.patch
 Patch47:   mc-4.5.55-zip-fix.patch
 Patch48:   mc-4.5.55-trpm-fix.patch
+Patch49:   mc-4.5.55-regex.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -138,6 +139,7 @@ cp -f %{SOURCE14} vfs/extfs
 %patch46 -p1 -b .zsh
 %patch47 -p1 -b .zip-fix
 %patch48 -p1 -b .trpm-fix
+%patch49 -p1 -b .regex
 
 ## replaced by sources file below
 ## cp %{SOURCE10} po/ja.po
@@ -146,9 +148,10 @@ cp -f %{SOURCE14} vfs/extfs
 tar zxf %{SOURCE12}
 
 %build
+export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
 %configure --sysconfdir=%{_sysconfdir}\
 	--with-gnome \
-	--without-debug
+	--without-debug \
 make
 
 %install 
@@ -212,8 +215,8 @@ fi
 %{_libdir}/mc/mc.lib
 %{_libdir}/mc/mc.menu
 %attr(4711, vcsa, root) %{_libdir}/mc/bin/cons.saver
-%{_libdir}/mc/extfs/*
-%{_libdir}/mc/syntax/*
+%{_libdir}/mc/extfs/
+%{_libdir}/mc/syntax/
 %{_mandir}/man1/*
 %config %{_sysconfdir}/profile.d/*
 %dir %{_libdir}/mc
@@ -250,6 +253,20 @@ fi
 %endif  ## no mcserv/gmc
 
 %changelog
+* Wed Jul 17 2002 Karsten Hopp <karsten@redhat.de> 4.5.55-10
+- support large files (#65159, #65160)
+- own /usr/lib/mc/extfs and /usr/lib/mc/syntax
+- fix NL translation (#63495)
+
+* Thu Jul  4 2002 Jakub Jelinek <jakub@redhat.com>
+- fix regex usage
+
+* Fri Jun 21 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
+* Thu May 23 2002 Tim Powers <timp@redhat.com>
+- automated rebuild
+
 * Fri Apr 12 2002 Havoc Pennington <hp@redhat.com>
 - patch for trpm vfs, #62306
 
