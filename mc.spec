@@ -1,17 +1,18 @@
-Summary:	User-friendly text console file manager and visual shell.
+Summary: A user-friendly file manager and visual shell.
 Name:		mc
 Version:	4.6.0
-Release:	0.7.9
-Epoch:		1
-License:	GPL
-Group:		System Environment/Shells
-Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
+Release: 4
+Epoch:          1
+Copyright:	GPL
+Group: System Environment/Shells
+Source0:        http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
 Source1:	mc-cvs-uzip
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
-BuildRequires:	gpm-devel, slang-devel, glib2-devel
-BuildRequires:	XFree86-devel, e2fsprogs-devel, gettext
-Requires:	dev >= 0:3.3-3
+BuildRequires:	gpm-devel
+BuildRequires:	slang
+
+Prereq:		dev >= 3.3-3
 
 Patch1:		mc-4.6.0-absoluterm.patch
 Patch2:		mc-4.6.0-ptsname.patch
@@ -21,7 +22,6 @@ Patch5:		mc-4.6.0-vcsa.patch
 Patch6:		mc-4.6.0-pre3-nocpio.patch
 Patch7:		mc-4.6.0-slang.patch
 Patch8:		mc-4.6.0-utf8.patch
-Patch9:		mc-CVE-CAN-2003-1023.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -53,8 +53,6 @@ cp -f %{SOURCE1} vfs/extfs
 
 # partially done UTF-8ization
 %patch8 -p1 -b .utf8
-
-%patch9 -p1 -b .vfs-fix
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
@@ -95,26 +93,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 %config %{_sysconfdir}/profile.d/*
 %dir %{_libdir}/mc
-%dir %{_datadir}/mc
 
 %changelog
-* Sat Jan 17 2004 Warren Togami <wtogami@redhat.com> 4.6.0-7.9
-- BuildRequires glib2-devel, slang-devel, XFree86-devel,
-  e2fsprogs-devel, gettext
-- Copyright -> License
-- PreReq -> Requires
-- Explicit zero epoch in versioned dev dep
-- /usr/share/mc directory ownership
-- Improve summary
-- (Seth Vidal QA) fix for CAN-2003-1023 (Security)
-- Build for RH9 errata candidate
-
-* Tue Oct 28 2003 Jakub Jelinek <jakub@redhat.com> 4.6.0-6
-- rebuilt to get correct PT_GNU_STACK setting
-
-* Wed Jun 04 2003 Elliot Lee <sopwith@redhat.com>
-- rebuilt
-
 * Mon Feb 24 2003 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
