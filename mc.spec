@@ -1,7 +1,7 @@
 Summary: A user-friendly file manager and visual shell.
 Name:		mc
 Version:	4.5.55
-Release: 10
+Release: 11
 Copyright:	GPL
 Group: System Environment/Shells
 Source0:	ftp://ftp.gnome.org/pub/GNOME/sources/mc/mc-%{version}.tar.gz
@@ -151,7 +151,7 @@ tar zxf %{SOURCE12}
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
 %configure --sysconfdir=%{_sysconfdir}\
 	--with-gnome \
-	--without-debug \
+	--without-debug
 make
 
 %install 
@@ -253,6 +253,10 @@ fi
 %endif  ## no mcserv/gmc
 
 %changelog
+* Fri Jul 19 2002 Jakub Jelinek <jakub@redhat.com> 4.5.55-11
+- removed trailing backslash for %%configure, which
+  caused mc to build with the buildroot prefix
+
 * Wed Jul 17 2002 Karsten Hopp <karsten@redhat.de> 4.5.55-10
 - support large files (#65159, #65160)
 - own /usr/lib/mc/extfs and /usr/lib/mc/syntax
