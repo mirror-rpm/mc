@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1
-Release:	0.3
+Release:	0.4
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -128,6 +128,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Tue Sep 21 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.4
+- fixed .strippwd patch to deal better with ':' and '@' in URL
+
 * Thu Sep 17 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.3
 - patch to prevent displaying passwords in ftp paths (#131088)
   - also removes pswd from Delete/Copy/Error dialogs, etc.
