@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.0
-Release:	9
+Release: 10.1
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -98,6 +98,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Tue Mar 02 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
+* Fri Feb 13 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
 * Sat Jan 17 2004 Warren Togami <wtogami@redhat.com> 4.6.0-9
 - rebuild
 
