@@ -44,6 +44,33 @@ poke into RPMs for specific files.
 %patch8 -p1 -b .uglydir
 %patch9 -p1 -b .badsize
 
+# convert files in /lib to UTF-8
+pushd lib
+for i in mc.hint mc.hint.es mc.hint.it mc.hint.nl; do
+  iconv -f iso-8859-1 -t utf-8 < ${i} > ${i}.tmp
+  mv -f ${i}.tmp ${i}
+done
+
+for i in mc.hint.cs mc.hint.hu mc.hint.pl; do
+  iconv -f iso-8859-2 -t utf-8 < ${i} > ${i}.tmp
+  mv -f ${i}.tmp ${i}
+done
+
+for i in mc.hint.sr mc.menu.sr; do
+  iconv -f iso-8859-5 -t utf-8 < ${i} > ${i}.tmp
+  mv -f ${i}.tmp ${i}
+done
+
+popd
+
+# convert man pages in /doc to UTF-8
+pushd doc/sr
+for i in mc.1.in mcserv.8.in xnc.hlp; do
+  iconv -f iso-8859-5 -t utf-8 < ${i} > ${i}.tmp
+  mv -f ${i}.tmp ${i}
+done
+popd
+
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
 %configure --with-screen=slang \
