@@ -1,58 +1,27 @@
-Summary: A user-friendly file manager and visual shell.
+Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
-Version:	4.5.55
-Release: 12
-Copyright:	GPL
-Group: System Environment/Shells
-Source0:	ftp://ftp.gnome.org/pub/GNOME/sources/mc/mc-%{version}.tar.gz
-Source1:	redhat.links
-Source10:	mc-ja.po
-Source11:	redhat.links.ja
-Source12:       mc-pofiles.tar.gz
-Source14:       mc-cvs-uzip
-URL:		http://www.gnome.org/mc/
+Version:	4.6.0
+Release:	0.7.9
+Epoch:		1
+License:	GPL
+Group:		System Environment/Shells
+Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
+Source1:	mc-cvs-uzip
+URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
-Requires:	pam >= 0.59, %{_sysconfdir}/pam.d/system-auth
-%ifnarch s390 s390x
-BuildRequires: gpm-devel
-%endif
-BuildRequires: gnome-libs-devel
-BuildRequires: slang
+BuildRequires:	gpm-devel, slang-devel, glib2-devel
+BuildRequires:	XFree86-devel, e2fsprogs-devel, gettext
+Requires:	dev >= 0:3.3-3
 
-Prereq:    /sbin/chkconfig
-Prereq:    dev >= 3.3-3
-
-Patch0:    mc-4.5.35-xtermcolor.patch
-Patch2:    mc-4.5.35-fixwarning.patch
-
-Patch3:    mc-4.5.36-mimekeys.patch
-
-Patch10:   mc-4.5.35-homedir.patch
-Patch16:   mc-4.5.30-norpmmime.patch
-Patch17:   mc-4.5.42-absoluterm.patch
-Patch20:   mc-4.5.42-fixsh.patch
-Patch21:   samba-ia64.patch
-Patch22:   mc-4.5.43-prototype.patch
-Patch23:   mc-4.5.46-system-auth.patch
-Patch24:   mc-4.5.51-initscript.patch
-Patch25:   mc-4.5.51-showagain.patch
-Patch26:   mc-4.5.51-stderr.patch
-Patch27:   mc-4.5.51-gnome-editor.patch 
-Patch28:   mc-4.5.51-extention.patch
-Patch29:   mc-4.5.51-fixrescan.patch
-Patch30:   mc-4.5.51-time.patch
-#
-Patch40:   mc-4.5.51-desktop.patch
-Patch41:   mc-4.5.51-kudzu.patch
-Patch42:   mc-4.5.51-troff.patch
-Patch43:   mc-4.5.51-initialdevices.patch
-Patch44:   gmc-4.5.51-mountfix.patch
-Patch45:   mc-4.5.55-vcsa.patch
-Patch46:   mc-4.5.55-zsh.patch
-Patch47:   mc-4.5.55-zip-fix.patch
-Patch48:   mc-4.5.55-trpm-fix.patch
-Patch49:   mc-4.5.55-regex.patch
-Patch50:   mc-4.5.55-mb.patch
+Patch1:		mc-4.6.0-absoluterm.patch
+Patch2:		mc-4.6.0-ptsname.patch
+Patch3:		mc-4.6.0-stderr.patch
+Patch4:		mc-4.6.0-troff.patch
+Patch5:		mc-4.6.0-vcsa.patch
+Patch6:		mc-4.6.0-pre3-nocpio.patch
+Patch7:		mc-4.6.0-slang.patch
+Patch8:		mc-4.6.0-utf8.patch
+Patch9:		mc-CVE-CAN-2003-1023.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -61,148 +30,58 @@ includes mouse support if you are running GPM. Midnight Commander's
 best features are its ability to FTP, view tar and zip files, and to
 poke into RPMs for specific files.
 
-%ifarch nonexistent_arch ## no mcserv/gmc
-
-%package -n gmc
-Summary: The GNOME version of the Midnight Commander file manager.
-Requires: mc >= %{version} redhat-logos
-Group: User Interface/Desktops
-%description -n gmc
-GMC (GNU Midnight Commander) is a file manager based on the terminal
-version of Midnight Commander, with the addition of a GNOME GUI
-desktop front-end. GMC can FTP, view TAR and compressed files and look
-into RPMs for specific files.
-
-%package -n mcserv
-Summary: Server for the Midnight Commander network file management system.
-Group: System Environment/Daemons
-Requires: portmap
-Prereq: /sbin/chkconfig
-
-%description -n mcserv
-The Midnight Commander file management system will allow you to
-manipulate the files on a remote machine as if they were local. This
-is only possible if the remote machine is running the mcserv server
-program. Mcserv provides clients running Midnight Commander with
-access to the host's file systems.
-
-Install mcserv on machines if you want to access their file systems
-remotely using the Midnight Commander file management system.
-
-%endif ## no mcserv/gmc
-
 %prep
-%setup -q
+%setup -q -n mc-%{version}
 
-cp -f %{SOURCE14} vfs/extfs
+cp -f %{SOURCE1} vfs/extfs
 
-%patch -p1 -b .xtermcolor
+# Use /bin/rm, not rm
+%patch1 -p1 -b .absoluterm
 
-# upstream
-#%patch2 -p1 -b .fixwarning
-%patch3 -p1 -b .mimekeys
+%patch2 -p1 -b .ptsname
+%patch3 -p1 -b .stderr
+%patch4 -p1 -b .troff
 
-%patch10 -p1 -b .homedir
-%patch16 -p1 -b .norpmmime
-%patch17 -p1 -b .absoluterm
-# upstream
-# %patch20 -p1 -b .fixsh
-# file to patch doesn't exist anymore
-#pushd vfs/samba
-#%patch21 -p2 -b .ia64
-#popd
-%patch22 -p1 -b .prototype
-%patch23 -p1 -b .system-auth
-## no longer include mcserv
-## %patch24 -p1 -b .initscript
-# upstream
-# %patch25 -p1 -b .showagain
-# upstream
-# %patch26 -p1 -b .stderr
-%patch27 -p1 -b .gnome
-# upstream
-# %patch28 -p1 -b .extention
-# upstream
-# %patch29 -p1 -b .fixrescan
-# hopefully no longer required, just a build fix
-# %patch30 -p1 -b .time
-%patch40 -p1 -b .desktop
+# new cons.saver
+%patch5 -p1 -b .vcsa
 
-## THIS PATCH NEEDS FORWARD PORTING to use the GNOME frontend
-# %patch41 -p1 -b .kudzu
+# https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=78506
+%patch6 -p1 -b .nocpio
 
-## disabled for testing, see:
-## https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=30647
-%patch42 -p1 -b .troff
-%patch43 -p1 -b .initialdevices
-%patch44 -p1 -b .mountfix
-%patch45 -p1 -b .vcsa
-%patch46 -p1 -b .zsh
-%patch47 -p1 -b .zip-fix
-%patch48 -p1 -b .trpm-fix
-%patch49 -p1 -b .regex
-%patch50 -p1 -b .mb
+# build with system slang
+%patch7 -p1 -b .slang
 
-## replaced by sources file below
-## cp %{SOURCE10} po/ja.po
+# partially done UTF-8ization
+%patch8 -p1 -b .utf8
 
-## unpack pofiles
-tar zxf %{SOURCE12}
+%patch9 -p1 -b .vfs-fix
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
-%configure --sysconfdir=%{_sysconfdir}\
-	--with-gnome \
-	--without-debug
-make
+%configure --sysconfdir=%{_sysconfdir} --with-screen=slang
+make %{?_smp_mflags}
 
 %install 
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/{rc.d/init.d,pam.d,profile.d,X11/wmconfig}
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 
 %{makeinstall} sysconfdir=$RPM_BUILD_ROOT%{_sysconfdir}
-# make DESTDIR=$RPM_BUILD_ROOT install
 
-strip $RPM_BUILD_ROOT%{_bindir}/*
-(cd icons; make prefix=$RPM_BUILD_ROOT%{_prefix} install_icons)
-install lib/mcserv.init $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/mcserv
-
-install -m 644 lib/mcserv.pamd $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/mcserv
 install lib/{mc.sh,mc.csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
-install -m 644 lib/mc.global $RPM_BUILD_ROOT%{_sysconfdir}
 
-# clean up this setuid problem for now
-chmod 755 $RPM_BUILD_ROOT/%{_libdir}/mc/bin/cons.saver
+# no longer works for 4.6.0, need to evaluate
+## install -m 644 lib/mc.global $RPM_BUILD_ROOT%{_sysconfdir}
 
-# copy redhat desktop default icons
-mkdir -p $RPM_BUILD_ROOT/%{_libdir}/desktop-links/
-install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/%{_libdir}/desktop-links/
-# Japanese specific desktop icons
-mkdir -p $RPM_BUILD_ROOT/%{_libdir}/desktop-links/ja
-install -m 644 %{SOURCE11} $RPM_BUILD_ROOT/%{_libdir}/desktop-links/ja/redhat.links
+for I in /etc/pam.d/mcserv \
+	/etc/rc.d/init.d/mcserv \
+	/etc/mc.global; do
+	rm -rf ${RPM_BUILD_ROOT}${I}
+done
 
 %find_lang %name
 
 %clean
 rm -rf $RPM_BUILD_ROOT
-
-%ifarch nonexistent_arch ## no mcserv/gmc
-
-%post   -n mcserv
-/sbin/chkconfig --add mcserv
-
-%preun -n mcserv
-if [ "$1" = "0" ]; then
-    service mcserv stop >/dev/null 2>&1
-    /sbin/chkconfig --del mcserv
-fi
-
-%postun -n mcserv
-if [ "$1" -ge "1" ]; then
-    service mcserv condrestart >/dev/null 2>&1
-fi
-
-%endif ## no mcserv/gmc
 
 %files -f %{name}.lang
 %defattr(-, root, root)
@@ -211,50 +90,74 @@ fi
 %{_bindir}/mc
 %{_bindir}/mcedit
 %{_bindir}/mcmfmt
-%{_libdir}/mc/mc.ext
-%{_libdir}/mc/mc.hint
-%{_libdir}/mc/mc.hlp
-%{_libdir}/mc/mc.lib
-%{_libdir}/mc/mc.menu
-%attr(4711, vcsa, root) %{_libdir}/mc/bin/cons.saver
-%{_libdir}/mc/extfs/
-%{_libdir}/mc/syntax/
+%{_datadir}/mc/*
+%attr(4711, vcsa, root) %{_libdir}/mc/cons.saver
 %{_mandir}/man1/*
 %config %{_sysconfdir}/profile.d/*
 %dir %{_libdir}/mc
-%dir %{_libdir}/mc/bin
-#%{_datadir}/mime-info/*
-
-%ifarch nonexistent_arch  ## no mcserv/gmc
-
-%files -n mcserv
-%defattr(-, root, root)
-
-%attr(0644, root, root) %config %{_sysconfdir}/pam.d/mcserv
-%config %{_sysconfdir}/rc.d/init.d/mcserv
-%attr(-, root, man)  %{_mandir}/man8/mcserv*
-%{_bindir}/mcserv
-
-%files -n gmc
-%defattr(-, root, root)
-
-%doc lib/README.desktop
-%config %{_sysconfdir}/mc.global
-%{_bindir}/gmc
-%{_bindir}/plain-gmc
-%{_bindir}/gmc-client
-%{_libdir}/mc/layout
-%{_libdir}/mc/mc-gnome.ext
-%{_datadir}/pixmaps/mc/*
-%{_datadir}/mime-info/mc.keys
-%{_datadir}/idl/*.idl
-
-%config %{_sysconfdir}/CORBA/servers/*
-%config %{_libdir}/desktop-links/*
-
-%endif  ## no mcserv/gmc
+%dir %{_datadir}/mc
 
 %changelog
+* Sat Jan 17 2004 Warren Togami <wtogami@redhat.com> 4.6.0-7.9
+- BuildRequires glib2-devel, slang-devel, XFree86-devel,
+  e2fsprogs-devel, gettext
+- Copyright -> License
+- PreReq -> Requires
+- Explicit zero epoch in versioned dev dep
+- /usr/share/mc directory ownership
+- Improve summary
+- (Seth Vidal QA) fix for CAN-2003-1023 (Security)
+- Build for RH9 errata candidate
+
+* Tue Oct 28 2003 Jakub Jelinek <jakub@redhat.com> 4.6.0-6
+- rebuilt to get correct PT_GNU_STACK setting
+
+* Wed Jun 04 2003 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
+* Mon Feb 24 2003 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
+* Sat Feb 22 2003 Jakub Jelinek <jakub@redhat.com> 4.6.0-3
+- second part of UTF-8ization
+
+* Fri Feb 21 2003 Jakub Jelinek <jakub@redhat.com> 4.6.0-2
+- kill unneeded patches, update the rest for 4.6.0
+- build with system slang
+- first part of UTF-8ization
+
+* Fri Feb 14 2003 Havoc Pennington <hp@redhat.com> 4.6.0-1
+- 4.6.0 final
+- epoch 1 to work around 4.6.0pre > 4.6.0
+
+* Thu Feb 13 2003 Havoc Pennington <hp@redhat.com> 4.6.0pre3-3
+- drop our translations, they are surely out of date
+- ugh, due to spec file weirdness hadn't actually used the new pre3
+  tarball. disabled patches that no longer apply.
+- patch for #78506
+
+* Thu Feb 06 2003 Florian La Roche <Florian.LaRoche@redhat.de>
+- link also on mainframe against gpm-devel
+
+* Tue Feb  4 2003 Havoc Pennington <hp@redhat.com> 4.6.0pre3-1
+- pre3
+
+* Tue Jan 28 2003 Havoc Pennington <hp@redhat.com>
+- rebuild
+
+* Wed Jan 22 2003 Tim Powers <timp@redhat.com>
+- rebuilt
+
+* Fri Dec  6 2002 Havoc Pennington <hp@redhat.com>
+- 4.6.0-pre1
+- comment out the patches that don't apply, 
+  if someone wants to spend time fixing them 
+  that'd be great
+
+* Mon Dec 02 2002 Elliot Lee <sopwith@redhat.com>
+- Remove 'percent prep' in changelog
+- Fix unpackaged files
+
 * Fri Aug 23 2002 Karsten Hopp <karsten@redhat.de>
 - fix german umlaut in menues (#68130)
 
@@ -543,10 +446,10 @@ fi
 
 * Tue Dec 23 1997 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
 - added --without-debug to configure,
-- modification in %build and %install and cosmetic modification in packages
+- modification in %%build and %%install and cosmetic modification in packages
   headers,
 - added %%{PACKAGE_VERSION} macro to Buildroot,
-- removed "rm -rf $RPM_BUILD_ROOT" from %prep.
+- removed "rm -rf $RPM_BUILD_ROOT" from prep section
 - removed Packager field.
 
 * Thu Dec 18 1997 Michele Marziani <marziani@fe.infn.it>
@@ -568,8 +471,8 @@ fi
 * Sun Oct 26 1997 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
 
 - updated to 4.1.6
-- added %attr macros in %files,
-- a few simplification in %install,
+- added %attr macros in %%files,
+- a few simplification in %%install,
 - removed glibc patch,
 - fixed installing %{_sysconfdir}/X11/wmconfig/tkmc.
 
