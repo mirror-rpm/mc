@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.2
+Release:	0.3
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -22,8 +22,8 @@ Patch5:		mc-CVS-utf8-help.patch
 Patch6:		mc-CVS-extensions.patch
 Patch7:		mc-CVS-promptfix.patch
 Patch8:		mc-CVS-uglydir.patch
-Patch9:		mc-CVS-msglen.patch 
-Patch10:	mc-CVS-fish-upload.patch
+Patch9:		mc-CVS-fish-upload.patch
+Patch10:	mc-CVS-logo.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -43,8 +43,8 @@ poke into RPMs for specific files.
 %patch6 -p1 -b .extensions
 %patch7 -p1 -b .promptfix
 %patch8 -p1 -b .uglydir
-%patch9 -p1 -b .msglen
-%patch10 -p1 -b .fishupload
+%patch9 -p1 -b .fishupload
+%patch10 -p1 -b .logo
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -178,6 +178,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Tue Dec 21 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.3
+- rewrote mbstrlen() in utf8 patch, this fixes:
+  - dir name truncation in command prompt for ja_JP, ko_KR locales (#142706)
+  - localized texts will fit dialog windows and pull-down menus - tweak create_menu()
+  - dialog titles are centered correctly
+- fix bad displaying of mc logo in help (#143415)
+- merge msglen patch with utf8 patch
+
 * Wed Dec 15 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.2
 - update from CVS - problem in uzip.in fixed by upstream (#141844)
 - fix msglen patch to deal with wide UTF-8 characters (#141875)
