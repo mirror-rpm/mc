@@ -1,7 +1,7 @@
 Summary: A user-friendly file manager and visual shell.
 Name:		mc
 Version:	4.5.51
-Release:	34
+Release:	35
 Copyright:	GPL
 Group:		System Environment/Shells
 Source0:	ftp://ftp.gnome.org/pub/GNOME/sources/mc/mc-%{version}.tar.gz
@@ -14,6 +14,7 @@ Requires:	pam >= 0.59, /etc/pam.d/system-auth
 %ifnarch s390 s390x
 BuildRequires: gpm-devel
 %endif
+BuildRequires: gnome-libs-devel
 
 Prereq:    /sbin/chkconfig
 
@@ -205,6 +206,9 @@ fi
 %config /usr/lib/desktop-links/*
 
 %changelog
+* Sun Jul 22 2001 Havoc Pennington <hp@redhat.com>
+- build requires gnome-libs-devel, #49518
+
 * Sun Jun 24 2001 Elliot Lee <sopwith@redhat.com>
 - Bump release + rebuild.
 
