@@ -1,12 +1,12 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.3
+Release:	0.4
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
 #Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
-%define date 20041215
+%define date 20050202
 Source0:	mc-%{version}-%{date}.tar.bz2
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
@@ -14,16 +14,11 @@ BuildRequires:	gpm-devel, slang-devel, glib2-devel
 BuildRequires:	XFree86-devel, e2fsprogs-devel, gettext, gettext-devel
 Requires:	dev >= 0:3.3-3
 
-Patch1:		mc-CVS-utf8.patch
-Patch2:		mc-CVS-utf8-fix.patch
-Patch3:		mc-CVS-utf8-hint.patch
-Patch4:		mc-CVS-utf8-input.patch
-Patch5:		mc-CVS-utf8-help.patch
-Patch6:		mc-CVS-extensions.patch
-Patch7:		mc-CVS-promptfix.patch
-Patch8:		mc-CVS-uglydir.patch
-Patch9:		mc-CVS-fish-upload.patch
-Patch10:	mc-CVS-logo.patch
+Patch0:		mc-utf8.patch
+Patch1:		mc-extensions.patch
+Patch2:		mc-promptfix.patch
+Patch3:		mc-uglydir.patch
+Patch4:		mc-fish-upload.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -35,16 +30,11 @@ poke into RPMs for specific files.
 %prep
 %setup -q -n mc-%{version}-%{date}
 
-%patch1 -p1 -b .utf8
-%patch2 -p1 -b .utf8-fix
-%patch3 -p1 -b .utf8-hint
-%patch4 -p1 -b .utf8-input
-%patch5 -p1 -b .utf8-help
-%patch6 -p1 -b .extensions
-%patch7 -p1 -b .promptfix
-%patch8 -p1 -b .uglydir
-%patch9 -p1 -b .fishupload
-%patch10 -p1 -b .logo
+%patch0 -p1 -b .utf8
+%patch1 -p1 -b .extensions
+%patch2 -p1 -b .promptfix
+%patch3 -p1 -b .uglydir
+%patch4 -p1 -b .fish-upload
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -178,6 +168,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Wed Feb  2 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.4
+- update from CVS (fixes #143586)
+- merge all UTF-8 related patches to single .utf8 patch
+- drop BuildRequires gettext-devel, autopoint no more needed
+
 * Tue Dec 21 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.3
 - rewrote mbstrlen() in utf8 patch, this fixes:
   - dir name truncation in command prompt for ja_JP, ko_KR locales (#142706)
