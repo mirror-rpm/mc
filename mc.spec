@@ -120,14 +120,18 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
-* Tue Oct 20 2004 Jindrich Novy <jnovy@redhat.com> 4.6.4-0.8
+* Fri Oct 22 2004 Jindrich Novy <jnovy@redhat.com>
+- drop second part of the uglydir patch to display panel title
+  correctly in UTF8 (#136129)
+
+* Wed Oct 20 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.8
 - update from CVS
 - drop mc-php.syntax, more recent version in upstream
 - add utf8-input patch
 - sync strippwd, uglydir, extensions patches with upstream
 - add 8bitdefault patch to enable 8-bit input by default
 
-* Fri Oct 15 2004 Jindrich Novy <jnovy@redhat.com> 4.6.4-0.7
+* Fri Oct 15 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.7
 - update from CVS
 - sync strippwd patch with upstream
 - merged hp48.in patch to extfs patch (from Leonard den Ottolander)
