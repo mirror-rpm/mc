@@ -1,7 +1,7 @@
 Summary: A user-friendly file manager and visual shell.
 Name:		mc
 Version:	4.5.51
-Release:	32
+Release:	32a
 Copyright:	GPL
 Group:		System Environment/Shells
 Source0:	ftp://ftp.gnome.org/pub/GNOME/sources/mc/mc-%{version}.tar.gz
@@ -26,7 +26,7 @@ Patch10:   mc-4.5.35-homedir.patch
 Patch16:   mc-4.5.30-norpmmime.patch
 Patch17:   mc-4.5.42-absoluterm.patch
 Patch20:   mc-4.5.42-fixsh.patch
-Patch21:   samba-ia64.patch
+Patch21:   mc-samba-ia64.patch
 Patch22:   mc-4.5.43-prototype.patch
 Patch23:   mc-4.5.46-system-auth.patch
 Patch24:   mc-4.5.51-initscript.patch
@@ -205,6 +205,10 @@ fi
 %config /usr/lib/desktop-links/*
 
 %changelog
+* Fri May  4 2001 Oliver Paukstadt <oliver.paukstadt@millenux.com>
+- renamed samba-ia64.patch onflicting with samba-package
+- ported to s390x
+
 * Mon Apr  2 2001 Preston Brown <pbrown@redhat.com>
 - check return code of mount for failure (ewt)
 
