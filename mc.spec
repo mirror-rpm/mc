@@ -115,6 +115,10 @@ export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-po
 	     --mandir=%{_mandir} \
 	     --infodir=%{_infodir} \
 	     --enable-charset
+# disable umode_t redefinition on ppc64
+%ifarch ppc64
+perl -pi -e "s,#define umode_t int,/* #undef umode_t */," config.h
+%endif
 make %{?_smp_mflags}
 
 %install 
@@ -174,6 +178,7 @@ rm -rf $RPM_BUILD_ROOT
 - fix infinite loop hang when copying/deleting some strangely
   named files (#150569)
 - drop BuildRequires to gettext, XFree86-devel -> xorg-x11-devel
+- don't define umode_t on ppc64
 
 * Wed Feb  9 2005 Jindrich Novy <jnovy@redhat.com>
 - don't use acs_map with not UTF8-ized slang (#147559)
