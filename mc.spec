@@ -1,7 +1,7 @@
 Summary: A user-friendly file manager and visual shell.
 Name:		mc
 Version:	4.5.51
-Release:	33
+Release:	34
 Copyright:	GPL
 Group:		System Environment/Shells
 Source0:	ftp://ftp.gnome.org/pub/GNOME/sources/mc/mc-%{version}.tar.gz
@@ -205,6 +205,9 @@ fi
 %config /usr/lib/desktop-links/*
 
 %changelog
+* Sun Jun 24 2001 Elliot Lee <sopwith@redhat.com>
+- Bump release + rebuild.
+
 * Wed Apr 25 2001 Bill Nottingham <notting@redhat.com>
 - fix mc-4.5.51-desktop.patch to work on ia64
 
