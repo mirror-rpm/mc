@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.0
-Release: 16
+Release: 17
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -26,6 +26,7 @@ Patch9:		mc-CVE-CAN-2003-1023.patch
 Patch10:	mc-4.6.0-large_syntax.patch
 Patch11:	mc-4.6.0-jumbo.patch
 Patch12:	mc-4.6.0-edit-replace.patch
+Patch13:	mc-4.6.0-extfs-quoted.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -69,6 +70,9 @@ cp -f %{SOURCE1} vfs/extfs
 
 # fix buffer overflows in mcedit Replace function
 %patch12 -p1 -b .edit-replace
+
+# fix shell quoting in extfs perl scripts, CAN-2004-0494
+%patch13 -p1 -b .extfs-quoted
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
@@ -115,6 +119,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Sat Aug 21 2004 Jakub Jelinek <jakub@redhat.com> 4.6.0-17
+- fix shell quoting in extfs perl scripts
+  (Leonard den Ottolander, #127973, CAN-2004-0494)
+
 * Tue Jun 15 2004 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
