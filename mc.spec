@@ -1,13 +1,14 @@
 Summary: A user-friendly file manager and visual shell.
 Name:		mc
 Version:	4.5.51
-Release:	35
+Release:	36
 Copyright:	GPL
-Group:		System Environment/Shells
+Group: System Environment/Shells
 Source0:	ftp://ftp.gnome.org/pub/GNOME/sources/mc/mc-%{version}.tar.gz
 Source1:	redhat.links
 Source10:	mc-ja.po
 Source11:	redhat.links.ja
+Source12:       mc-pofiles.tar.gz
 URL:		http://www.gnome.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 Requires:	pam >= 0.59, /etc/pam.d/system-auth
@@ -46,10 +47,10 @@ Patch44:   gmc-4.5.51-mountfix.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
-with many more features.  It is a text mode application, but it also
+with many more features. It is a text mode application, but it also
 includes mouse support if you are running GPM. Midnight Commander's
-best features are its ability to FTP, view tar and zip files, and
-to poke into RPMs for specific files.
+best features are its ability to FTP, view tar and zip files, and to
+poke into RPMs for specific files.
 
 %package -n gmc
 Summary: The GNOME version of the Midnight Commander file manager.
@@ -69,9 +70,9 @@ Prereq: /sbin/chkconfig
 
 %description -n mcserv
 The Midnight Commander file management system will allow you to
-manipulate the files on a remote machine as if they were local.  This
+manipulate the files on a remote machine as if they were local. This
 is only possible if the remote machine is running the mcserv server
-program.  Mcserv provides clients running Midnight Commander with
+program. Mcserv provides clients running Midnight Commander with
 access to the host's file systems.
 
 Install mcserv on machines if you want to access their file systems
@@ -106,7 +107,11 @@ popd
 %patch43 -p1 -b .initialdevices
 %patch44 -p1 -b .mountfix
 
-cp %{SOURCE10} po/ja.po
+## replaced by sources file below
+## cp %{SOURCE10} po/ja.po
+
+## unpack pofiles
+tar zxf %{SOURCE12}
 
 %build
 %configure --sysconfdir=/etc\
@@ -206,6 +211,9 @@ fi
 %config /usr/lib/desktop-links/*
 
 %changelog
+* Mon Aug 27 2001 Havoc Pennington <hp@redhat.com>
+- Add po files from sources.redhat.com
+
 * Sun Jul 22 2001 Havoc Pennington <hp@redhat.com>
 - build requires gnome-libs-devel, #49518
 
