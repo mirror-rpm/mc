@@ -1,7 +1,7 @@
 Summary: A user-friendly file manager and visual shell.
 Name:		mc
 Version:	4.5.55
-Release:	4
+Release:	5
 Copyright:	GPL
 Group: System Environment/Shells
 Source0:	ftp://ftp.gnome.org/pub/GNOME/sources/mc/mc-%{version}.tar.gz
@@ -50,6 +50,7 @@ Patch44:   gmc-4.5.51-mountfix.patch
 Patch45:   mc-4.5.55-vcsa.patch
 Patch46:   mc-4.5.55-zsh.patch
 Patch47:   mc-4.5.55-zip-fix.patch
+Patch48:   mc-4.5.55-trpm-fix.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -136,6 +137,7 @@ cp -f %{SOURCE14} vfs/extfs
 %patch45 -p1 -b .vcsa
 %patch46 -p1 -b .zsh
 %patch47 -p1 -b .zip-fix
+%patch48 -p1 -b .trpm-fix
 
 ## replaced by sources file below
 ## cp %{SOURCE10} po/ja.po
@@ -248,6 +250,9 @@ fi
 %endif  ## no mcserv/gmc
 
 %changelog
+* Fri Apr 12 2002 Havoc Pennington <hp@redhat.com>
+- patch for trpm vfs, #62306
+
 * Wed Apr 10 2002 Havoc Pennington <hp@redhat.com>
 - don't build --with-included-slang on upstream recommendation
 - add uzip method from cvs, fixes some sort of format string problem
