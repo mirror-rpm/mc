@@ -1,11 +1,15 @@
+%define enable_japanese 1
 Summary: A user-friendly file manager and visual shell.
 Name:      mc
 Version:   4.5.51
-Release: 18
+Release: 18j2
 Copyright: GPL
 Group: System Environment/Shells
 Source0: ftp://ftp.gnome.org/pub/GNOME/sources/mc/mc-%{version}.tar.gz
 Source1:   redhat.links
+# Japanese latest .po from CVS
+Source2: mc-ja.po
+Source3: redhat-jp.links
 URL:       http://www.gnome.org/mc/
 BuildRoot: /var/tmp/mc-%{version}-root
 Requires:  pam >= 0.59, /etc/pam.d/system-auth /etc/init.d
@@ -118,7 +122,15 @@ chmod 755 $RPM_BUILD_ROOT/%{_libdir}/mc/bin/cons.saver
 
 # copy redhat desktop default icons
 mkdir -p $RPM_BUILD_ROOT/%{_libdir}/desktop-links/
+%if %{enable_japanese}
+install -m 644 %{SOURCE3} $RPM_BUILD_ROOT/%{_libdir}/desktop-links/
+%else
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/%{_libdir}/desktop-links/
+%endif
+
+%if %{enable_japanese}
+msgfmt -o $RPM_BUILD_ROOT/%{_datadir}/locale/ja/LC_MESSAGES/mc.mo %{SOURCE2}
+%endif
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -185,6 +197,12 @@ fi
 %config /usr/lib/desktop-links/*
 
 %changelog
+* Fri Sep 01 2000 Yukihiro Nakai <ynakai@redhat.com>
+- Japanize the RedHat icons.
+
+* Tue Aug 29 2000 Yukihiro Nakai <ynakai@redhat.com>
+- Add Japanese latest .po
+
 * Mon Aug 21 2000 Jonathan Blandford <jrb@redhat.com>
 - fixed bug 16467
 
