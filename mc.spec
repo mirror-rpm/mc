@@ -65,14 +65,46 @@ for i in mc.hint.sr mc.menu.sr; do
   mv -f ${i}.tmp ${i}
 done
 
+iconv -f koi8-r -t utf8 < mc.hint.ru > mc.hint.ru.tmp
+mv -f mc.hint.ru.tmp mc.hint.ru
+iconv -f koi8-u -t utf8 < mc.hint.uk > mc.hint.uk.tmp
+mv -f mc.hint.uk.tmp mc.hint.uk
+iconv -f big5 -t utf8 < mc.hint.zh > mc.hint.zh.tmp
+mv -f mc.hint.zh.tmp mc.hint.zh
 popd
 
+
 # convert man pages in /doc to UTF-8
-pushd doc/sr
+pushd doc
+
+pushd ru
+for i in mc.1.in xnc.hlp; do
+  iconv -f koi8-r -t utf-8 < ${i} > ${i}.tmp
+  mv -f ${i}.tmp ${i}
+done
+popd
+
+pushd sr
 for i in mc.1.in mcserv.8.in xnc.hlp; do
   iconv -f iso-8859-5 -t utf-8 < ${i} > ${i}.tmp
   mv -f ${i}.tmp ${i}
 done
+popd
+
+for d in es it; do
+  for i in mc.1.in xnc.hlp; do
+    iconv -f iso-8859-3 -t utf-8 < ${d}/${i} > ${d}/${i}.tmp
+    mv -f ${d}/${i}.tmp ${d}/${i}
+  done
+done
+
+for d in hu pl; do
+  for i in mc.1.in xnc.hlp; do
+    iconv -f iso-8859-2 -t utf-8 < ${d}/${i} > ${d}/${i}.tmp
+    mv -f ${d}/${i}.tmp ${d}/${i}
+  done
+done
+
 popd
 
 %build
@@ -151,6 +183,7 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Dec  6 2004 Jindrich Novy <jnovy@redhat.com>
 - add msglen patch to calculate message length correctly in UTF-8 (#141875)
   (thanks to Nickolay V. Shmyrev)
+- convert hints for ru, uk, zh, man page conversion fix
 
 * Wed Dec  1 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.11
 - update from CVS
