@@ -24,6 +24,7 @@ Patch7:		mc-CVS-promptfix.patch
 Patch8:		mc-CVS-uglydir.patch
 Patch9:		mc-CVS-badsize.patch
 Patch10:	mc-CVS-growbuf.patch
+Patch11:	mc-CVS-msglen.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -45,6 +46,7 @@ poke into RPMs for specific files.
 %patch8 -p1 -b .uglydir
 %patch9 -p1 -b .badsize
 %patch10 -p1 -b .growbuf
+%patch11 -p1 -b .msglen
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -146,6 +148,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Mon Dec  6 2004 Jindrich Novy <jnovy@redhat.com>
+- add msglen patch to calculate message length correctly in UTF-8 (#141875)
+  (thanks to Nickolay V. Shmyrev)
+
 * Wed Dec  1 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.11
 - update from CVS
   - fix #141095 - extraction of symlinks from tarfs is now fine
