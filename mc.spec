@@ -1,27 +1,29 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1
-Release:	0.7
+Release:	0.8
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
 #Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
-%define date 20041015
+%define date 20041020
 Source0:	mc-%{version}-%{date}.tar.bz2
-Source1:	mc-php.syntax
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	gpm-devel, slang-devel, glib2-devel
-BuildRequires:	XFree86-devel, e2fsprogs-devel, gettext
+BuildRequires:	XFree86-devel, e2fsprogs-devel, gettext, gettext-devel
 Requires:	dev >= 0:3.3-3
 
 Patch1:		mc-CVS-smallpatches.patch
 Patch2:		mc-CVS-utf8.patch
-Patch3:		mc-CVS-uglydir.patch
+Patch3:		mc-CVS-utf8-fix.patch
 Patch4:		mc-CVS-utf8-hint.patch
-Patch5:		mc-CVS-strippwd.patch
-Patch6:		mc-CVS-extensions.patch
-Patch7:		mc-CVS-extfs.patch
+Patch5:		mc-CVS-utf8-input.patch
+Patch6:		mc-CVS-uglydir.patch
+Patch7:		mc-CVS-strippwd.patch
+Patch8:		mc-CVS-extensions.patch
+Patch9:		mc-CVS-extfs.patch
+Patch10:	mc-CVS-8bitdefault.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -34,19 +36,15 @@ poke into RPMs for specific files.
 %setup -q -n mc-%{version}-%{date}
 
 %patch1 -p1 -b .smallpatches
-
-# partially done UTF-8ization
 %patch2 -p1 -b .utf8
-
-%patch3 -p1 -b .utf8-hint
-
-%patch4 -p1 -b .uglydir
-
-%patch5 -p1 -b .strippwd
-
-%patch6 -p1 -b .extensions
-
-%patch7 -p1 -b .extfs
+%patch3 -p1 -b .utf8-fix
+%patch4 -p1 -b .utf8-hint
+%patch5 -p1 -b .utf8-input
+%patch6 -p1 -b .uglydir
+%patch7 -p1 -b .strippwd
+%patch8 -p1 -b .extensions
+%patch9 -p1 -b .extfs
+%patch10 -p1 -b .8bitdefault
 
 # convert original files to UTF8
 pushd lib
@@ -95,9 +93,6 @@ install lib/{mc.sh,mc.csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 # no longer works for 4.6.0, need to evaluate
 ## install -m 644 lib/mc.global $RPM_BUILD_ROOT%{_sysconfdir}
 
-cp %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/mc/syntax/php.syntax
-chmod 644 $RPM_BUILD_ROOT%{_datadir}/mc/syntax/php.syntax
-
 for I in /etc/pam.d/mcserv \
 	/etc/rc.d/init.d/mcserv \
 	/etc/mc.global; do
@@ -125,6 +120,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Tue Oct 20 2004 Jindrich Novy <jnovy@redhat.com> 4.6.4-0.8
+- update from CVS
+- drop mc-php.syntax, more recent version in upstream
+- add utf8-input patch
+- sync strippwd, uglydir, extensions patches with upstream
+- add 8bitdefault patch to enable 8-bit input by default
+
 * Fri Oct 15 2004 Jindrich Novy <jnovy@redhat.com> 4.6.4-0.7
 - update from CVS
 - sync strippwd patch with upstream
