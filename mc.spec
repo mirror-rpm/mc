@@ -1,7 +1,7 @@
 Summary: A user-friendly file manager and visual shell.
 Name:		mc
 Version:	4.5.55
-Release: 11
+Release: 12
 Copyright:	GPL
 Group: System Environment/Shells
 Source0:	ftp://ftp.gnome.org/pub/GNOME/sources/mc/mc-%{version}.tar.gz
@@ -52,6 +52,7 @@ Patch46:   mc-4.5.55-zsh.patch
 Patch47:   mc-4.5.55-zip-fix.patch
 Patch48:   mc-4.5.55-trpm-fix.patch
 Patch49:   mc-4.5.55-regex.patch
+Patch50:   mc-4.5.55-mb.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -140,6 +141,7 @@ cp -f %{SOURCE14} vfs/extfs
 %patch47 -p1 -b .zip-fix
 %patch48 -p1 -b .trpm-fix
 %patch49 -p1 -b .regex
+%patch50 -p1 -b .mb
 
 ## replaced by sources file below
 ## cp %{SOURCE10} po/ja.po
@@ -253,6 +255,9 @@ fi
 %endif  ## no mcserv/gmc
 
 %changelog
+* Fri Aug 23 2002 Karsten Hopp <karsten@redhat.de>
+- fix german umlaut in menues (#68130)
+
 * Fri Jul 19 2002 Jakub Jelinek <jakub@redhat.com> 4.5.55-11
 - removed trailing backslash for %%configure, which
   caused mc to build with the buildroot prefix
