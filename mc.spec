@@ -168,6 +168,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Wed Feb  9 2005 Jindrich Novy <jnovy@redhat.com>
+- don't use acs_map with not UTF8-ized slang (#147559)
+
 * Mon Feb  7 2005 Jindrich Novy <jnovy@redhat.com>
 - warning fix in .utf8 patch, missing inclusion of wchar.h in
   view.c (#147168)
