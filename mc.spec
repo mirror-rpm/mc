@@ -117,10 +117,6 @@ export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-po
 	     --mandir=%{_mandir} \
 	     --infodir=%{_infodir} \
 	     --enable-charset
-# disable umode_t redefinition on ppc64
-%ifarch ppc64
-perl -pi -e "s,#define umode_t int,/* #undef umode_t */," config.h
-%endif
 make %{?_smp_mflags}
 
 %install 
@@ -177,6 +173,7 @@ rm -rf $RPM_BUILD_ROOT
 * Mon Mar 21 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.6
 - fix refusal to chdir/start file action when spaces are typed in
   command prompt and Enter is pressed (#151637)
+- undefinition of umode_t for ppc64 is no more needed
 
 * Thu Mar  3 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.5
 - update from CVS
