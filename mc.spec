@@ -1,13 +1,13 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1
-Release:	0.10
+Release:	0.11
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
 #Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
-%define date 20041124
-Source0:	mc-%{version}-%{date}.tar.bz2
+%define date 20041201
+Source0:	mc-%{version}-%{date}-pre1a.tar.bz2
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	gpm-devel, slang-devel, glib2-devel
@@ -23,6 +23,7 @@ Patch6:		mc-CVS-extensions.patch
 Patch7:		mc-CVS-promptfix.patch
 Patch8:		mc-CVS-uglydir.patch
 Patch9:		mc-CVS-badsize.patch
+Patch10:	mc-CVS-growbuf.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -32,7 +33,7 @@ best features are its ability to FTP, view tar and zip files, and to
 poke into RPMs for specific files.
 
 %prep
-%setup -q -n mc-%{version}-pre1a
+%setup -q -n mc-%{version}-%{date}-pre1a
 
 %patch1 -p1 -b .utf8
 %patch2 -p1 -b .utf8-fix
@@ -43,6 +44,7 @@ poke into RPMs for specific files.
 %patch7 -p1 -b .promptfix
 %patch8 -p1 -b .uglydir
 %patch9 -p1 -b .badsize
+%patch10 -p1 -b .growbuf
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -118,7 +120,7 @@ for I in /etc/pam.d/mcserv \
 	rm -rf ${RPM_BUILD_ROOT}${I}
 done
 
-%find_lang %name
+%find_lang %{name}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -144,6 +146,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Wed Dec  1 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.11
+- update from CVS
+  - fix #141095 - extraction of symlinks from tarfs is now fine
+- add growbuf patch from Roland Illig #141422 to view files
+  in /proc and /sys properly
+
 * Fri Nov 24 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.10
 - update from CVS
 - update promptfix patch, drop upstreamed strippwd patch
