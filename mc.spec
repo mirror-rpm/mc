@@ -1,7 +1,7 @@
 Summary: A user-friendly file manager and visual shell.
 Name:		mc
 Version:	4.6.0
-Release: 4
+Release:	6
 Epoch:          1
 Copyright:	GPL
 Group: System Environment/Shells
@@ -95,6 +95,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/mc
 
 %changelog
+* Tue Oct 28 2003 Jakub Jelinek <jakub@redhat.com> 4.6.0-6
+- rebuilt to get correct PT_GNU_STACK setting
+
+* Wed Jun 04 2003 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
 * Mon Feb 24 2003 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
