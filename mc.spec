@@ -11,7 +11,7 @@ Source0:	mc-%{version}-%{date}.tar.bz2
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	gpm-devel, slang-devel, glib2-devel
-BuildRequires:	XFree86-devel, e2fsprogs-devel, gettext
+BuildRequires:	xorg-x11-devel, e2fsprogs-devel
 Requires:	dev >= 0:3.3-3
 
 Patch0:		mc-utf8.patch
@@ -173,6 +173,7 @@ rm -rf $RPM_BUILD_ROOT
 - sync the .utf8 patch with upstream
 - fix infinite loop hang when copying/deleting some strangely
   named files (#150569)
+- drop BuildRequires to gettext, XFree86-devel -> xorg-x11-devel
 
 * Wed Feb  9 2005 Jindrich Novy <jnovy@redhat.com>
 - don't use acs_map with not UTF8-ized slang (#147559)
