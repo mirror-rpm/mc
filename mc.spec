@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.5
+Release:	0.6
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -19,6 +19,7 @@ Patch1:		mc-extensions.patch
 Patch2:		mc-promptfix.patch
 Patch3:		mc-uglydir.patch
 Patch4:		mc-fish-upload.patch
+Patch5:		mc-spaceprompt.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -35,6 +36,7 @@ poke into RPMs for specific files.
 %patch2 -p1 -b .promptfix
 %patch3 -p1 -b .uglydir
 %patch4 -p1 -b .fish-upload
+%patch5 -p1 -b .spaceprompt
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -172,6 +174,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Mon Mar 21 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.6
+- fix refusal to chdir/start file action when spaces are typed in
+  command prompt and Enter is pressed (#151637)
+
 * Thu Mar  3 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.5
 - update from CVS
 - sync the .utf8 patch with upstream
