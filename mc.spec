@@ -1,19 +1,19 @@
-%define enable_japanese 1
 Summary: A user-friendly file manager and visual shell.
-Name:      mc
-Version:   4.5.51
-Release: 18j2
-Copyright: GPL
-Group: System Environment/Shells
-Source0: ftp://ftp.gnome.org/pub/GNOME/sources/mc/mc-%{version}.tar.gz
-Source1:   redhat.links
-# Japanese latest .po from CVS
-Source2: mc-ja.po
-Source3: redhat-jp.links
-URL:       http://www.gnome.org/mc/
-BuildRoot: /var/tmp/mc-%{version}-root
-Requires:  pam >= 0.59, /etc/pam.d/system-auth /etc/init.d
+Name:		mc
+Version:	4.5.51
+Release:	32
+Copyright:	GPL
+Group:		System Environment/Shells
+Source0:	ftp://ftp.gnome.org/pub/GNOME/sources/mc/mc-%{version}.tar.gz
+Source1:	redhat.links
+Source10:	mc-ja.po
+Source11:	redhat.links.ja
+URL:		http://www.gnome.org/mc/
+BuildRoot:	%{_tmppath}/%{name}-%{version}-root
+Requires:	pam >= 0.59, /etc/pam.d/system-auth
+%ifnarch s390 s390x
 BuildRequires: gpm-devel
+%endif
 
 Prereq:    /sbin/chkconfig
 
@@ -35,6 +35,13 @@ Patch26:   mc-4.5.51-stderr.patch
 Patch27:   mc-4.5.51-gnome-editor.patch 
 Patch28:   mc-4.5.51-extention.patch
 Patch29:   mc-4.5.51-fixrescan.patch
+Patch30:   mc-4.5.51-time.patch
+#
+Patch40:   mc-4.5.51-desktop.patch
+Patch41:   mc-4.5.51-kudzu.patch
+Patch42:   mc-4.5.51-troff.patch
+Patch43:   mc-4.5.51-initialdevices.patch
+Patch44:   gmc-4.5.51-mountfix.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -53,14 +60,11 @@ version of Midnight Commander, with the addition of a GNOME GUI
 desktop front-end. GMC can FTP, view TAR and compressed files and look
 into RPMs for specific files.
 
-Install gmc if you're installing GNOME and you'd like to use the
-Midnight Commander file manager with it.
-
 %package -n mcserv
 Summary: Server for the Midnight Commander network file management system.
 Group: System Environment/Daemons
 Requires: portmap
-Prereq: /sbin/chkconfig /etc/init.d
+Prereq: /sbin/chkconfig
 
 %description -n mcserv
 The Midnight Commander file management system will allow you to
@@ -94,6 +98,14 @@ popd
 %patch27 -p1 -b .gnome
 %patch28 -p1 -b .extention
 %patch29 -p1 -b .fixrescan
+%patch30 -p1 -b .time
+%patch40 -p1 -b .desktop
+%patch41 -p1 -b .kudzu
+%patch42 -p1 -b .troff
+%patch43 -p1 -b .initialdevices
+%patch44 -p1 -b .mountfix
+
+cp %{SOURCE10} po/ja.po
 
 %build
 %configure --sysconfdir=/etc\
@@ -122,15 +134,12 @@ chmod 755 $RPM_BUILD_ROOT/%{_libdir}/mc/bin/cons.saver
 
 # copy redhat desktop default icons
 mkdir -p $RPM_BUILD_ROOT/%{_libdir}/desktop-links/
-%if %{enable_japanese}
-install -m 644 %{SOURCE3} $RPM_BUILD_ROOT/%{_libdir}/desktop-links/
-%else
 install -m 644 %{SOURCE1} $RPM_BUILD_ROOT/%{_libdir}/desktop-links/
-%endif
+# Japanese specific desktop icons
+mkdir -p $RPM_BUILD_ROOT/%{_libdir}/desktop-links/ja
+install -m 644 %{SOURCE11} $RPM_BUILD_ROOT/%{_libdir}/desktop-links/ja/redhat.links
 
-%if %{enable_japanese}
-msgfmt -o $RPM_BUILD_ROOT/%{_datadir}/locale/ja/LC_MESSAGES/mc.mo %{SOURCE2}
-%endif
+%find_lang %name
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -149,7 +158,7 @@ if [ "$1" -ge "1" ]; then
     service mcserv condrestart >/dev/null 2>&1
 fi
 
-%files
+%files -f %{name}.lang
 %defattr(-, root, root)
 
 %doc FAQ COPYING NEWS README
@@ -165,7 +174,6 @@ fi
 %{_libdir}/mc/extfs/*
 %{_libdir}/mc/syntax/*
 %{_mandir}/man1/*
-%{_datadir}/locale/*/*/*
 %config /etc/profile.d/*
 %dir %{_libdir}/mc
 %dir %{_libdir}/mc/bin
@@ -197,11 +205,49 @@ fi
 %config /usr/lib/desktop-links/*
 
 %changelog
-* Fri Sep 01 2000 Yukihiro Nakai <ynakai@redhat.com>
-- Japanize the RedHat icons.
+* Mon Apr  2 2001 Preston Brown <pbrown@redhat.com>
+- check return code of mount for failure (ewt)
 
-* Tue Aug 29 2000 Yukihiro Nakai <ynakai@redhat.com>
-- Add Japanese latest .po
+* Thu Mar 22 2001 Owen Taylor <otaylor@redhat.com>
+- Fix problem where CORBA notification wasn't working since last change.
+
+* Fri Mar 16 2001 Owen Taylor <otaylor@redhat.com>
+- Rescan devices on startup
+
+* Mon Mar 12 2001  <jrb@redhat.com>
+- remove man pages from mc.ext.in so that tgz and rpm browsing work in
+  non LANG=C locales
+
+* Wed Mar  7 2001 Owen Taylor <otaylor@redhat.com>
+- Add patch to recognize kudzu's fstab entries
+- Fix path to memstick icon
+
+* Fri Feb 23 2001 Trond Eivind Glomsrød <teg@redhat.com>
+- use %%{_tmppath}
+- langify
+
+* Tue Feb 21 2001 Akira TAGOH <tagoh@redhat.com>
+- Fixed install some desktop icons for specific language.
+
+* Fri Feb 16 2001 Akira TAGOH <tagoh@redhat.com>
+- Updated Red Hat JP desktop icons.
+
+* Wed Feb 14 2001 Jakub Jelinek <jakub@redhat.com>
+- include both sys/time.h and time.h on glibc 2.2.2
+- fix Japanese patch to include locale.h.
+
+* Tue Feb  6 2001 Trond Eivind Glomsrød <teg@redhat.com>
+- i18nize initscript
+
+* Sat Jan 27 2001 Akira TAGOH <tagoh@redhat.com>
+- Added Japanese patch(language specific desktop icons).
+
+* Fri Jan 19 2001 Akira TAGOH <tagoh@redhat.com>
+- Updated Japanese translation.
+
+* Sun Jan 14 2001 Florian La Roche <Florian.LaRoche@redhat.de>
+- do not prereq /etc/init.d
+- do not require gpm for s390
 
 * Mon Aug 21 2000 Jonathan Blandford <jrb@redhat.com>
 - fixed bug 16467
