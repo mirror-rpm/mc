@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.0
-Release: 17
+Release: 18
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -119,6 +119,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Sat Aug 21 2004 Jakub Jelinek <jakub@redhat.com> 4.6.0-18
+- 3 more quoting omissions in a.in
+
 * Sat Aug 21 2004 Jakub Jelinek <jakub@redhat.com> 4.6.0-17
 - fix shell quoting in extfs perl scripts
   (Leonard den Ottolander, #127973, CAN-2004-0494)
