@@ -1,18 +1,18 @@
-Summary: A user-friendly file manager and visual shell.
+Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.0
-Release:	6
-Epoch:          1
-Copyright:	GPL
-Group: System Environment/Shells
-Source0:        http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
+Release:	8.3
+Epoch:		1
+License:	GPL
+Group:		System Environment/Shells
+Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
 Source1:	mc-cvs-uzip
+Source2:	mc-php.syntax
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
-BuildRequires:	gpm-devel
-BuildRequires:	slang
-
-Prereq:		dev >= 3.3-3
+BuildRequires:	gpm-devel, slang-devel, glib2-devel
+BuildRequires:	XFree86-devel, e2fsprogs-devel, gettext
+Requires:	dev >= 0:3.3-3
 
 Patch1:		mc-4.6.0-absoluterm.patch
 Patch2:		mc-4.6.0-ptsname.patch
@@ -22,6 +22,8 @@ Patch5:		mc-4.6.0-vcsa.patch
 Patch6:		mc-4.6.0-pre3-nocpio.patch
 Patch7:		mc-4.6.0-slang.patch
 Patch8:		mc-4.6.0-utf8.patch
+Patch9:		mc-CVE-CAN-2003-1023.patch
+Patch10:	mc-4.6.0-large_syntax.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -54,6 +56,11 @@ cp -f %{SOURCE1} vfs/extfs
 # partially done UTF-8ization
 %patch8 -p1 -b .utf8
 
+%patch9 -p1 -b .vfs-fix
+
+# handle big syntax files
+%patch10 -p1 -b .large_syntax
+
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
 %configure --sysconfdir=%{_sysconfdir} --with-screen=slang
@@ -69,6 +76,9 @@ install lib/{mc.sh,mc.csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 
 # no longer works for 4.6.0, need to evaluate
 ## install -m 644 lib/mc.global $RPM_BUILD_ROOT%{_sysconfdir}
+
+cp %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/mc/syntax/php.syntax
+chmod 644 $RPM_BUILD_ROOT%{_datadir}/mc/syntax/php.syntax
 
 for I in /etc/pam.d/mcserv \
 	/etc/rc.d/init.d/mcserv \
@@ -93,8 +103,30 @@ rm -rf $RPM_BUILD_ROOT
 %{_mandir}/man1/*
 %config %{_sysconfdir}/profile.d/*
 %dir %{_libdir}/mc
+%dir %{_datadir}/mc
 
 %changelog
+* Fri Jan 30 2004 Jakub Jelinek <jakub@redhat.com> 4.6.0-8.3
+- update php.syntax file (#112645)
+- fix crash with large syntax file (#112644)
+
+* Fri Jan 23 2004 Jakub Jelinek <jakub@redhat.com> 4.6.0-8.2
+- update CAN-2003-1023 fix to still make vfs symlinks relative,
+  but with bounds checking
+
+* Sat Jan 17 2004 Warren Togami <wtogami@redhat.com> 4.6.0-8.1
+- rebuild for FC1
+
+* Sat Jan 17 2004 Warren Togami <wtogami@redhat.com> 4.6.0-7
+- BuildRequires glib2-devel, slang-devel, XFree86-devel,
+  e2fsprogs-devel, gettext
+- Copyright -> License
+- PreReq -> Requires
+- Explicit zero epoch in versioned dev dep
+- /usr/share/mc directory ownership
+- Improve summary
+- (Seth Vidal QA) fix for CAN-2003-1023 (Security)
+
 * Tue Oct 28 2003 Jakub Jelinek <jakub@redhat.com> 4.6.0-6
 - rebuilt to get correct PT_GNU_STACK setting
 
