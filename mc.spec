@@ -1,12 +1,12 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1
-Release: 0.1
+Release: 0.2
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
 #Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
-%define date 20040902
+%define date 20040906
 Source0:	mc-%{version}-%{date}.tar.bz2
 Source1:	mc-php.syntax
 URL:		http://www.ibiblio.org/mc/
@@ -16,14 +16,9 @@ BuildRequires:	XFree86-devel, e2fsprogs-devel, gettext
 Requires:	dev >= 0:3.3-3
 
 Patch1:		mc-CVS-smallpatches.patch
-Patch2:		mc-CVS-stblocks-fmt.patch
-Patch3:		mc-CVS-utf8.patch
-Patch4:		mc-CVS-absoluteterm.patch
-Patch5:		mc-CVS-vcsa.patch
-Patch6:		mc-CVS-ptsname.patch
-Patch7:		mc-CVS-troff.patch
-Patch8:		mc-CVS-warnings.patch
-Patch9:		mc-CVS-xtermaliases.patch
+Patch2:		mc-CVS-utf8.patch
+Patch3:		mc-CVS-vcsa.patch
+Patch4:		mc-CVS-xtermaliases.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -36,21 +31,14 @@ poke into RPMs for specific files.
 %setup -q -n mc-%{version}-%{date}
 
 %patch1 -p1 -b .smallpatches
-%patch2 -p1 -b .stblocks-fmt
 
 # partially done UTF-8ization
-%patch3 -p1 -b .utf8
-
-# Use /bin/rm, not rm
-%patch4 -p1 -b .absoluterm
+%patch2 -p1 -b .utf8
 
 # new cons.saver
-%patch5 -p1 -b .vcsa
+%patch3 -p1 -b .vcsa
 
-%patch6 -p1 -b .ptsname
-%patch7 -p1 -b .troff
-%patch8 -p1 -b .warnings
-%patch9 -p1 -b .xtermaliases
+%patch4 -p1 -b .xtermaliases
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
@@ -114,6 +102,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Mon Sep  6 2004 Jakub Jelinek <jakub@redhat.com> 4.6.1-0.2
+- update from CVS
+- remove absoluterm and troff patches
+
 * Thu Sep  2 2004 Jakub Jelinek <jakub@redhat.com> 4.6.1-0.1
 - update from CVS
   - handle INFO/LICENSE and INFO/OBSOLETES in rpm vfs (#67341)
