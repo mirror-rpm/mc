@@ -1,12 +1,12 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1
-Release:	0.5
+Release:	0.6
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
 #Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
-%define date 20040906
+%define date 20041008
 Source0:	mc-%{version}-%{date}.tar.bz2
 Source1:	mc-php.syntax
 URL:		http://www.ibiblio.org/mc/
@@ -17,12 +17,11 @@ Requires:	dev >= 0:3.3-3
 
 Patch1:		mc-CVS-smallpatches.patch
 Patch2:		mc-CVS-utf8.patch
-Patch3:		mc-CVS-vcsa.patch
-Patch4:		mc-CVS-xtermaliases.patch
-Patch5:		mc-CVS-uglydir.patch
-Patch6:		mc-CVS-utf8-hint.patch
-Patch7:		mc-CVS-strippwd.patch
-Patch8:		mc-CVS-extensions.patch
+Patch3:		mc-CVS-uglydir.patch
+Patch4:		mc-CVS-utf8-hint.patch
+Patch5:		mc-CVS-strippwd.patch
+Patch6:		mc-CVS-extensions.patch
+Patch7:		mc-CVS-extfs.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -39,18 +38,15 @@ poke into RPMs for specific files.
 # partially done UTF-8ization
 %patch2 -p1 -b .utf8
 
-# new cons.saver
-%patch3 -p1 -b .vcsa
+%patch3 -p1 -b .utf8-hint
 
-%patch4 -p1 -b .xtermaliases
+%patch4 -p1 -b .uglydir
 
-%patch5 -p1 -b .utf8-hint
+%patch5 -p1 -b .strippwd
 
-%patch6 -p1 -b .uglydir
+%patch6 -p1 -b .extensions
 
-%patch7 -p1 -b .strippwd
-
-%patch8 -p1 -b .extensions
+%patch7 -p1 -b .extfs
 
 # convert original files to UTF8
 pushd lib
@@ -123,11 +119,20 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/mc/*
 %attr(4711, vcsa, root) %{_libdir}/mc/cons.saver
 %{_mandir}/man1/*
+%{_mandir}/man3/*
 %config %{_sysconfdir}/profile.d/*
 %dir %{_libdir}/mc
 %dir %{_datadir}/mc
 
 %changelog
+* Thu Oct 08 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.6
+- update from CVS
+- drop upstreamed vcsa and xtermaliases patches
+- sync the rest of the patches with upstream
+- update strippwd patch to eliminate passwords from dir hotlist
+  and chdir error messages
+- update perl scripts (Leonard den Ottolander, #127973, CAN-2004-0494)
+
 * Wed Sep 22 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.5
 - fixed password elimination when no '/' is present in URL
 
