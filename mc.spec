@@ -1,13 +1,13 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
-Version:	4.6.1
-Release:	0.11
+Version:	4.6.1a
+Release:	0.1
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
 #Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
-%define date 20041201
-Source0:	mc-%{version}-%{date}-pre1a.tar.bz2
+%define date 20041209
+Source0:	mc-%{version}-%{date}.tar.bz2
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	gpm-devel, slang-devel, glib2-devel
@@ -22,9 +22,8 @@ Patch5:		mc-CVS-utf8-help.patch
 Patch6:		mc-CVS-extensions.patch
 Patch7:		mc-CVS-promptfix.patch
 Patch8:		mc-CVS-uglydir.patch
-Patch9:		mc-CVS-badsize.patch
-Patch10:	mc-CVS-growbuf.patch
-Patch11:	mc-CVS-msglen.patch
+Patch9:		mc-CVS-msglen.patch
+Patch10:	mc-CVS-fish-upload.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -34,7 +33,7 @@ best features are its ability to FTP, view tar and zip files, and to
 poke into RPMs for specific files.
 
 %prep
-%setup -q -n mc-%{version}-%{date}-pre1a
+%setup -q -n mc-%{version}-%{date}
 
 %patch1 -p1 -b .utf8
 %patch2 -p1 -b .utf8-fix
@@ -44,9 +43,8 @@ poke into RPMs for specific files.
 %patch6 -p1 -b .extensions
 %patch7 -p1 -b .promptfix
 %patch8 -p1 -b .uglydir
-%patch9 -p1 -b .badsize
-%patch10 -p1 -b .growbuf
-%patch11 -p1 -b .msglen
+%patch9 -p1 -b .msglen
+%patch10 -p1 -b .fishupload
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -180,6 +178,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Wed Dec  9 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.1
+- update from CVS
+- sync UTF-8 patches with upstream
+- drop upstreamed badsize, growbuf patches
+- faster FISH upload support (#140750) - from Dmitry Butskoj
+
 * Mon Dec  6 2004 Jindrich Novy <jnovy@redhat.com>
 - add msglen patch to calculate message length correctly in UTF-8 (#141875)
   (thanks to Nickolay V. Shmyrev)
