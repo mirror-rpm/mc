@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1
-Release: 0.2
+Release:	0.3
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -19,6 +19,10 @@ Patch1:		mc-CVS-smallpatches.patch
 Patch2:		mc-CVS-utf8.patch
 Patch3:		mc-CVS-vcsa.patch
 Patch4:		mc-CVS-xtermaliases.patch
+Patch5:		mc-CVS-uglydir.patch
+Patch6:		mc-CVS-utf8-hint.patch
+Patch7:		mc-CVS-strippwd.patch
+Patch8:		mc-CVS-extensions.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -39,6 +43,28 @@ poke into RPMs for specific files.
 %patch3 -p1 -b .vcsa
 
 %patch4 -p1 -b .xtermaliases
+
+%patch5 -p1 -b .utf8-hint
+
+%patch6 -p1 -b .uglydir
+
+%patch7 -p1 -b .strippwd
+
+%patch8 -p1 -b .extensions
+
+# convert original files to UTF8
+pushd lib
+iconv -f iso8859-1 -t utf-8 -o mc.hint.tmp mc.hint && mv mc.hint.tmp mc.hint
+iconv -f iso8859-1 -t utf-8 -o mc.hint.es.tmp mc.hint.es && mv mc.hint.es.tmp mc.hint.es
+iconv -f iso8859-1 -t utf-8 -o mc.hint.it.tmp mc.hint.it && mv mc.hint.it.tmp mc.hint.it
+iconv -f iso8859-1 -t utf-8 -o mc.hint.nl.tmp mc.hint.nl && mv mc.hint.nl.tmp mc.hint.nl 
+iconv -f iso8859-2 -t utf-8 -o mc.hint.cs.tmp mc.hint.cs && mv mc.hint.cs.tmp mc.hint.cs
+iconv -f iso8859-2 -t utf-8 -o mc.hint.hu.tmp mc.hint.hu && mv mc.hint.hu.tmp mc.hint.hu
+iconv -f iso8859-2 -t utf-8 -o mc.hint.pl.tmp mc.hint.pl && mv mc.hint.pl.tmp mc.hint.pl
+iconv -f koi8-r -t utf8 -o mc.hint.ru.tmp mc.hint.ru && mv mc.hint.ru.tmp mc.hint.ru
+iconv -f koi8-r -t utf8 -o mc.hint.uk.tmp mc.hint.uk && mv mc.hint.uk.tmp mc.hint.uk
+iconv -f big5 -t utf8 -o mc.hint.zh.tmp mc.hint.zh && mv mc.hint.zh.tmp mc.hint.zh
+popd
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
@@ -102,6 +128,16 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Thu Sep 17 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.3
+- patch to prevent displaying passwords in ftp paths (#131088)
+  - also removes pswd from Delete/Copy/Error dialogs, etc.
+- added patch to fix/add extensions in mc.ext.in (#124242)
+
+* Thu Sep 17 2004 Karel Zak <zakkr@zf.jcu.cz>
+- patch to prevent hangs on directory with '\n' in name, (#127164)
+- UTF8 hints support
+- original hint files conversion to UTF8 in the spec file
+
 * Mon Sep  6 2004 Jakub Jelinek <jakub@redhat.com> 4.6.1-0.2
 - update from CVS
 - remove absoluterm and troff patches
