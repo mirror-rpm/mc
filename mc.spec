@@ -1,32 +1,29 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
-Version:	4.6.0
-Release: 18
+Version:	4.6.1
+Release: 0.1
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
-Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
-Source1:	mc-cvs-uzip
-Source2:	mc-php.syntax
+#Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
+%define date 20040902
+Source0:	mc-%{version}-%{date}.tar.bz2
+Source1:	mc-php.syntax
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	gpm-devel, slang-devel, glib2-devel
 BuildRequires:	XFree86-devel, e2fsprogs-devel, gettext
 Requires:	dev >= 0:3.3-3
 
-Patch1:		mc-4.6.0-absoluterm.patch
-Patch2:		mc-4.6.0-ptsname.patch
-Patch3:		mc-4.6.0-stderr.patch
-Patch4:		mc-4.6.0-troff.patch
-Patch5:		mc-4.6.0-vcsa.patch
-Patch6:		mc-4.6.0-pre3-nocpio.patch
-Patch7:		mc-4.6.0-slang.patch
-Patch8:		mc-4.6.0-utf8.patch
-Patch9:		mc-CVE-CAN-2003-1023.patch
-Patch10:	mc-4.6.0-large_syntax.patch
-Patch11:	mc-4.6.0-jumbo.patch
-Patch12:	mc-4.6.0-edit-replace.patch
-Patch13:	mc-4.6.0-extfs-quoted.patch
+Patch1:		mc-CVS-smallpatches.patch
+Patch2:		mc-CVS-stblocks-fmt.patch
+Patch3:		mc-CVS-utf8.patch
+Patch4:		mc-CVS-absoluteterm.patch
+Patch5:		mc-CVS-vcsa.patch
+Patch6:		mc-CVS-ptsname.patch
+Patch7:		mc-CVS-troff.patch
+Patch8:		mc-CVS-warnings.patch
+Patch9:		mc-CVS-xtermaliases.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -36,47 +33,45 @@ best features are its ability to FTP, view tar and zip files, and to
 poke into RPMs for specific files.
 
 %prep
-%setup -q -n mc-%{version}
+%setup -q -n mc-%{version}-%{date}
 
-cp -f %{SOURCE1} vfs/extfs
+%patch1 -p1 -b .smallpatches
+%patch2 -p1 -b .stblocks-fmt
+
+# partially done UTF-8ization
+%patch3 -p1 -b .utf8
 
 # Use /bin/rm, not rm
-%patch1 -p1 -b .absoluterm
-
-%patch2 -p1 -b .ptsname
-%patch3 -p1 -b .stderr
-%patch4 -p1 -b .troff
+%patch4 -p1 -b .absoluterm
 
 # new cons.saver
 %patch5 -p1 -b .vcsa
 
-# https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=78506
-%patch6 -p1 -b .nocpio
-
-# build with system slang
-%patch7 -p1 -b .slang
-
-# partially done UTF-8ization
-%patch8 -p1 -b .utf8
-
-%patch9 -p1 -b .vfs-fix
-
-# handle big syntax files
-%patch10 -p1 -b .large_syntax
-
-# a collection of buffer overflow fixes, cpio/rpmfs fixes, and other
-# changes, partly backports from mc CVS, partly not
-%patch11 -p1 -b .jumbo
-
-# fix buffer overflows in mcedit Replace function
-%patch12 -p1 -b .edit-replace
-
-# fix shell quoting in extfs perl scripts, CAN-2004-0494
-%patch13 -p1 -b .extfs-quoted
+%patch6 -p1 -b .ptsname
+%patch7 -p1 -b .troff
+%patch8 -p1 -b .warnings
+%patch9 -p1 -b .xtermaliases
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
-%configure --sysconfdir=%{_sysconfdir} --with-screen=slang
+#%%configure --sysconfdir=%{_sysconfdir} --with-screen=slang
+./autogen.sh --with-screen=slang \
+	     --host=%{_host} --build=%{_build} \
+	     --target=%{_target_platform} \
+	     --program-prefix=%{?_program_prefix} \
+	     --prefix=%{_prefix} \
+	     --exec-prefix=%{_exec_prefix} \
+	     --bindir=%{_bindir} \
+	     --sbindir=%{_sbindir} \
+	     --sysconfdir=%{_sysconfdir} \
+	     --datadir=%{_datadir} \
+	     --includedir=%{_includedir} \
+	     --libdir=%{_libdir} \
+	     --libexecdir=%{_libexecdir} \
+	     --localstatedir=%{_localstatedir} \
+	     --sharedstatedir=%{_sharedstatedir} \
+	     --mandir=%{_mandir} \
+	     --infodir=%{_infodir}
 make %{?_smp_mflags}
 
 %install 
@@ -90,7 +85,7 @@ install lib/{mc.sh,mc.csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 # no longer works for 4.6.0, need to evaluate
 ## install -m 644 lib/mc.global $RPM_BUILD_ROOT%{_sysconfdir}
 
-cp %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/mc/syntax/php.syntax
+cp %{SOURCE1} $RPM_BUILD_ROOT%{_datadir}/mc/syntax/php.syntax
 chmod 644 $RPM_BUILD_ROOT%{_datadir}/mc/syntax/php.syntax
 
 for I in /etc/pam.d/mcserv \
@@ -119,6 +114,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Thu Sep  2 2004 Jakub Jelinek <jakub@redhat.com> 4.6.1-0.1
+- update from CVS
+  - handle INFO/LICENSE and INFO/OBSOLETES in rpm vfs (#67341)
+- remove mc-cvs-unzip (#85073)
+- fix hotkey handling when not UTF-8 (Leonard den Ottolander, #120735)
+- allow terminal aliases for keys in mc.lib and ~/mc/ini,
+  add gnome, xterm-new and rxvt aliases for xterm (#128163)
+
 * Sat Aug 21 2004 Jakub Jelinek <jakub@redhat.com> 4.6.0-18
 - 3 more quoting omissions in a.in
 
