@@ -11,7 +11,7 @@ Source0:	mc-%{version}-%{date}.tar.bz2
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	gpm-devel, slang-devel, glib2-devel
-BuildRequires:	XFree86-devel, e2fsprogs-devel, gettext, gettext-devel
+BuildRequires:	XFree86-devel, e2fsprogs-devel, gettext
 Requires:	dev >= 0:3.3-3
 
 Patch0:		mc-utf8.patch
