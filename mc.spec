@@ -1,12 +1,12 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1
-Release:	0.9
+Release:	0.10
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
 #Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
-%define date 20041108
+%define date 20041124
 Source0:	mc-%{version}-%{date}.tar.bz2
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
@@ -19,10 +19,10 @@ Patch2:		mc-CVS-utf8-fix.patch
 Patch3:		mc-CVS-utf8-hint.patch
 Patch4:		mc-CVS-utf8-input.patch
 Patch5:		mc-CVS-utf8-help.patch
-Patch6:		mc-CVS-uglydir.patch
-Patch7:		mc-CVS-strippwd.patch
-Patch8:		mc-CVS-extensions.patch
-Patch9:		mc-CVS-promptfix.patch
+Patch6:		mc-CVS-extensions.patch
+Patch7:		mc-CVS-promptfix.patch
+Patch8:		mc-CVS-uglydir.patch
+Patch9:		mc-CVS-badsize.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -32,71 +32,21 @@ best features are its ability to FTP, view tar and zip files, and to
 poke into RPMs for specific files.
 
 %prep
-%setup -q -n mc-%{version}-%{date}
+%setup -q -n mc-%{version}-pre1a
 
 %patch1 -p1 -b .utf8
 %patch2 -p1 -b .utf8-fix
 %patch3 -p1 -b .utf8-hint
 %patch4 -p1 -b .utf8-input
 %patch5 -p1 -b .utf8-help
-%patch6 -p1 -b .uglydir
-%patch7 -p1 -b .strippwd
-%patch8 -p1 -b .extensions
-%patch9 -p1 -b .promptfix
-
-# convert files in /lib to UTF-8
-pushd lib
-iconv -f iso8859-1 -t utf-8 -o mc.hint.tmp mc.hint && mv mc.hint.tmp mc.hint
-iconv -f iso8859-1 -t utf-8 -o mc.hint.es.tmp mc.hint.es && mv mc.hint.es.tmp mc.hint.es
-iconv -f iso8859-1 -t utf-8 -o mc.hint.it.tmp mc.hint.it && mv mc.hint.it.tmp mc.hint.it
-iconv -f iso8859-1 -t utf-8 -o mc.hint.nl.tmp mc.hint.nl && mv mc.hint.nl.tmp mc.hint.nl 
-iconv -f iso8859-2 -t utf-8 -o mc.hint.cs.tmp mc.hint.cs && mv mc.hint.cs.tmp mc.hint.cs
-iconv -f iso8859-2 -t utf-8 -o mc.hint.hu.tmp mc.hint.hu && mv mc.hint.hu.tmp mc.hint.hu
-iconv -f iso8859-2 -t utf-8 -o mc.hint.pl.tmp mc.hint.pl && mv mc.hint.pl.tmp mc.hint.pl
-iconv -f koi8-r -t utf8 -o mc.hint.ru.tmp mc.hint.ru && mv mc.hint.ru.tmp mc.hint.ru
-iconv -f koi8-u -t utf8 -o mc.hint.uk.tmp mc.hint.uk && mv mc.hint.uk.tmp mc.hint.uk
-iconv -f big5 -t utf8 -o mc.hint.zh.tmp mc.hint.zh && mv mc.hint.zh.tmp mc.hint.zh
-popd
-
-# convert help files in /doc to UTF-8
-pushd doc
-
-# es
-pushd es
-iconv -f windows-1252 -t utf-8 -o xnc.hlp.tmp xnc.hlp && mv xnc.hlp.tmp xnc.hlp
-popd
-
-# hu
-pushd hu
-iconv -f windows-1252 -t utf-8 -o xnc.hlp.tmp xnc.hlp && mv xnc.hlp.tmp xnc.hlp
-popd
-
-# it
-pushd it
-iconv -f windows-1252 -t utf-8 -o xnc.hlp.tmp xnc.hlp && mv xnc.hlp.tmp xnc.hlp
-popd
-
-# pl
-pushd pl
-iconv -f iso8859-2 -t utf-8 -o xnc.hlp.tmp xnc.hlp && mv xnc.hlp.tmp xnc.hlp
-popd
-
-# ru
-pushd ru
-iconv -f koi8-r -t utf-8 -o xnc.hlp.tmp xnc.hlp && mv xnc.hlp.tmp xnc.hlp
-popd
-
-# sr
-pushd sr
-iconv -f iso8859-5 -t utf-8 -o xnc.hlp.tmp xnc.hlp && mv xnc.hlp.tmp xnc.hlp
-popd
-
-popd
+%patch6 -p1 -b .extensions
+%patch7 -p1 -b .promptfix
+%patch8 -p1 -b .uglydir
+%patch9 -p1 -b .badsize
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
-#%%configure --sysconfdir=%{_sysconfdir} --with-screen=slang
-./autogen.sh --with-screen=slang \
+%configure --with-screen=slang \
 	     --host=%{_host} --build=%{_build} \
 	     --target=%{_target_platform} \
 	     --program-prefix=%{?_program_prefix} \
@@ -124,42 +74,16 @@ install -d $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 
 install lib/{mc.sh,mc.csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 
-# no longer works for 4.6.0, need to evaluate
-## install -m 644 lib/mc.global $RPM_BUILD_ROOT%{_sysconfdir}
-
 # install charsets, bug #76486
 install -m 644 lib/mc.charsets $RPM_BUILD_ROOT%{_datadir}/mc
 
 # install man pages in various languages
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/es
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/es/man1
-gzip -nf9 doc/es/mc.1
-install -m 644 doc/es/mc.1.gz $RPM_BUILD_ROOT%{_mandir}/es/man1
-
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/hu
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/hu/man1
-gzip -nf9 doc/hu/mc.1
-install -m 644 doc/hu/mc.1.gz $RPM_BUILD_ROOT%{_mandir}/hu/man1
-
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/it
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/it/man1
-gzip -nf9 doc/it/mc.1
-install -m 644 doc/it/mc.1.gz $RPM_BUILD_ROOT%{_mandir}/it/man1
-
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/pl
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/pl/man1
-gzip -nf9 doc/pl/mc.1
-install -m 644 doc/pl/mc.1.gz $RPM_BUILD_ROOT%{_mandir}/pl/man1
-
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/ru
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/ru/man1
-gzip -nf9 doc/ru/mc.1
-install -m 644 doc/ru/mc.1.gz $RPM_BUILD_ROOT%{_mandir}/ru/man1
-
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/sr
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/sr/man1
-gzip -nf9 doc/sr/mc.1
-install -m 644 doc/sr/mc.1.gz $RPM_BUILD_ROOT%{_mandir}/sr/man1
+for l in es hu it pl ru sr; do
+mkdir -p $RPM_BUILD_ROOT%{_mandir}/${l}
+mkdir -p $RPM_BUILD_ROOT%{_mandir}/${l}/man1
+gzip -nf9 doc/${l}/mc.1
+install -m 644 doc/${l}/mc.1.gz $RPM_BUILD_ROOT%{_mandir}/${l}/man1
+done
 
 for I in /etc/pam.d/mcserv \
 	/etc/rc.d/init.d/mcserv \
@@ -182,7 +106,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/mc/*
 %attr(4711, vcsa, root) %{_libdir}/mc/cons.saver
 %{_mandir}/man1/*
-%{_mandir}/man3/*
 %lang(es) %{_mandir}/es/man1/mc.1.gz
 %lang(hu) %{_mandir}/hu/man1/mc.1.gz
 %lang(it) %{_mandir}/it/man1/mc.1.gz
@@ -194,10 +117,20 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Fri Nov 24 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.10
+- update from CVS
+- update promptfix patch, drop upstreamed strippwd patch
+- add badsize patch to fix displaying of filesizes >2GB
+- sync UTF-8 patches with upstream
+- replace autogen.sh style with configure
+
+* Fri Nov 12 2004 Jindrich Novy <jnovy@redhat.com>
+- convert man pages to UTF-8 (#138871)
+
 * Thu Nov  8 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.9
 - update from CVS
 - convert help files in /doc to UTF-8
-- add --enable-charsets (#76486)
+- add --enable-charset (#76486)
 - drop upstreamed 8bitdefault, extfs patch
 - update partially upstreamed strippwd and extension patches
 - add UTF-8 help patch from Vladimir Nadvornik (#136826)
