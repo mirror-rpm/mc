@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.0
-Release:	15
+Release: 16
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -115,6 +115,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Tue Jun 15 2004 Elliot Lee <sopwith@redhat.com>
+- rebuilt
+
 * Fri Apr 16 2004 Jakub Jelinek <jakub@redhat.com> 4.6.0-15
 - don't use mmap if st_size doesn't fit into size_t
 - fix one missed match_normal -> match_regex
