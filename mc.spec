@@ -1,12 +1,13 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.0
-Release: 10.1
+Release:	15
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
 Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
 Source1:	mc-cvs-uzip
+Source2:	mc-php.syntax
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	gpm-devel, slang-devel, glib2-devel
@@ -22,6 +23,9 @@ Patch6:		mc-4.6.0-pre3-nocpio.patch
 Patch7:		mc-4.6.0-slang.patch
 Patch8:		mc-4.6.0-utf8.patch
 Patch9:		mc-CVE-CAN-2003-1023.patch
+Patch10:	mc-4.6.0-large_syntax.patch
+Patch11:	mc-4.6.0-jumbo.patch
+Patch12:	mc-4.6.0-edit-replace.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -56,6 +60,16 @@ cp -f %{SOURCE1} vfs/extfs
 
 %patch9 -p1 -b .vfs-fix
 
+# handle big syntax files
+%patch10 -p1 -b .large_syntax
+
+# a collection of buffer overflow fixes, cpio/rpmfs fixes, and other
+# changes, partly backports from mc CVS, partly not
+%patch11 -p1 -b .jumbo
+
+# fix buffer overflows in mcedit Replace function
+%patch12 -p1 -b .edit-replace
+
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
 %configure --sysconfdir=%{_sysconfdir} --with-screen=slang
@@ -71,6 +85,9 @@ install lib/{mc.sh,mc.csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 
 # no longer works for 4.6.0, need to evaluate
 ## install -m 644 lib/mc.global $RPM_BUILD_ROOT%{_sysconfdir}
+
+cp %{SOURCE2} $RPM_BUILD_ROOT%{_datadir}/mc/syntax/php.syntax
+chmod 644 $RPM_BUILD_ROOT%{_datadir}/mc/syntax/php.syntax
 
 for I in /etc/pam.d/mcserv \
 	/etc/rc.d/init.d/mcserv \
@@ -98,6 +115,33 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Fri Apr 16 2004 Jakub Jelinek <jakub@redhat.com> 4.6.0-15
+- don't use mmap if st_size doesn't fit into size_t
+- fix one missed match_normal -> match_regex
+
+* Fri Apr 16 2004 Jakub Jelinek <jakub@redhat.com> 4.6.0-14
+- avoid buffer overflows in mcedit Replace function
+
+* Wed Apr 14 2004 Jakub Jelinek <jakub@redhat.com> 4.6.0-13
+- perl scripting fix
+
+* Wed Apr 14 2004 Jakub Jelinek <jakub@redhat.com> 4.6.0-12
+- fix a bug in complete.c introduced by last patch
+- export MC_TMPDIR env variable
+- avoid integer overflows in free diskspace % counting
+- put temporary files into $MC_TMPDIR tree if possible,
+  use mktemp/mkdtemp
+
+* Mon Apr  5 2004 Jakub Jelinek <jakub@redhat.com> 4.6.0-11
+- fix a bunch of buffer overflows and memory leaks (CAN-2004-0226)
+- fix hardlink handling in cpio filesystem
+- fix handling of filenames with single/double quotes and backslashes
+  in %{_datadir}/mc/extfs/rpm
+- update php.syntax file (#112645)
+- fix crash with large syntax file (#112644)
+- update CAN-2003-1023 fix to still make vfs symlinks relative,
+  but with bounds checking
+
 * Tue Mar 02 2004 Elliot Lee <sopwith@redhat.com>
 - rebuilt
 
