@@ -1,7 +1,7 @@
 Summary: A user-friendly file manager and visual shell.
 Name:		mc
-Version:	4.5.51
-Release:	36
+Version:	4.5.55
+Release:	4
 Copyright:	GPL
 Group: System Environment/Shells
 Source0:	ftp://ftp.gnome.org/pub/GNOME/sources/mc/mc-%{version}.tar.gz
@@ -9,15 +9,18 @@ Source1:	redhat.links
 Source10:	mc-ja.po
 Source11:	redhat.links.ja
 Source12:       mc-pofiles.tar.gz
+Source14:       mc-cvs-uzip
 URL:		http://www.gnome.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
-Requires:	pam >= 0.59, /etc/pam.d/system-auth
+Requires:	pam >= 0.59, %{_sysconfdir}/pam.d/system-auth
 %ifnarch s390 s390x
 BuildRequires: gpm-devel
 %endif
 BuildRequires: gnome-libs-devel
+BuildRequires: slang
 
 Prereq:    /sbin/chkconfig
+Prereq:    dev >= 3.3-3
 
 Patch0:    mc-4.5.35-xtermcolor.patch
 Patch2:    mc-4.5.35-fixwarning.patch
@@ -44,6 +47,9 @@ Patch41:   mc-4.5.51-kudzu.patch
 Patch42:   mc-4.5.51-troff.patch
 Patch43:   mc-4.5.51-initialdevices.patch
 Patch44:   gmc-4.5.51-mountfix.patch
+Patch45:   mc-4.5.55-vcsa.patch
+Patch46:   mc-4.5.55-zsh.patch
+Patch47:   mc-4.5.55-zip-fix.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -51,6 +57,8 @@ with many more features. It is a text mode application, but it also
 includes mouse support if you are running GPM. Midnight Commander's
 best features are its ability to FTP, view tar and zip files, and to
 poke into RPMs for specific files.
+
+%ifarch nonexistent_arch ## no mcserv/gmc
 
 %package -n gmc
 Summary: The GNOME version of the Midnight Commander file manager.
@@ -78,34 +86,56 @@ access to the host's file systems.
 Install mcserv on machines if you want to access their file systems
 remotely using the Midnight Commander file management system.
 
+%endif ## no mcserv/gmc
+
 %prep
 %setup -q
+
+cp -f %{SOURCE14} vfs/extfs
+
 %patch -p1 -b .xtermcolor
 
-%patch2 -p1 -b .fixwarning
+# upstream
+#%patch2 -p1 -b .fixwarning
 %patch3 -p1 -b .mimekeys
 
 %patch10 -p1 -b .homedir
 %patch16 -p1 -b .norpmmime
 %patch17 -p1 -b .absoluterm
-%patch20 -p1 -b .fixsh
-pushd vfs/samba
-%patch21 -p2 -b .ia64
-popd
+# upstream
+# %patch20 -p1 -b .fixsh
+# file to patch doesn't exist anymore
+#pushd vfs/samba
+#%patch21 -p2 -b .ia64
+#popd
 %patch22 -p1 -b .prototype
 %patch23 -p1 -b .system-auth
-%patch24 -p1 -b .initscript
-%patch25 -p1 -b .showagain
-%patch26 -p1 -b .stderr
+## no longer include mcserv
+## %patch24 -p1 -b .initscript
+# upstream
+# %patch25 -p1 -b .showagain
+# upstream
+# %patch26 -p1 -b .stderr
 %patch27 -p1 -b .gnome
-%patch28 -p1 -b .extention
-%patch29 -p1 -b .fixrescan
-%patch30 -p1 -b .time
+# upstream
+# %patch28 -p1 -b .extention
+# upstream
+# %patch29 -p1 -b .fixrescan
+# hopefully no longer required, just a build fix
+# %patch30 -p1 -b .time
 %patch40 -p1 -b .desktop
-%patch41 -p1 -b .kudzu
+
+## THIS PATCH NEEDS FORWARD PORTING to use the GNOME frontend
+# %patch41 -p1 -b .kudzu
+
+## disabled for testing, see:
+## https://bugzilla.redhat.com/bugzilla/show_bug.cgi?id=30647
 %patch42 -p1 -b .troff
 %patch43 -p1 -b .initialdevices
 %patch44 -p1 -b .mountfix
+%patch45 -p1 -b .vcsa
+%patch46 -p1 -b .zsh
+%patch47 -p1 -b .zip-fix
 
 ## replaced by sources file below
 ## cp %{SOURCE10} po/ja.po
@@ -114,26 +144,25 @@ popd
 tar zxf %{SOURCE12}
 
 %build
-%configure --sysconfdir=/etc\
+%configure --sysconfdir=%{_sysconfdir}\
 	--with-gnome \
-	--without-debug \
-	--with-included-slang
+	--without-debug
 make
 
 %install 
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT/etc/{rc.d/init.d,pam.d,profile.d,X11/wmconfig}
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/{rc.d/init.d,pam.d,profile.d,X11/wmconfig}
 
-%{makeinstall} sysconfdir=$RPM_BUILD_ROOT/etc
+%{makeinstall} sysconfdir=$RPM_BUILD_ROOT%{_sysconfdir}
 # make DESTDIR=$RPM_BUILD_ROOT install
 
 strip $RPM_BUILD_ROOT%{_bindir}/*
 (cd icons; make prefix=$RPM_BUILD_ROOT%{_prefix} install_icons)
-install lib/mcserv.init $RPM_BUILD_ROOT/etc/rc.d/init.d/mcserv
+install lib/mcserv.init $RPM_BUILD_ROOT%{_sysconfdir}/rc.d/init.d/mcserv
 
-install -m 644 lib/mcserv.pamd $RPM_BUILD_ROOT/etc/pam.d/mcserv
-install lib/{mc.sh,mc.csh} $RPM_BUILD_ROOT/etc/profile.d
-install -m 644 lib/mc.global $RPM_BUILD_ROOT/etc
+install -m 644 lib/mcserv.pamd $RPM_BUILD_ROOT%{_sysconfdir}/pam.d/mcserv
+install lib/{mc.sh,mc.csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
+install -m 644 lib/mc.global $RPM_BUILD_ROOT%{_sysconfdir}
 
 # clean up this setuid problem for now
 chmod 755 $RPM_BUILD_ROOT/%{_libdir}/mc/bin/cons.saver
@@ -150,6 +179,8 @@ install -m 644 %{SOURCE11} $RPM_BUILD_ROOT/%{_libdir}/desktop-links/ja/redhat.li
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%ifarch nonexistent_arch ## no mcserv/gmc
+
 %post   -n mcserv
 /sbin/chkconfig --add mcserv
 
@@ -164,6 +195,8 @@ if [ "$1" -ge "1" ]; then
     service mcserv condrestart >/dev/null 2>&1
 fi
 
+%endif ## no mcserv/gmc
+
 %files -f %{name}.lang
 %defattr(-, root, root)
 
@@ -176,20 +209,22 @@ fi
 %{_libdir}/mc/mc.hlp
 %{_libdir}/mc/mc.lib
 %{_libdir}/mc/mc.menu
-%{_libdir}/mc/bin/cons.saver
+%attr(4711, vcsa, root) %{_libdir}/mc/bin/cons.saver
 %{_libdir}/mc/extfs/*
 %{_libdir}/mc/syntax/*
 %{_mandir}/man1/*
-%config /etc/profile.d/*
+%config %{_sysconfdir}/profile.d/*
 %dir %{_libdir}/mc
 %dir %{_libdir}/mc/bin
 #%{_datadir}/mime-info/*
 
+%ifarch nonexistent_arch  ## no mcserv/gmc
+
 %files -n mcserv
 %defattr(-, root, root)
 
-%attr(0644, root, root) %config /etc/pam.d/mcserv
-%config /etc/rc.d/init.d/mcserv
+%attr(0644, root, root) %config %{_sysconfdir}/pam.d/mcserv
+%config %{_sysconfdir}/rc.d/init.d/mcserv
 %attr(-, root, man)  %{_mandir}/man8/mcserv*
 %{_bindir}/mcserv
 
@@ -197,20 +232,44 @@ fi
 %defattr(-, root, root)
 
 %doc lib/README.desktop
-%config /etc/mc.global
-%{_prefix}/bin/gmc
-%{_prefix}/bin/plain-gmc
-%{_prefix}/bin/gmc-client
-%{_prefix}/lib/mc/layout
-%{_prefix}/lib/mc/mc-gnome.ext
-%{_prefix}/share/pixmaps/mc/*
-%{_prefix}/share/mime-info/mc.keys
-%{_prefix}/share/idl/*.idl
+%config %{_sysconfdir}/mc.global
+%{_bindir}/gmc
+%{_bindir}/plain-gmc
+%{_bindir}/gmc-client
+%{_libdir}/mc/layout
+%{_libdir}/mc/mc-gnome.ext
+%{_datadir}/pixmaps/mc/*
+%{_datadir}/mime-info/mc.keys
+%{_datadir}/idl/*.idl
 
-%config /etc/CORBA/servers/*
-%config /usr/lib/desktop-links/*
+%config %{_sysconfdir}/CORBA/servers/*
+%config %{_libdir}/desktop-links/*
+
+%endif  ## no mcserv/gmc
 
 %changelog
+* Wed Apr 10 2002 Havoc Pennington <hp@redhat.com>
+- don't build --with-included-slang on upstream recommendation
+- add uzip method from cvs, fixes some sort of format string problem
+- get fix for breaking zip files while browsing them from upstream
+
+* Tue Apr  9 2002 Havoc Pennington <hp@redhat.com>
+- remove bash-specific export from mc.sh
+
+* Thu Mar 28 2002 Havoc Pennington <hp@redhat.com>
+- cons.saver rewrite to use vcsa user from Jakub, #61149
+- make cons.saver attr(4711, vcsa, root)
+- require new dev package
+
+* Thu Mar  7 2002 Havoc Pennington <hp@redhat.com>
+- rebuild in new environment
+- 4.5.55, with lots of patch-adapting to make it build
+
+* Fri Jan 25 2002 Havoc Pennington <hp@redhat.com>
+- rebuild in rawhide
+- fix prefix/share -> datadir
+- comment out gmc/mcserv subpackages, place order for asbestos suit
+
 * Mon Aug 27 2001 Havoc Pennington <hp@redhat.com>
 - Add po files from sources.redhat.com
 
@@ -264,7 +323,7 @@ fi
 - Updated Japanese translation.
 
 * Sun Jan 14 2001 Florian La Roche <Florian.LaRoche@redhat.de>
-- do not prereq /etc/init.d
+- do not prereq %{_sysconfdir}/init.d
 - do not require gpm for s390
 
 * Mon Aug 21 2000 Jonathan Blandford <jrb@redhat.com>
@@ -399,7 +458,7 @@ fi
 - patched so that TERM variable set to xterm produces color
 
 * Mon Mar 22 1999 Michael Fulbright <drmike@redhat.com>
-- made sure /etc/pam.d/mcserv has right permissions
+- made sure %{_sysconfdir}/pam.d/mcserv has right permissions
 
 * Thu Mar 18 1999 Michael Fulbright <drmike@redhat.com>
 - version 4.5.27
@@ -481,7 +540,7 @@ fi
 - added %attr macros in %files,
 - a few simplification in %install,
 - removed glibc patch,
-- fixed installing /etc/X11/wmconfig/tkmc.
+- fixed installing %{_sysconfdir}/X11/wmconfig/tkmc.
 
 * Thu Oct 23 1997 Michael K. Johnson <johnsonm@redhat.com>
 
@@ -505,8 +564,8 @@ fi
 
 * Thu May 22 1997 Michele Marziani <marziani@fe.infn.it>
 
-- added support for mc alias in /etc/profile.d/mc.csh (for csh and tcsh)
-- lowered number of SysV init scripts in /etc/rc.d/rc[0,1,6].d
+- added support for mc alias in %{_sysconfdir}/profile.d/mc.csh (for csh and tcsh)
+- lowered number of SysV init scripts in %{_sysconfdir}/rc.d/rc[0,1,6].d
   (mcserv needs to be killed before inet)
 - removed all references to $RPM_SOURCE_DIR
 - restored $RPM_OPT_FLAGS when compiling
@@ -523,8 +582,8 @@ fi
 
 - added new rpmfs script,
 - removed mcfn_install from mc (adding mc() to bash enviroment is in
-  /etc/profile.d/mc.sh),
-- /etc/profile.d/mc.sh changed to %config,
+  %{_sysconfdir}/profile.d/mc.sh),
+- %{_sysconfdir}/profile.d/mc.sh changed to %config,
 - removed %{prefix}/lib/mc/bin/create_vcs,
 - removed %{prefix}/lib/mc/term.
 
@@ -550,9 +609,9 @@ fi
 
 - added making packages: tkmc, mcserv (xmc not work yet),
 - gziped man pages,
-- added /etc/pamd.d/mcserv PAM config file.
+- added %{_sysconfdir}/pamd.d/mcserv PAM config file.
 - added instaling icons,
-- added /etc/profile.d/mc.sh,
+- added %{_sysconfdir}/profile.d/mc.sh,
 - in %doc added NEWS README,
 - removed %{prefix}/lib/mc/FAQ,
 - added mcserv.init script for mcserv (start/stop on level 86).
