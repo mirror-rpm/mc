@@ -1,12 +1,12 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1
-Release:	0.6
+Release:	0.7
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
 #Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
-%define date 20041008
+%define date 20041015
 Source0:	mc-%{version}-%{date}.tar.bz2
 Source1:	mc-php.syntax
 URL:		http://www.ibiblio.org/mc/
@@ -125,6 +125,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Fri Oct 15 2004 Jindrich Novy <jnovy@redhat.com> 4.6.4-0.7
+- update from CVS
+- sync strippwd patch with upstream
+- merged hp48.in patch to extfs patch (from Leonard den Ottolander)
+- rebuilt
+
 * Thu Oct 08 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.6
 - update from CVS
 - drop upstreamed vcsa and xtermaliases patches
