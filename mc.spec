@@ -1,12 +1,12 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.8
+Release:	0.9
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
 #Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
-%define date 20050324
+%define date 20050504
 Source0:	mc-%{version}-%{date}.tar.bz2
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
@@ -174,6 +174,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Thu May 04 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.9
+- update from CVS
+- sync with .utf8 patch
+- fix broken charset conversion feature in the .utf8 patch, 
+  Andrew V. Samoilov (#154516)
+
 * Mon Apr 04 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.8
 - fix truncation to lower 32bits in statfs (src/mountlist.c)
 
