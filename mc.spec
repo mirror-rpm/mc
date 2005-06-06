@@ -160,6 +160,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/mc
 %{_bindir}/mcedit
 %{_bindir}/mcmfmt
+%{_bindir}/mcview
 %{_datadir}/mc/*
 %attr(4711, vcsa, root) %{_libdir}/mc/cons.saver
 %{_mandir}/man1/*
@@ -180,6 +181,7 @@ rm -rf $RPM_BUILD_ROOT
 - add .fixes patch
 - drop upstreamed .spaceprompt patch
 - update .userhost, .64bit patch
+- add mcview
 
 * Thu May 04 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.9
 - update from CVS
