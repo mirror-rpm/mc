@@ -1,6 +1,6 @@
---- mc-4.6.1-pre3/src/main.c.jn	2005-03-19 15:55:40.000000000 +0100
-+++ mc-4.6.1-pre3/src/main.c	2005-03-19 17:04:10.000000000 +0100
-@@ -1490,9 +1490,14 @@ midnight_callback (struct Dlg_head *h, d
+--- mc-4.6.1a/src/main.c.spaceprompt	2005-05-26 15:06:42.285109424 +0200
++++ mc-4.6.1a/src/main.c	2005-05-26 15:15:15.964018360 +0200
+@@ -1490,9 +1491,15 @@ midnight_callback (struct Dlg_head *h, d
  	if (parm == '\t')
  	    free_completions (cmdline);
  
@@ -8,7 +8,8 @@
 -	    send_message ((Widget *) cmdline, WIDGET_KEY, parm);
 -	    return MSG_HANDLED;
 +	if (parm == '\n') {
-+	    for (i = 0; cmdline->buffer[i] && cmdline->buffer[i] == ' '; i++);
++	    for (i = 0; cmdline->buffer[i] && 
++	         (cmdline->buffer[i] == ' ' || cmdline->buffer[i] == '\t'); i++);
 +	    if (cmdline->buffer[i]) {
 +	        send_message ((Widget *) cmdline, WIDGET_KEY, parm);
 +		return MSG_HANDLED;
@@ -18,7 +19,7 @@
  	}
  
  	/* Ctrl-Enter and Alt-Enter */
-@@ -1527,7 +1532,7 @@ midnight_callback (struct Dlg_head *h, d
+@@ -1527,7 +1534,7 @@ midnight_callback (struct Dlg_head *h, d
  		    reverse_selection_cmd ();
  		    return MSG_HANDLED;
  		}

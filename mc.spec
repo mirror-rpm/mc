@@ -1,12 +1,12 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.9
+Release:	0.10
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
 #Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.gz
-%define date 20050504
+%define date 20050606
 Source0:	mc-%{version}-%{date}.tar.bz2
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
@@ -19,9 +19,9 @@ Patch1:		mc-extensions.patch
 Patch2:		mc-promptfix.patch
 Patch3:		mc-uglydir.patch
 Patch4:		mc-fish-upload.patch
-Patch5:		mc-spaceprompt.patch
-Patch6:		mc-userhost.patch
-Patch7:		mc-64bit.patch
+Patch5:		mc-userhost.patch
+Patch6:		mc-64bit.patch
+Patch7:		mc-fixes.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -38,9 +38,9 @@ poke into RPMs for specific files.
 %patch2 -p1 -b .promptfix
 %patch3 -p1 -b .uglydir
 %patch4 -p1 -b .fish-upload
-%patch5 -p1 -b .spaceprompt
-%patch6 -p1 -b .userhost
-%patch7 -p1 -b .64bit
+%patch5 -p1 -b .userhost
+%patch6 -p1 -b .64bit
+%patch7 -p1 -b .fixes
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -102,7 +102,7 @@ done
 popd
 
 %build
-export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-pointer-sign"
+export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
 %configure --with-screen=slang \
 	     --host=%{_host} --build=%{_build} \
 	     --target=%{_target_platform} \
@@ -174,6 +174,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Wed Jun 06 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.10
+- update from CVS
+- sync with .utf8 patch and some minor gcc4 fixups
+- add .fixes patch
+- drop upstreamed .spaceprompt patch
+- update .userhost, .64bit patch
+
 * Thu May 04 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.9
 - update from CVS
 - sync with .utf8 patch
