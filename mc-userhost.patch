@@ -1,17 +1,17 @@
---- mc-4.6.1a/src/main.c.userhost	2005-06-06 13:35:08.926427736 +0200
-+++ mc-4.6.1a/src/main.c	2005-06-06 13:39:11.551543112 +0200
-@@ -32,6 +32,7 @@
- #include <sys/types.h>
- #include <sys/stat.h>
- #include <unistd.h>
-+#include <pwd.h>
+--- mc-4.6.1-pre5/src/main.c.userhost	2005-07-08 11:04:37.718907992 +0200
++++ mc-4.6.1-pre5/src/main.c	2005-07-08 11:07:53.888085744 +0200
+@@ -33,6 +33,7 @@
+ #   include <unistd.h>
+ #endif
  
- #include "global.h"
- #include "tty.h"
-@@ -1611,9 +1612,22 @@ void
++#include <pwd.h>
+ #include <errno.h>
+ #include <ctype.h>
+ #include <signal.h>
+@@ -1607,9 +1608,22 @@ void
  update_xterm_title_path (void)
  {
-     char *p, *s;
+     unsigned char *p, *s;
 +    char h[64];
 +    struct passwd *pw;
  
@@ -30,4 +30,4 @@
 +        }
  	do {
  #ifndef UTF8
- 	    if (!is_printable ((unsigned char) *s))
+ 	    if (!is_printable (*s))
