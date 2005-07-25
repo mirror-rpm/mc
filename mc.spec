@@ -1,11 +1,11 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.11
+Release:	0.12
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
-Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-4.6.1-pre5.tar.bz2
+Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-4.6.1.tar.bz2
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	gpm-devel, slang-devel, glib2-devel
@@ -19,6 +19,7 @@ Patch3:		mc-uglydir.patch
 Patch4:		mc-fish-upload.patch
 Patch5:		mc-userhost.patch
 Patch6:		mc-64bit.patch
+Patch7:		mc-gcc4.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -28,7 +29,7 @@ best features are its ability to FTP, view tar and zip files, and to
 poke into RPMs for specific files.
 
 %prep
-%setup -q -n %{name}-4.6.1-pre5
+%setup -q -n %{name}-4.6.1
 
 %patch0 -p1 -b .utf8
 %patch1 -p1 -b .extensions
@@ -37,6 +38,7 @@ poke into RPMs for specific files.
 %patch4 -p1 -b .fish-upload
 %patch5 -p1 -b .userhost
 %patch6 -p1 -b .64bit
+%patch7 -p1 -b .gcc4
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -171,6 +173,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Mon Jul 25 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.12
+- new mc release 4.6.1
+- sync extensions patch
+- fix several gcc4 signedness warnings
+
 * Fri Jul 08 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.11
 - update to mc-4.6.1-pre5
 - sync .utf8, .userhost patch

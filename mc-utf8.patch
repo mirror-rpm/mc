@@ -4441,7 +4441,7 @@
      int  is_password;		/* Is this a password input line? */
      unsigned char *buffer;	/* pointer to editing buffer */
 +#ifdef UTF8
-+    unsigned char charbuf[MB_LEN_MAX];
++    char charbuf[MB_LEN_MAX];
 +#endif /* UTF8 */
 +    int charpoint;
      GList *history;		/* The history */
