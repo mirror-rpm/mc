@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.12
+Release:	0.13
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -20,6 +20,7 @@ Patch4:		mc-fish-upload.patch
 Patch5:		mc-userhost.patch
 Patch6:		mc-64bit.patch
 Patch7:		mc-gcc4.patch
+Patch8:		mc-ftpcrash.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -39,6 +40,7 @@ poke into RPMs for specific files.
 %patch5 -p1 -b .userhost
 %patch6 -p1 -b .64bit
 %patch7 -p1 -b .gcc4
+%patch8 -p1 -b .ftpcrash
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -173,6 +175,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Mon Aug 29 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.13
+- don't hang when ftpfs connection times out - Hans de Goede (#166976)
+- fix extension file to better fit FC (xpdf->evince, lynx->links)
+
 * Mon Jul 25 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.12
 - new mc release 4.6.1
 - sync extensions patch
