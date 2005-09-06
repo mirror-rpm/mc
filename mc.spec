@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.13
+Release:	0.14
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -9,7 +9,7 @@ Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-4.6.1.tar.bz
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	gpm-devel, slang-devel, glib2-devel
-BuildRequires:	xorg-x11-devel, e2fsprogs-devel
+BuildRequires:	e2fsprogs-devel
 Requires:	dev >= 0:3.3-3
 
 Patch0:		mc-utf8.patch
@@ -21,6 +21,8 @@ Patch5:		mc-userhost.patch
 Patch6:		mc-64bit.patch
 Patch7:		mc-gcc4.patch
 Patch8:		mc-ftpcrash.patch
+Patch9:		mc-specsyntax.patch
+Patch10:	mc-find.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -41,6 +43,8 @@ poke into RPMs for specific files.
 %patch6 -p1 -b .64bit
 %patch7 -p1 -b .gcc4
 %patch8 -p1 -b .ftpcrash
+%patch9 -p1 -b .specsyntax
+%patch10 -p1 -b .find
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -120,7 +124,9 @@ export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
 	     --sharedstatedir=%{_sharedstatedir} \
 	     --mandir=%{_mandir} \
 	     --infodir=%{_infodir} \
-	     --enable-charset
+	     --enable-charset \
+	     --with-samba \
+	     --without-x
 make %{?_smp_mflags}
 
 %install 
@@ -175,6 +181,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Mon Sep  5 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.14
+- backport the new Find dialog from upstream (#167493)
+- disable Xorg usage and drop the dependency
+- enable samba vfs
+- highlight "%%check" in spec files (Mike A. Harris)
+
 * Mon Aug 29 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.13
 - don't hang when ftpfs connection times out - Hans de Goede (#166976)
 - fix extension file to better fit FC (xpdf->evince, lynx->links)
