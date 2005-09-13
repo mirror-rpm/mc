@@ -184,7 +184,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Tue Sep 13 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.15
-- fix segfault when creating symlinks of a particular type and
+- fix segfault when copying symlinks of a particular type and
   fix creation of dangled symlinks (#168184)
 
 * Mon Sep  5 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.14
