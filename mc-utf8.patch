@@ -1,6 +1,5 @@
 --- mc-4.6.1-pre5/edit/editdraw.c.utf8	2005-05-27 16:19:18.000000000 +0200
 +++ mc-4.6.1-pre5/edit/editdraw.c	2005-07-08 11:22:41.891088768 +0200
-@@ -48,7 +48,7 @@
  
  static void status_string (WEdit * edit, char *s, int w)
  {

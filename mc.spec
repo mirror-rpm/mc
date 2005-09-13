@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.14
+Release:	0.15
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -23,6 +23,7 @@ Patch7:		mc-gcc4.patch
 Patch8:		mc-ftpcrash.patch
 Patch9:		mc-specsyntax.patch
 Patch10:	mc-find.patch
+Patch11:	mc-symcrash.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -45,6 +46,7 @@ poke into RPMs for specific files.
 %patch8 -p1 -b .ftpcrash
 %patch9 -p1 -b .specsyntax
 %patch10 -p1 -b .find
+%patch11 -p1 -b .symcrash
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -181,6 +183,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Tue Sep 13 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.15
+- fix segfault when creating symlinks of a particular type and
+  fix creation of dangled symlinks (#168184)
+
 * Mon Sep  5 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.14
 - backport the new Find dialog from upstream (#167493)
 - disable Xorg usage and drop the dependency
