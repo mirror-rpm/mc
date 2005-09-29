@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.15
+Release:	0.16
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -183,6 +183,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Thu Sep 29 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.16
+- fix memory leak in mc-utf8 patch, thanks to Marcin Garski (#169549)
+- fix mc-find patch to support UTF-8, thanks to Victor Abramoff (#169531)
+- remove bogus condition from mc-symcrash patch
+
 * Tue Sep 13 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.15
 - fix segfault when copying symlinks of a particular type and
   fix creation of dangled symlinks (#168184)
