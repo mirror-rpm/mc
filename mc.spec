@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.16
+Release:	0.17
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -24,6 +24,8 @@ Patch8:		mc-ftpcrash.patch
 Patch9:		mc-specsyntax.patch
 Patch10:	mc-find.patch
 Patch11:	mc-symcrash.patch
+Patch12:	mc-cstrans.patch
+Patch13:	mc-ctrl-t.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -47,6 +49,8 @@ poke into RPMs for specific files.
 %patch9 -p1 -b .specsyntax
 %patch10 -p1 -b .find
 %patch11 -p1 -b .symcrash
+%patch12 -p1 -b .cstrans
+%patch13 -p1 -b .ctrl-t
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -183,6 +187,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Mon Oct  2 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.17
+- fix duplicated keyboard shortcuts in menus for Czech locale (#169734)
+- fix ctrl-t page code recoding for Russian locale, thanks to
+  Andy Shevchenko (#163594)
+
 * Thu Sep 29 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.16
 - fix memory leak in mc-utf8 patch, thanks to Marcin Garski (#169549)
 - fix mc-find patch to support UTF-8, thanks to Victor Abramoff (#169531)
