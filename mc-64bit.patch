@@ -52,14 +52,3 @@
  }
  
  #if defined(_AIX) && defined(_I386)
---- mc-4.6.1a/acinclude.m4.64bit	2005-05-10 17:09:24.084859280 +0200
-+++ mc-4.6.1a/acinclude.m4	2005-05-10 17:09:24.124853200 +0200
-@@ -501,7 +501,7 @@ dnl job is to detect a method to get fil
-       if test $ac_cv_func_statvfs = yes; then
- 	space=yes
- 	AC_DEFINE(STAT_STATVFS, 1,
--		  [Define if function `statfs' can be used])
-+		  [Define if function `statvfs' can be used])
-       fi
-     fi
- 

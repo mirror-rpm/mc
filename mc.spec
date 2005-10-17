@@ -1,11 +1,11 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.18
+Release:	0.19
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
-Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-4.6.1.tar.bz2
+Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.bz2
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	gpm-devel, slang-devel, glib2-devel
@@ -19,14 +19,7 @@ Patch3:		mc-uglydir.patch
 Patch4:		mc-fish-upload.patch
 Patch5:		mc-userhost.patch
 Patch6:		mc-64bit.patch
-Patch7:		mc-gcc4.patch
-Patch8:		mc-ftpcrash.patch
-Patch9:		mc-specsyntax.patch
-Patch10:	mc-find.patch
-Patch11:	mc-symcrash.patch
-Patch12:	mc-cstrans.patch
-Patch13:	mc-ctrl-t.patch
-Patch14:	mc-searchfix.patch
+Patch7:		mc-specsyntax.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -36,7 +29,7 @@ best features are its ability to FTP, view tar and zip files, and to
 poke into RPMs for specific files.
 
 %prep
-%setup -q -n %{name}-4.6.1
+%setup -q -n %{name}-%{version}
 
 %patch0 -p1 -b .utf8
 %patch1 -p1 -b .extensions
@@ -45,14 +38,7 @@ poke into RPMs for specific files.
 %patch4 -p1 -b .fish-upload
 %patch5 -p1 -b .userhost
 %patch6 -p1 -b .64bit
-%patch7 -p1 -b .gcc4
-%patch8 -p1 -b .ftpcrash
-%patch9 -p1 -b .specsyntax
-%patch10 -p1 -b .find
-%patch11 -p1 -b .symcrash
-%patch12 -p1 -b .cstrans
-%patch13 -p1 -b .ctrl-t
-%patch14 -p1 -b .searchfix
+%patch7 -p1 -b .specsyntax
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -189,6 +175,15 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Mon Oct 16 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.19
+- update from CVS
+- convert spec to UTF-8
+- sync utf8, promptfix, 64bit patches
+- drop upstreamed gcc4, ftpcrash, find, symcrash, cstrans, searchfix patches
+- drop ctrl-t patch
+- update userhost patch to let the edited/viewed file name be displayed in
+  xterm title
+
 * Tue Oct  4 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.18
 - fix off-by-one highlighting when searching backwards in mcedit (#169823)
 - fix yet another duplicates in menus for Czech locale
@@ -560,7 +555,7 @@ rm -rf $RPM_BUILD_ROOT
 - Add patch to recognize kudzu's fstab entries
 - Fix path to memstick icon
 
-* Fri Feb 23 2001 Trond Eivind Glomsrød <teg@redhat.com>
+* Fri Feb 23 2001 Trond Eivind GlomsrÃ¸d <teg@redhat.com>
 - use %%{_tmppath}
 - langify
 
@@ -574,7 +569,7 @@ rm -rf $RPM_BUILD_ROOT
 - include both sys/time.h and time.h on glibc 2.2.2
 - fix Japanese patch to include locale.h.
 
-* Tue Feb  6 2001 Trond Eivind Glomsrød <teg@redhat.com>
+* Tue Feb  6 2001 Trond Eivind GlomsrÃ¸d <teg@redhat.com>
 - i18nize initscript
 
 * Sat Jan 27 2001 Akira TAGOH <tagoh@redhat.com>
@@ -771,7 +766,7 @@ rm -rf $RPM_BUILD_ROOT
 * Wed Apr 8 1998 Marc Ewing <marc@redhat.com>
 - add %{prefix}/lib/mc/layout to gmc
 
-* Tue Dec 23 1997 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+* Tue Dec 23 1997 Tomasz KÅ‚oczko <kloczek@rudy.mif.pg.gda.pl>
 - added --without-debug to configure,
 - modification in %%build and %%install and cosmetic modification in packages
   headers,
@@ -795,7 +790,7 @@ rm -rf $RPM_BUILD_ROOT
 - fixed spec file.
 - Updated to 4.1.8
 
-* Sun Oct 26 1997 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+* Sun Oct 26 1997 Tomasz KÅ‚oczko <kloczek@rudy.mif.pg.gda.pl>
 
 - updated to 4.1.6
 - added %attr macros in %%files,
@@ -839,7 +834,7 @@ rm -rf $RPM_BUILD_ROOT
 - reverted to un-gzipped man pages (RedHat style)
 - removed double install line for mcserv.pamd
 
-* Tue May 13 1997 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+* Tue May 13 1997 Tomasz KÅ‚oczko <kloczek@rudy.mif.pg.gda.pl>
 
 - added new rpmfs script,
 - removed mcfn_install from mc (adding mc() to bash enviroment is in
@@ -848,25 +843,25 @@ rm -rf $RPM_BUILD_ROOT
 - removed %{prefix}/lib/mc/bin/create_vcs,
 - removed %{prefix}/lib/mc/term.
 
-* Wed May 9 1997 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+* Wed May 9 1997 Tomasz KÅ‚oczko <kloczek@rudy.mif.pg.gda.pl>
 
 - changed source url,
 - fixed link mcedit to mc,
 
-* Tue May 7 1997 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+* Tue May 7 1997 Tomasz KÅ‚oczko <kloczek@rudy.mif.pg.gda.pl>
 
 - new version 3.5.27,
 - %dir %{prefix}/lib/mc/icons and icons removed from tkmc,
 - added commented xmc part.
 
-* Tue Apr 22 1997 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+* Tue Apr 22 1997 Tomasz KÅ‚oczko <kloczek@rudy.mif.pg.gda.pl>
 
 - FIX spec:
    - added URL field,
    - in mc added missing %{prefix}/lib/mc/mc.ext, %{prefix}/lib/mc/mc.hint,
      %{prefix}/lib/mc/mc.hlp, %{prefix}/lib/mc/mc.lib, %{prefix}/lib/mc/mc.menu.
 
-* Fri Apr 18 1997 Tomasz K³oczko <kloczek@rudy.mif.pg.gda.pl>
+* Fri Apr 18 1997 Tomasz KÅ‚oczko <kloczek@rudy.mif.pg.gda.pl>
 
 - added making packages: tkmc, mcserv (xmc not work yet),
 - gziped man pages,
