@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.19
+Release:	0.20
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -175,6 +175,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Tue Oct 25 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.20
+- don't display UTF-8 characters as questionmarks in xterm title (#170971)
+
 * Mon Oct 16 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.19
 - update from CVS
 - convert spec to UTF-8

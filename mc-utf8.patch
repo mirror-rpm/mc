@@ -569,7 +569,7 @@
 +#ifndef UTF8
  	    if (!is_printable ((unsigned char) *s))
 +#else /* UTF8 */
-+	    if (*s < ' ')
++	    if (*(unsigned char *)s < ' ')
 +#endif /* UTF8 */
  		*s = '?';
  	} while (*++s);
