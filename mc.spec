@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.20
+Release:	0.21
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -20,6 +20,7 @@ Patch4:		mc-fish-upload.patch
 Patch5:		mc-userhost.patch
 Patch6:		mc-64bit.patch
 Patch7:		mc-specsyntax.patch
+Patch8:		mc-utf8-look-and-feel.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -39,6 +40,7 @@ poke into RPMs for specific files.
 %patch5 -p1 -b .userhost
 %patch6 -p1 -b .64bit
 %patch7 -p1 -b .specsyntax
+%patch8 -p1 -b .laf
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -175,6 +177,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Mon Nov  5 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.21
+- add vertical scrollbars to main panels and listboxes
+- fix memleak in menu.c caused by UTF-8 patch
+- display UTF-8 characters corectly in mcview (#172571)
+- fix extensions patch
+
 * Tue Oct 25 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.20
 - don't display UTF-8 characters as questionmarks in xterm title (#170971)
 

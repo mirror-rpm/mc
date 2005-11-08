@@ -1,6 +1,6 @@
---- mc-4.6.1/lib/mc.ext.in.extensions	2005-07-23 18:51:15.000000000 +0200
-+++ mc-4.6.1/lib/mc.ext.in	2005-08-17 10:30:06.000000000 +0200
-@@ -210,14 +210,25 @@
+--- mc-4.6.1a/lib/mc.ext.in.extensions	2005-09-06 11:20:01.000000000 +0200
++++ mc-4.6.1a/lib/mc.ext.in	2005-11-05 11:51:46.000000000 +0100
+@@ -216,14 +216,25 @@ shell/.7z
  
  # C
  shell/.c
@@ -28,7 +28,7 @@
  	Open=%var{EDITOR:vi} %f
  
  # Object
-@@ -242,9 +253,11 @@
+@@ -248,9 +259,11 @@ regex/\.(te?xi|texinfo)$
  # GNU Info page
  type/^Info\ text
  	Open=info -f %f
@@ -40,7 +40,7 @@
  
  # Manual page
  # Exception - .so libraries are not manual pages
-@@ -313,6 +326,12 @@
+@@ -319,6 +332,12 @@ type/^PPM
  type/^Netpbm
  	Include=image
  
@@ -53,7 +53,7 @@
  shell/.xcf
  	Open=gimp %f
  
-@@ -324,7 +343,7 @@
+@@ -330,7 +349,7 @@ shell/.xpm
  	View=sxpm %f
  
  include/image
@@ -62,7 +62,7 @@
  	View=%view{ascii} identify %f
  	#View=%view{ascii} asciiview %f
  
-@@ -342,8 +361,12 @@
+@@ -348,8 +367,12 @@ regex/\.([wW][aA][wW]22)$
         Open=vplay -s 22 %f
  
  regex/\.([mM][pP]3)$
@@ -77,7 +77,7 @@
  
  regex/\.([oO][gG][gG])$
  	Open=if [ "$DISPLAY" = "" ]; then ogg123 %f; else (xmms %f &); fi
-@@ -356,6 +379,9 @@
+@@ -362,6 +385,9 @@ regex/\.([wW][mM][aA])$
  	Open=mplayer -vo null %f
  	View=%view{ascii} mplayer -quiet -slave -frames 0 -vo null -ao null -identify %f 2>/dev/null | tail +13 || file %f
  
@@ -87,7 +87,7 @@
  
  ### Play lists ###
  
-@@ -380,20 +406,28 @@
+@@ -386,20 +412,27 @@ regex/\.([mM][oO][vV]|[qQ][tT])$
  regex/\.([mM][pP]4|[mM][pP][eE]?[gG])$
  	Include=video
  
@@ -107,8 +107,8 @@
  	Include=video
  
  regex/\.([rR][aA]?[mM])$
- 	Open=(realplay %f >/dev/null 2>&1 &)
-+	View=%view{ascii} mplayer -identify -vo null -ao null -frames 0 %f 2>&1 | sed -n '/^ID_/p'
+-	Open=(realplay %f >/dev/null 2>&1 &)
++	Include=video
  
  include/video
  	Open=(mplayer %f >/dev/null 2>&1 &)
@@ -116,7 +116,7 @@
  	#Open=(gtv %f >/dev/null 2>&1 &)
  	#Open=(xanim %f >/dev/null 2>&1 &)
  
-@@ -407,7 +441,8 @@
+@@ -413,7 +446,8 @@ type/^PostScript
  
  # PDF
  type/^PDF
@@ -126,7 +126,7 @@
  	#Open=(acroread %f &)
  	#Open=(ghostview %f &)
  	View=%view{ascii} pdftotext %f -
-@@ -418,7 +453,7 @@
+@@ -424,7 +458,7 @@ type/^PDF
  # html
  regex/\.([hH][tT][mM][lL]?)$
  	Open=(if test -n "@X11_WWW@" && test -n "$DISPLAY"; then (@X11_WWW@ file://%d/%p &) 1>&2; else links %f || lynx -force_html %f || ${PAGER:-more} %f; fi) 2>/dev/null
