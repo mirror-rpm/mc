@@ -1,6 +1,42 @@
---- mc-4.6.1a/src/widget.c.laf	2005-11-06 08:49:25.000000000 +0100
-+++ mc-4.6.1a/src/widget.c	2005-11-06 16:06:21.000000000 +0100
-@@ -1948,52 +1948,74 @@ input_new (int y, int x, int color, int 
+--- mc-4.6.1a/src/main.c.laf	2005-11-13 17:08:54.000000000 +0100
++++ mc-4.6.1a/src/main.c	2005-11-14 15:08:43.000000000 +0100
+@@ -270,6 +270,9 @@ int midnight_shutdown = 0;
+ /* The user's shell */
+ const char *shell = NULL;
+ 
++/* Is the LANG UTF-8 ? */
++gboolean is_utf8 = FALSE;
++
+ /* The xterm title */
+ char *xterm_title_str = NULL;
+ 
+@@ -2167,6 +2170,13 @@ main (int argc, char *argv[])
+     /* if on, it displays the information that files have been moved to ~/.mc */
+     int show_change_notice = 0;
+ 
++    /* Check whether we have UTF-8 locale */
++    char *lang = getenv("LANG");
++    size_t len = strlen(lang);
++    
++    if ( len >= 5 && !strcasecmp(&lang[len-5],"UTF-8") )
++	is_utf8 = TRUE;
++
+     /* We had LC_CTYPE before, LC_ALL includs LC_TYPE as well */
+     setlocale (LC_ALL, "");
+     bindtextdomain ("mc", LOCALEDIR);
+--- mc-4.6.1a/src/main.h.laf	2005-11-13 17:08:54.000000000 +0100
++++ mc-4.6.1a/src/main.h	2005-11-14 15:18:21.000000000 +0100
+@@ -67,6 +67,7 @@ extern int alternate_plus_minus;
+ extern int only_leading_plus_minus;
+ extern int output_starts_shell;
+ extern int midnight_shutdown;
++extern gboolean is_utf8;
+ extern char *xterm_title_str;
+ extern char cmd_buf [512];
+ extern const char *shell;
+--- mc-4.6.1a/src/widget.c.laf	2005-11-13 17:08:54.000000000 +0100
++++ mc-4.6.1a/src/widget.c	2005-11-14 15:22:00.000000000 +0100
+@@ -1948,52 +1948,86 @@ input_new (int y, int x, int color, int 
      return in;
  }
  
@@ -38,7 +74,10 @@
 +        addch ('^');
 +#else
 +    if (color) attrset (MARKED_COLOR);
-+    SLsmg_write_string("▲");
++    if (is_utf8)
++	SLsmg_write_string("▲");
++    else
++        addch ('^');
 +    if (color) attrset (NORMAL_COLOR);
 +#endif
  
@@ -51,12 +90,15 @@
 +#ifndef UTF8
 +    if (selected == count-1)
 +        one_vline ();
-     else
--	addch ('v');
++    else
 +        addch ('v');
 +#else
 +    if (color) attrset (MARKED_COLOR);
-+    SLsmg_write_string("▼");
++    if (is_utf8)
++	SLsmg_write_string("▼");
+     else
+-	addch ('v');
++	addch('v');
 +    if (color) attrset (NORMAL_COLOR);
 +#endif
  
@@ -84,10 +126,16 @@
 +        else
 +            addch ('*');
 +#else
-+            SLsmg_write_string("▒");
++            if (is_utf8)
++		SLsmg_write_string("▒");
++	    else
++		one_vline();
 +        else {
 +            if (color) attrset (MARKED_COLOR);
-+            SLsmg_write_string("◌");
++            if (is_utf8)
++		SLsmg_write_string("●");
++	    else
++		addch('*');
 +            if (color) attrset (NORMAL_COLOR);
 +        }
 +#endif
@@ -108,7 +156,7 @@
  listbox_draw (WListbox *l, int focused)
  {
      WLEntry *e;
-@@ -2034,7 +2056,7 @@ listbox_draw (WListbox *l, int focused)
+@@ -2034,7 +2068,7 @@ listbox_draw (WListbox *l, int focused)
      if (!l->scrollbar)
  	return;
      attrset (normalc);
@@ -117,9 +165,9 @@
  }
  
  /* Returns the number of items between s and e,
---- mc-4.6.1a/src/screen.c.laf	2005-11-06 08:49:25.000000000 +0100
-+++ mc-4.6.1a/src/screen.c	2005-11-06 16:04:59.000000000 +0100
-@@ -887,6 +887,9 @@ show_dir (WPanel *panel)
+--- mc-4.6.1a/src/screen.c.laf	2005-11-13 17:08:54.000000000 +0100
++++ mc-4.6.1a/src/screen.c	2005-11-13 17:08:54.000000000 +0100
+@@ -888,6 +888,9 @@ show_dir (WPanel *panel)
      }
  #endif				/* HAVE_SLANG */
  
@@ -129,7 +177,7 @@
      if (panel->active)
  	attrset (REVERSE_COLOR);
  
-@@ -1503,7 +1506,7 @@ use_display_format (WPanel *panel, const
+@@ -1504,7 +1507,7 @@ use_display_format (WPanel *panel, const
      panel->dirty = 1;
  
      /* Status needn't to be split */
@@ -138,8 +186,8 @@
  					      ? 1
  					      : (panel->split+1))) - (!isstatus && panel->split);
  
---- mc-4.6.1a/src/widget.h.laf	2005-11-06 08:49:25.000000000 +0100
-+++ mc-4.6.1a/src/widget.h	2005-11-06 15:53:45.000000000 +0100
+--- mc-4.6.1a/src/widget.h.laf	2005-11-13 17:08:54.000000000 +0100
++++ mc-4.6.1a/src/widget.h	2005-11-13 17:08:54.000000000 +0100
 @@ -170,6 +170,10 @@ void button_set_text (WButton *b, const 
  /* Listbox manager */
  WLEntry *listbox_get_data (WListbox *l, int pos);

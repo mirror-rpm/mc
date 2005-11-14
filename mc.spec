@@ -1,15 +1,14 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.21
+Release:	0.23
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
 Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.bz2
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
-BuildRequires:	gpm-devel, slang-devel, glib2-devel
-BuildRequires:	e2fsprogs-devel
+BuildRequires:	glib2-devel, e2fsprogs-devel
 Requires:	dev >= 0:3.3-3
 
 Patch0:		mc-utf8.patch
@@ -25,9 +24,9 @@ Patch8:		mc-utf8-look-and-feel.patch
 %description
 Midnight Commander is a visual shell much like a file manager, only
 with many more features. It is a text mode application, but it also
-includes mouse support if you are running GPM. Midnight Commander's
-best features are its ability to FTP, view tar and zip files, and to
-poke into RPMs for specific files.
+includes mouse support. Midnight Commander's best features are its
+ability to FTP, view tar and zip files, and to poke into RPMs for
+specific files.
 
 %prep
 %setup -q -n %{name}-%{version}
@@ -103,7 +102,7 @@ popd
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
-%configure --with-screen=slang \
+%configure --with-screen=mcslang \
 	     --host=%{_host} --build=%{_build} \
 	     --target=%{_target_platform} \
 	     --program-prefix=%{?_program_prefix} \
@@ -122,7 +121,8 @@ export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
 	     --infodir=%{_infodir} \
 	     --enable-charset \
 	     --with-samba \
-	     --without-x
+	     --without-x \
+	     --without-gpm-mouse
 make %{?_smp_mflags}
 
 %install 
@@ -177,6 +177,16 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Mon Nov 14 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.22
+- update from upstream CVS for the new slang support
+- use internal slang-2.0.5 in mc for now
+- temporarily drop slang-devel dependency
+- don't use gpm to avoid hangs caused by it (#168076, #172921),
+  console mouse support works even without gpm
+- display scrollbars correctly even if UTF-8 locale isn't set (#173014)
+- add slang2 support to utf8 patch (Leonard den Ottolander)
+- update %%description
+
 * Mon Nov  5 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.21
 - add vertical scrollbars to main panels and listboxes
 - fix memleak in menu.c caused by UTF-8 patch

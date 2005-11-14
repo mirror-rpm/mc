@@ -1,5 +1,5 @@
---- mc-4.6.1a/acinclude.m4.utf8	2005-09-28 23:49:06.000000000 +0200
-+++ mc-4.6.1a/acinclude.m4	2005-11-08 11:07:36.000000000 +0100
+--- mc-4.6.1a/acinclude.m4.utf8	2005-11-11 02:14:52.000000000 +0100
++++ mc-4.6.1a/acinclude.m4	2005-11-13 16:31:59.000000000 +0100
 @@ -768,14 +768,14 @@ AC_DEFUN([MC_WITH_SLANG], [
      fi
  
@@ -24,7 +24,7 @@
      if test x$with_screen = xslang; then
  	AC_DEFINE(HAVE_SYSTEM_SLANG, 1,
 --- mc-4.6.1a/src/layout.c.utf8	2005-09-05 03:40:45.000000000 +0200
-+++ mc-4.6.1a/src/layout.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/layout.c	2005-11-13 16:31:59.000000000 +0100
 @@ -369,36 +369,36 @@ init_layout (void)
  
  	while (i--) {
@@ -99,7 +99,7 @@
      widget_set_size (&the_menubar->widget, 0, 0, 1, COLS);
  
 --- mc-4.6.1a/src/tty.c.utf8	2005-09-05 05:05:39.000000000 +0200
-+++ mc-4.6.1a/src/tty.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/tty.c	2005-11-13 16:31:59.000000000 +0100
 @@ -123,10 +123,12 @@ tty_print_char(int c)
       * defined or not. Congratulations! At least, they left the API call
       * for SLsmg_write_nchars as it has always been.
@@ -118,7 +118,7 @@
      addch(c);
  #endif
 --- mc-4.6.1a/src/option.c.utf8	2005-05-27 05:35:15.000000000 +0200
-+++ mc-4.6.1a/src/option.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/option.c	2005-11-13 16:31:59.000000000 +0100
 @@ -123,12 +123,12 @@ init_configure (void)
  	title2 = _(" Pause after run... ");
  	title3 = _(" Other options ");
@@ -167,7 +167,7 @@
  	i18n_config_flag = 1;
      }
 --- mc-4.6.1a/src/menu.h.utf8	2004-12-03 20:17:47.000000000 +0100
-+++ mc-4.6.1a/src/menu.h	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/menu.h	2005-11-13 16:31:59.000000000 +0100
 @@ -21,6 +21,8 @@ typedef struct Menu {
      menu_entry *entries;
      int    start_x;		/* position relative to menubar start */
@@ -178,7 +178,7 @@
  
  extern int menubar_visible;
 --- mc-4.6.1a/src/menu.c.utf8	2005-09-05 04:12:09.000000000 +0200
-+++ mc-4.6.1a/src/menu.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/menu.c	2005-11-13 16:31:59.000000000 +0100
 @@ -22,6 +22,7 @@
  #include <string.h>
  
@@ -381,7 +381,7 @@
      g_free (menu->help_node);
      g_free (menu);
 --- mc-4.6.1a/src/filegui.c.utf8	2005-05-27 05:35:15.000000000 +0200
-+++ mc-4.6.1a/src/filegui.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/filegui.c	2005-11-13 16:31:59.000000000 +0100
 @@ -65,6 +65,7 @@
  #include "filegui.h"
  #include "key.h"		/* get_event */
@@ -528,7 +528,7 @@
      return dest_dir;
  }
 --- mc-4.6.1a/src/panelize.c.utf8	2005-05-27 05:35:15.000000000 +0200
-+++ mc-4.6.1a/src/panelize.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/panelize.c	2005-11-13 16:31:59.000000000 +0100
 @@ -127,7 +127,7 @@ init_panelize (void)
  	i = sizeof (panelize_but) / sizeof (panelize_but[0]);
  	while (i--) {
@@ -553,9 +553,9 @@
  
  #endif				/* ENABLE_NLS */
  
---- mc-4.6.1a/src/main.c.utf8	2005-09-06 13:38:45.000000000 +0200
-+++ mc-4.6.1a/src/main.c	2005-11-08 11:07:36.000000000 +0100
-@@ -697,7 +697,7 @@ load_prompt (int fd, void *unused)
+--- mc-4.6.1a/src/main.c.utf8	2005-11-02 12:50:52.000000000 +0100
++++ mc-4.6.1a/src/main.c	2005-11-13 16:31:59.000000000 +0100
+@@ -698,7 +698,7 @@ load_prompt (int fd, void *unused)
  	int prompt_len;
  
  	tmp_prompt = strip_ctrl_codes (subshell_prompt);
@@ -564,7 +564,7 @@
  
  	/* Check for prompts too big */
  	if (COLS > 8 && prompt_len > COLS - 8) {
-@@ -1610,7 +1610,11 @@ update_xterm_title_path (void)
+@@ -1611,7 +1611,11 @@ update_xterm_title_path (void)
      if (xterm_flag && xterm_title) {
  	p = s = g_strdup (strip_home_and_password (current_panel->cwd));
  	do {
@@ -577,7 +577,7 @@
  	} while (*++s);
  	fprintf (stdout, "\33]0;mc - %s\7", p);
 --- mc-4.6.1a/src/view.c.utf8	2005-10-04 23:07:20.000000000 +0200
-+++ mc-4.6.1a/src/view.c	2005-11-08 11:34:03.000000000 +0100
++++ mc-4.6.1a/src/view.c	2005-11-13 16:31:59.000000000 +0100
 @@ -43,6 +43,10 @@
  #include <sys/stat.h>
  #include <unistd.h>
@@ -707,8 +707,8 @@
  	}
  	col++;
  	attrset (NORMAL_COLOR);
---- mc-4.6.1a/src/screen.c.utf8	2005-10-04 01:37:51.000000000 +0200
-+++ mc-4.6.1a/src/screen.c	2005-11-08 11:07:36.000000000 +0100
+--- mc-4.6.1a/src/screen.c.utf8	2005-11-11 04:32:40.000000000 +0100
++++ mc-4.6.1a/src/screen.c	2005-11-13 16:31:59.000000000 +0100
 @@ -171,21 +171,56 @@ add_permission_string (char *dest, int w
  static const char *
  string_file_name (file_entry *fe, int len)
@@ -1009,7 +1009,7 @@
  
      if (!isstatus && panel->split){
  	if (second_column)
-@@ -691,7 +796,7 @@ display_mini_info (WPanel *panel)
+@@ -692,7 +797,7 @@ display_mini_info (WPanel *panel)
  		   ngettext("%s in %d file", "%s in %d files", panel->marked),
  		   b_bytes, panel->marked);
  
@@ -1018,7 +1018,7 @@
  	    buffer [cols] = 0;
  	    p += 2;
  	} else
-@@ -1100,6 +1205,12 @@ paint_frame (WPanel *panel)
+@@ -1101,6 +1206,12 @@ paint_frame (WPanel *panel)
      int  side, width;
  
      const char *txt;
@@ -1031,7 +1031,7 @@
      if (!panel->split)
  	adjust_top_file (panel);
  
-@@ -1124,16 +1235,38 @@ paint_frame (WPanel *panel)
+@@ -1125,16 +1236,38 @@ paint_frame (WPanel *panel)
              if (format->string_fn){
                  txt = format->title;
  
@@ -1074,7 +1074,7 @@
  		attrset (NORMAL_COLOR);
  		one_vline ();
 --- mc-4.6.1a/src/widget.h.utf8	2005-06-14 15:02:31.000000000 +0200
-+++ mc-4.6.1a/src/widget.h	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/widget.h	2005-11-13 16:31:59.000000000 +0100
 @@ -22,6 +22,7 @@ typedef struct WButton {
      char *text;			/* text of button */
      int hotkey;			/* hot KEY */
@@ -1118,7 +1118,7 @@
      int  need_push;		/* need to push the current Input on hist? */
      char **completions;		/* Possible completions array */
 --- mc-4.6.1a/src/tty.h.utf8	2005-09-05 04:14:29.000000000 +0200
-+++ mc-4.6.1a/src/tty.h	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/tty.h	2005-11-13 16:31:59.000000000 +0100
 @@ -8,6 +8,8 @@
      of ifdefs in the other files small.
   */
@@ -1129,7 +1129,7 @@
  #   include "myslang.h"
  #endif
 --- mc-4.6.1a/src/hotlist.c.utf8	2005-05-27 05:35:15.000000000 +0200
-+++ mc-4.6.1a/src/hotlist.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/hotlist.c	2005-11-13 16:31:59.000000000 +0100
 @@ -555,7 +555,7 @@ init_i18n_stuff(int list_type, int cols)
  
  			row = hotlist_but [i].y;
@@ -1191,7 +1191,7 @@
  
      strip_password (label_string, 1);
 --- mc-4.6.1a/src/help.c.utf8	2005-07-22 11:29:50.000000000 +0200
-+++ mc-4.6.1a/src/help.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/help.c	2005-11-13 16:31:59.000000000 +0100
 @@ -449,10 +449,28 @@ static void help_show (Dlg_head *h, cons
  #ifndef HAVE_SLANG
  			addch (acs_map [c]);
@@ -1235,7 +1235,7 @@
      if (!filename)
  	g_free (hlpfile);
 --- mc-4.6.1a/src/wtools.c.utf8	2005-09-05 05:21:32.000000000 +0200
-+++ mc-4.6.1a/src/wtools.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/wtools.c	2005-11-13 16:31:59.000000000 +0100
 @@ -49,11 +49,11 @@ create_listbox_window (int cols, int lin
      /* Adjust sizes */
      lines = (lines > LINES - 6) ? LINES - 6 : lines;
@@ -1295,8 +1295,8 @@
      quick_widgets[0].x_divisions = quick_widgets[1].x_divisions = len;
  #endif				/* ENABLE_NLS */
  
---- mc-4.6.1a/src/util.h.utf8	2005-10-04 17:20:10.000000000 +0200
-+++ mc-4.6.1a/src/util.h	2005-11-08 11:07:36.000000000 +0100
+--- mc-4.6.1a/src/util.h.utf8	2005-11-03 03:18:38.000000000 +0100
++++ mc-4.6.1a/src/util.h	2005-11-13 16:31:59.000000000 +0100
 @@ -111,6 +111,13 @@ void init_uid_gid_cache (void);
  char *get_group (int);
  char *get_owner (int);
@@ -1312,7 +1312,7 @@
  #define MIN_I18NTIMELENGTH 10
  #define STD_I18NTIMELENGTH 12
 --- mc-4.6.1a/src/widget.c.utf8	2005-10-08 06:52:42.000000000 +0200
-+++ mc-4.6.1a/src/widget.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/widget.c	2005-11-13 16:31:59.000000000 +0100
 @@ -35,6 +35,9 @@
  
  #include "global.h"
@@ -2028,8 +2028,8 @@
      return in;
  }
  
---- mc-4.6.1a/src/util.c.utf8	2005-10-04 17:20:10.000000000 +0200
-+++ mc-4.6.1a/src/util.c	2005-11-08 11:07:36.000000000 +0100
+--- mc-4.6.1a/src/util.c.utf8	2005-11-03 03:18:38.000000000 +0100
++++ mc-4.6.1a/src/util.c	2005-11-13 16:31:59.000000000 +0100
 @@ -33,7 +33,11 @@
  #include <sys/types.h>
  #include <sys/stat.h>
@@ -2471,7 +2471,7 @@
      *w = 0;
      return s;
 --- mc-4.6.1a/src/file.c.utf8	2005-09-17 13:45:13.000000000 +0200
-+++ mc-4.6.1a/src/file.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/file.c	2005-11-13 16:31:59.000000000 +0100
 @@ -164,15 +164,20 @@ static const char *
  do_transform_source (FileOpContext *ctx, const char *source)
  {
@@ -2511,7 +2511,7 @@
  }
  
 --- mc-4.6.1a/src/find.c.utf8	2005-07-07 21:34:56.000000000 +0200
-+++ mc-4.6.1a/src/find.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/find.c	2005-11-13 16:31:59.000000000 +0100
 @@ -217,7 +217,7 @@ find_parameters (char **start_dir, char 
  	int l1, maxlen = 0;
  
@@ -2560,7 +2560,7 @@
  	    list->list[next_free].f.marked = 0;
  	    list->list[next_free].f.link_to_dir = link_to_dir;
 --- mc-4.6.1a/src/myslang.h.utf8	2005-09-05 05:22:04.000000000 +0200
-+++ mc-4.6.1a/src/myslang.h	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/myslang.h	2005-11-13 16:31:59.000000000 +0100
 @@ -11,6 +11,10 @@
  #endif	/* HAVE_SLANG_SLANG_H */
  #endif
@@ -2573,7 +2573,7 @@
      KEY_BACKSPACE = 400,
      KEY_END, KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT,
 --- mc-4.6.1a/src/achown.c.utf8	2005-09-05 03:36:58.000000000 +0200
-+++ mc-4.6.1a/src/achown.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/achown.c	2005-11-13 16:31:59.000000000 +0100
 @@ -584,6 +584,12 @@ init_chown_advanced (void)
      b_att[2] = button_new (XTRACT (6));
      b_user = button_new (XTRACT (5));
@@ -2588,7 +2588,7 @@
      add_widget (ch_dlg, b_group);
      add_widget (ch_dlg, b_user);
 --- mc-4.6.1a/src/dialog.c.utf8	2005-09-05 05:20:27.000000000 +0200
-+++ mc-4.6.1a/src/dialog.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/dialog.c	2005-11-13 16:31:59.000000000 +0100
 @@ -166,7 +166,7 @@ common_dialog_repaint (struct Dlg_head *
  
      if (h->title) {
@@ -2599,7 +2599,7 @@
      }
  }
 --- mc-4.6.1a/src/boxes.c.utf8	2005-06-14 15:02:31.000000000 +0200
-+++ mc-4.6.1a/src/boxes.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/boxes.c	2005-11-13 16:31:59.000000000 +0100
 @@ -153,23 +153,23 @@ display_init (int radio_sel, char *init_
  	display_title = _(display_title);
  	for (i = 0; i < LIST_TYPES; i++) {
@@ -2773,7 +2773,7 @@
          i18n_flag = 1;
      }
 --- mc-4.6.1a/src/learn.c.utf8	2005-05-27 05:35:15.000000000 +0200
-+++ mc-4.6.1a/src/learn.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/src/learn.c	2005-11-13 16:31:59.000000000 +0100
 @@ -237,7 +237,7 @@ init_learn (void)
  	learn_but[0].x = 78 / 2 + 4;
  
@@ -2784,7 +2784,7 @@
  	learn_title = _(learn_title);
  	i18n_flag = 1;
 --- mc-4.6.1a/edit/edit-widget.h.utf8	2005-08-15 22:34:26.000000000 +0200
-+++ mc-4.6.1a/edit/edit-widget.h	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/edit/edit-widget.h	2005-11-13 16:31:59.000000000 +0100
 @@ -30,6 +30,11 @@ typedef struct edit_key_map_type {
      long command;
  } edit_key_map_type;
@@ -2825,7 +2825,7 @@
      unsigned long stack_size_mask;
      unsigned long stack_bottom;
 --- mc-4.6.1a/edit/editkeys.c.utf8	2005-08-10 18:47:44.000000000 +0200
-+++ mc-4.6.1a/edit/editkeys.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/edit/editkeys.c	2005-11-13 16:31:59.000000000 +0100
 @@ -181,10 +181,10 @@ static const edit_key_map_type common_ke
   * 'command' is one of the editor commands from editcmddef.h.
   */
@@ -2881,7 +2881,7 @@
  	return 0;
      }
 --- mc-4.6.1a/edit/editwidget.c.utf8	2005-09-07 10:54:12.000000000 +0200
-+++ mc-4.6.1a/edit/editwidget.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/edit/editwidget.c	2005-11-13 16:31:59.000000000 +0100
 @@ -344,7 +344,8 @@ edit_callback (Widget *w, widget_msg_t m
  
      case WIDGET_KEY:
@@ -2893,7 +2893,7 @@
  	    /* The user may override the access-keys for the menu bar. */
  	    if (edit_translate_key (e, parm, &cmd, &ch)) {
 --- mc-4.6.1a/edit/editcmd.c.utf8	2005-10-04 23:15:06.000000000 +0200
-+++ mc-4.6.1a/edit/editcmd.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/edit/editcmd.c	2005-11-13 16:30:21.000000000 +0100
 @@ -61,7 +61,7 @@
  #define edit_get_save_file(f,h) input_expand_dialog (h, _(" Enter file name: "), f)
  
@@ -3837,26 +3837,27 @@
  
      /* collect max MAX_WORD_COMPLETIONS completions */
      while (*num < MAX_WORD_COMPLETIONS) {
-@@ -2739,11 +3062,16 @@ edit_collect_completions (WEdit *edit, l
+@@ -2739,11 +3062,14 @@ edit_collect_completions (WEdit *edit, l
  	    buffers1[start >> S_EDIT_BUF_SIZE][start & M_EDIT_BUF_SIZE];
  	skip = 0;
  	for (i = 0; i < *num; i++) {
-+#ifndef UTF8
- 	    if (strncmp
- 		((char *) &compl[i].text[word_len],
- 		 (char *) &bufpos[word_len], max (len,
+-	    if (strncmp
+-		((char *) &compl[i].text[word_len],
+-		 (char *) &bufpos[word_len], max (len,
 -						  compl[i].len) -
 -		 word_len) == 0) {
++#ifndef UTF8
++	    if (strncmp ((char *) &compl[i].text[word_len],
++		 (char *) &bufpos[word_len],
 +#else /* UTF8 */
-+	    if (wcsncmp
-+		((wchar_t *) &compl[i].text[word_len],
-+		 (wchar_t *) &bufpos[word_len], max (len,
++	    if (wcsncmp ((wchar_t *) &compl[i].text[word_len],
++		 (wchar_t *) &bufpos[word_len],
 +#endif /* UTF8 */
-+		 compl[i].len) - word_len) == 0) {
++		 max (len, compl[i].len) - word_len) == 0) {
  		skip = 1;
  		break;		/* skip it, already added */
  	    }
-@@ -2751,7 +3079,7 @@ edit_collect_completions (WEdit *edit, l
+@@ -2751,7 +3077,7 @@ edit_collect_completions (WEdit *edit, l
  	if (skip)
  	    continue;
  
@@ -3865,7 +3866,7 @@
  	compl[*num].len = len;
  	for (i = 0; i < len; i++)
  	    compl[*num].text[i] = *(bufpos + i);
-@@ -2765,6 +3093,18 @@ edit_collect_completions (WEdit *edit, l
+@@ -2765,6 +3091,18 @@ edit_collect_completions (WEdit *edit, l
      return max_len;
  }
  
@@ -3884,7 +3885,7 @@
  
  /* let the user select its preferred completion */
  static void
-@@ -2777,6 +3117,9 @@ edit_completion_dialog (WEdit * edit, in
+@@ -2777,6 +3115,9 @@ edit_completion_dialog (WEdit * edit, in
      WListbox *compl_list;
      int compl_dlg_h;		/* completion dialog height */
      int compl_dlg_w;		/* completion dialog width */
@@ -3894,7 +3895,7 @@
  
      /* calculate the dialog metrics */
      compl_dlg_h = num_compl + 2;
-@@ -2812,9 +3155,18 @@ edit_completion_dialog (WEdit * edit, in
+@@ -2812,9 +3153,18 @@ edit_completion_dialog (WEdit * edit, in
      add_widget (compl_dlg, compl_list);
  
      /* fill the listbox with the completions */
@@ -3913,7 +3914,7 @@
  
      /* pop up the dialog */
      run_dlg (compl_dlg);
-@@ -2822,9 +3174,17 @@ edit_completion_dialog (WEdit * edit, in
+@@ -2822,9 +3172,17 @@ edit_completion_dialog (WEdit * edit, in
      /* apply the choosen completion */
      if (compl_dlg->ret_value == B_ENTER) {
  	listbox_get_current (compl_list, &curr, NULL);
@@ -3932,7 +3933,7 @@
      }
  
      /* destroy dialog before return */
-@@ -2841,8 +3201,9 @@ edit_complete_word_cmd (WEdit *edit)
+@@ -2841,8 +3199,9 @@ edit_complete_word_cmd (WEdit *edit)
  {
      int word_len = 0, i, num_compl = 0, max_len;
      long word_start = 0;
@@ -3944,7 +3945,7 @@
      struct selection compl[MAX_WORD_COMPLETIONS];	/* completions */
  
      /* don't want to disturb another search */
-@@ -2859,16 +3220,32 @@ edit_complete_word_cmd (WEdit *edit)
+@@ -2859,16 +3218,32 @@ edit_complete_word_cmd (WEdit *edit)
      /* prepare match expression */
      bufpos = &edit->buffers1[word_start >> S_EDIT_BUF_SIZE]
  	[word_start & M_EDIT_BUF_SIZE];
@@ -3978,7 +3979,7 @@
      if (num_compl > 0) {
  	/* insert completed word if there is only one match */
 --- mc-4.6.1a/edit/wordproc.c.utf8	2005-05-27 05:35:12.000000000 +0200
-+++ mc-4.6.1a/edit/wordproc.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/edit/wordproc.c	2005-11-13 16:31:59.000000000 +0100
 @@ -40,7 +40,12 @@
  
  #define tab_width option_tab_spacing
@@ -4199,7 +4200,7 @@
  		    return;
  		}
 --- mc-4.6.1a/edit/edit.h.utf8	2005-09-07 10:54:12.000000000 +0200
-+++ mc-4.6.1a/edit/edit.h	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/edit/edit.h	2005-11-13 16:31:59.000000000 +0100
 @@ -25,6 +25,27 @@
  
  #include <stdio.h>
@@ -4293,7 +4294,7 @@
  #define get_sys_error(s) (s)
  
 --- mc-4.6.1a/edit/editdraw.c.utf8	2005-09-05 04:14:29.000000000 +0200
-+++ mc-4.6.1a/edit/editdraw.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/edit/editdraw.c	2005-11-13 16:31:59.000000000 +0100
 @@ -69,11 +69,16 @@ static void status_string (WEdit * edit,
       * as decimal and as hex.
       */
@@ -4513,7 +4514,7 @@
      print_to_widget (edit, row, start_col, start_col_real, end_col, line);
  }
 --- mc-4.6.1a/edit/edit.c.utf8	2005-09-07 10:54:11.000000000 +0200
-+++ mc-4.6.1a/edit/edit.c	2005-11-08 11:07:36.000000000 +0100
++++ mc-4.6.1a/edit/edit.c	2005-11-13 16:31:59.000000000 +0100
 @@ -103,7 +103,7 @@ char *option_backup_ext = NULL;
  static void edit_move_to_prev_col (WEdit *edit, long p);
  static void user_menu (WEdit *edit);
@@ -5114,3 +5115,59 @@
  	if (edit->overwrite) {
  	    if (edit_get_byte (edit, edit->curs1) != '\n')
  		edit_delete (edit);
+--- mc-4.6.1a/src/help.c.utf8	2005-11-12 17:46:32.000000000 +0100
++++ mc-4.6.1a/src/help.c	2005-11-12 17:52:11.000000000 +0100
+@@ -449,7 +449,7 @@ static void help_show (Dlg_head *h, cons
+ #ifndef HAVE_SLANG
+ 			addch (acs_map [c]);
+ #else
+-#ifdef UTF8
++#if defined(UTF8) && SLANG_VERSION < 20000
+ 			SLsmg_draw_object (h->y + line + 2, h->x + col + 2, acs_map [c]);
+ #else
+ 			SLsmg_draw_object (h->y + line + 2, h->x + col + 2, c);
+--- mc-4.6.1a/src/myslang.h.utf8	2005-11-12 17:46:32.000000000 +0100
++++ mc-4.6.1a/src/myslang.h	2005-11-12 18:09:27.000000000 +0100
+@@ -11,6 +11,12 @@
+ #endif	/* HAVE_SLANG_SLANG_H */
+ #endif
+ 
++#if SLANG_VERSION >= 20000
++#define UTF8 1
++#define SLsmg_Is_Unicode SLsmg_is_utf8_mode()
++void SLsmg_write_nwchars(wchar_t *s, size_t n);
++#endif
++
+ #ifdef UTF8
+ #    include <wchar.h>
+ #endif
+--- mc-4.6.1a/src/slint.c.utf8	2005-09-05 04:14:29.000000000 +0200
++++ mc-4.6.1a/src/slint.c	2005-11-12 17:49:21.000000000 +0100
+@@ -141,7 +141,9 @@ void
+ slang_init (void)
+ {
+     SLtt_get_terminfo ();
+-
++#if SLANG_VERSION >= 20000
++    SLutf8_enable (-1);
++#endif
+    /*
+     * If the terminal in not in terminfo but begins with a well-known
+     * string such as "linux" or "xterm" S-Lang will go on, but the
+--- mc-4.6.1a/src/util.c.utf8	2005-11-12 17:46:32.000000000 +0100
++++ mc-4.6.1a/src/util.c	2005-11-12 17:55:17.000000000 +0100
+@@ -56,6 +56,14 @@
+ static const char app_text [] = "Midnight-Commander";
+ int easy_patterns = 1;
+ 
++#if SLANG_VERSION >= 20000
++void SLsmg_write_nwchars(wchar_t *s, size_t n)
++{
++    while(n--)
++	SLsmg_write_char(*s++);
++}
++#endif
++
+ extern void str_replace(char *s, char from, char to)
+ {
+     for (; *s != '\0'; s++) {
