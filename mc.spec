@@ -101,7 +101,7 @@ done
 popd
 
 %build
-export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
+export CFLAGS="-DUTF8=1 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
 %configure --with-screen=mcslang \
 	     --host=%{_host} --build=%{_build} \
 	     --target=%{_target_platform} \
@@ -177,6 +177,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Wed Nov 16 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.23
+- update from CVS to fix the usage of glibc private symbols
+- don't try to display UTF8ized characters in hex viewing mode
+  and display the characters correctly (#173309)
+
 * Mon Nov 14 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.22
 - update from upstream CVS for the new slang support
 - use internal slang-2.0.5 in mc for now

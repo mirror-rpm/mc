@@ -1,5 +1,5 @@
---- mc-4.6.1a/acinclude.m4.utf8	2005-11-11 02:14:52.000000000 +0100
-+++ mc-4.6.1a/acinclude.m4	2005-11-13 16:31:59.000000000 +0100
+--- mc-4.6.1a/acinclude.m4.utf8	2005-11-16 00:27:27.000000000 +0100
++++ mc-4.6.1a/acinclude.m4	2005-11-16 14:03:46.000000000 +0100
 @@ -768,14 +768,14 @@ AC_DEFUN([MC_WITH_SLANG], [
      fi
  
@@ -24,7 +24,7 @@
      if test x$with_screen = xslang; then
  	AC_DEFINE(HAVE_SYSTEM_SLANG, 1,
 --- mc-4.6.1a/src/layout.c.utf8	2005-09-05 03:40:45.000000000 +0200
-+++ mc-4.6.1a/src/layout.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/layout.c	2005-11-16 14:03:46.000000000 +0100
 @@ -369,36 +369,36 @@ init_layout (void)
  
  	while (i--) {
@@ -99,7 +99,7 @@
      widget_set_size (&the_menubar->widget, 0, 0, 1, COLS);
  
 --- mc-4.6.1a/src/tty.c.utf8	2005-09-05 05:05:39.000000000 +0200
-+++ mc-4.6.1a/src/tty.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/tty.c	2005-11-16 14:03:46.000000000 +0100
 @@ -123,10 +123,12 @@ tty_print_char(int c)
       * defined or not. Congratulations! At least, they left the API call
       * for SLsmg_write_nchars as it has always been.
@@ -118,7 +118,7 @@
      addch(c);
  #endif
 --- mc-4.6.1a/src/option.c.utf8	2005-05-27 05:35:15.000000000 +0200
-+++ mc-4.6.1a/src/option.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/option.c	2005-11-16 14:03:46.000000000 +0100
 @@ -123,12 +123,12 @@ init_configure (void)
  	title2 = _(" Pause after run... ");
  	title3 = _(" Other options ");
@@ -167,7 +167,7 @@
  	i18n_config_flag = 1;
      }
 --- mc-4.6.1a/src/menu.h.utf8	2004-12-03 20:17:47.000000000 +0100
-+++ mc-4.6.1a/src/menu.h	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/menu.h	2005-11-16 14:03:46.000000000 +0100
 @@ -21,6 +21,8 @@ typedef struct Menu {
      menu_entry *entries;
      int    start_x;		/* position relative to menubar start */
@@ -178,7 +178,7 @@
  
  extern int menubar_visible;
 --- mc-4.6.1a/src/menu.c.utf8	2005-09-05 04:12:09.000000000 +0200
-+++ mc-4.6.1a/src/menu.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/menu.c	2005-11-16 14:03:46.000000000 +0100
 @@ -22,6 +22,7 @@
  #include <string.h>
  
@@ -381,7 +381,7 @@
      g_free (menu->help_node);
      g_free (menu);
 --- mc-4.6.1a/src/filegui.c.utf8	2005-05-27 05:35:15.000000000 +0200
-+++ mc-4.6.1a/src/filegui.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/filegui.c	2005-11-16 14:03:46.000000000 +0100
 @@ -65,6 +65,7 @@
  #include "filegui.h"
  #include "key.h"		/* get_event */
@@ -528,7 +528,7 @@
      return dest_dir;
  }
 --- mc-4.6.1a/src/panelize.c.utf8	2005-05-27 05:35:15.000000000 +0200
-+++ mc-4.6.1a/src/panelize.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/panelize.c	2005-11-16 14:03:46.000000000 +0100
 @@ -127,7 +127,7 @@ init_panelize (void)
  	i = sizeof (panelize_but) / sizeof (panelize_but[0]);
  	while (i--) {
@@ -553,8 +553,21 @@
  
  #endif				/* ENABLE_NLS */
  
+--- mc-4.6.1a/src/slint.c.utf8	2005-09-05 04:14:29.000000000 +0200
++++ mc-4.6.1a/src/slint.c	2005-11-16 14:03:46.000000000 +0100
+@@ -141,7 +141,9 @@ void
+ slang_init (void)
+ {
+     SLtt_get_terminfo ();
+-
++#if SLANG_VERSION >= 20000
++    SLutf8_enable (-1);
++#endif
+    /*
+     * If the terminal in not in terminfo but begins with a well-known
+     * string such as "linux" or "xterm" S-Lang will go on, but the
 --- mc-4.6.1a/src/main.c.utf8	2005-11-02 12:50:52.000000000 +0100
-+++ mc-4.6.1a/src/main.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/main.c	2005-11-16 14:03:46.000000000 +0100
 @@ -698,7 +698,7 @@ load_prompt (int fd, void *unused)
  	int prompt_len;
  
@@ -577,7 +590,7 @@
  	} while (*++s);
  	fprintf (stdout, "\33]0;mc - %s\7", p);
 --- mc-4.6.1a/src/view.c.utf8	2005-10-04 23:07:20.000000000 +0200
-+++ mc-4.6.1a/src/view.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/view.c	2005-11-16 14:04:27.000000000 +0100
 @@ -43,6 +43,10 @@
  #include <sys/stat.h>
  #include <unistd.h>
@@ -598,46 +611,7 @@
      file_name = view->filename ? view->filename
  	: view->command ? view->command
  	: "";
-@@ -1755,6 +1759,9 @@ view_display_hex (WView *view)
-     int c;
-     mark_t boldflag = MARK_NORMAL;
-     struct hexedit_change_node *curr = view->change_list;
-+#ifdef UTF8
-+    wchar_t wc;
-+#endif /* UTF8 */
- 
-     char hex_buff[10];	/* A temporary buffer for sprintf and mvwaddstr */
-     int bytes;		/* Number of bytes already printed on the line */
-@@ -1850,13 +1857,28 @@ view_display_hex (WView *view)
- 		view->hexview_in_text ? VIEW_UNDERLINED_COLOR :
- 		MARKED_SELECTED_COLOR);
- 
-+#ifndef UTF8
- 	    c = convert_to_display_c (c);
- 	    if (!is_printable (c))
- 		c = '.';
-+#else /* UTF8 */
-+	    if (!iswprint (wc))
-+		wc = '.';
-+
-+	    {
-+		int cw = wcwidth(wc);
-+		if (cw > 1)
-+		col += cw - 1;
-+	    }
-+#endif /* UTF8 */
- 
- 	    /* Print corresponding character on the text side */
- 	    widget_move (view, top + row, left + text_start + bytes);
-+#ifndef UTF8
- 	    tty_print_char (c);
-+#else /* UTF8 */
-+	    tty_print_char (wc);
-+#endif /* UTF8 */
- 
- 	    /* Save the cursor position for view_place_cursor() */
- 	    if (from == view->hex_cursor && view->hexview_in_text) {
-@@ -1884,6 +1906,12 @@ view_display_text (WView * view)
+@@ -1884,6 +1888,12 @@ view_display_text (WView * view)
      offset_type from;
      int c;
      struct hexedit_change_node *curr = view->change_list;
@@ -650,7 +624,7 @@
  
      view_display_clean (view);
      view_display_ruler (view);
-@@ -1896,8 +1924,37 @@ view_display_text (WView * view)
+@@ -1896,8 +1906,37 @@ view_display_text (WView * view)
  
      attrset (NORMAL_COLOR);
      for (row = 0, col = 0; row < height && (c = get_byte (view, from)) != -1; from++) {
@@ -689,7 +663,7 @@
  	    int c_prev;
  	    int c_next;
  
-@@ -1956,10 +2013,17 @@ view_display_text (WView * view)
+@@ -1956,10 +1995,17 @@ view_display_text (WView * view)
  	if (col >= view->dpy_text_column
  	    && col - view->dpy_text_column < width) {
  	    widget_move (view, top + row, left + (col - view->dpy_text_column));
@@ -708,7 +682,7 @@
  	col++;
  	attrset (NORMAL_COLOR);
 --- mc-4.6.1a/src/screen.c.utf8	2005-11-11 04:32:40.000000000 +0100
-+++ mc-4.6.1a/src/screen.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/screen.c	2005-11-16 14:03:46.000000000 +0100
 @@ -171,21 +171,56 @@ add_permission_string (char *dest, int w
  static const char *
  string_file_name (file_entry *fe, int len)
@@ -1074,7 +1048,7 @@
  		attrset (NORMAL_COLOR);
  		one_vline ();
 --- mc-4.6.1a/src/widget.h.utf8	2005-06-14 15:02:31.000000000 +0200
-+++ mc-4.6.1a/src/widget.h	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/widget.h	2005-11-16 14:03:46.000000000 +0100
 @@ -22,6 +22,7 @@ typedef struct WButton {
      char *text;			/* text of button */
      int hotkey;			/* hot KEY */
@@ -1118,7 +1092,7 @@
      int  need_push;		/* need to push the current Input on hist? */
      char **completions;		/* Possible completions array */
 --- mc-4.6.1a/src/tty.h.utf8	2005-09-05 04:14:29.000000000 +0200
-+++ mc-4.6.1a/src/tty.h	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/tty.h	2005-11-16 14:03:46.000000000 +0100
 @@ -8,6 +8,8 @@
      of ifdefs in the other files small.
   */
@@ -1129,7 +1103,7 @@
  #   include "myslang.h"
  #endif
 --- mc-4.6.1a/src/hotlist.c.utf8	2005-05-27 05:35:15.000000000 +0200
-+++ mc-4.6.1a/src/hotlist.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/hotlist.c	2005-11-16 14:03:46.000000000 +0100
 @@ -555,7 +555,7 @@ init_i18n_stuff(int list_type, int cols)
  
  			row = hotlist_but [i].y;
@@ -1191,12 +1165,12 @@
  
      strip_password (label_string, 1);
 --- mc-4.6.1a/src/help.c.utf8	2005-07-22 11:29:50.000000000 +0200
-+++ mc-4.6.1a/src/help.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/help.c	2005-11-16 14:03:46.000000000 +0100
 @@ -449,10 +449,28 @@ static void help_show (Dlg_head *h, cons
  #ifndef HAVE_SLANG
  			addch (acs_map [c]);
  #else
-+#ifdef UTF8
++#if defined(UTF8) && SLANG_VERSION < 20000
 +			SLsmg_draw_object (h->y + line + 2, h->x + col + 2, acs_map [c]);
 +#else
  			SLsmg_draw_object (h->y + line + 2, h->x + col + 2, c);
@@ -1235,7 +1209,7 @@
      if (!filename)
  	g_free (hlpfile);
 --- mc-4.6.1a/src/wtools.c.utf8	2005-09-05 05:21:32.000000000 +0200
-+++ mc-4.6.1a/src/wtools.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/wtools.c	2005-11-16 14:03:46.000000000 +0100
 @@ -49,11 +49,11 @@ create_listbox_window (int cols, int lin
      /* Adjust sizes */
      lines = (lines > LINES - 6) ? LINES - 6 : lines;
@@ -1296,7 +1270,7 @@
  #endif				/* ENABLE_NLS */
  
 --- mc-4.6.1a/src/util.h.utf8	2005-11-03 03:18:38.000000000 +0100
-+++ mc-4.6.1a/src/util.h	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/util.h	2005-11-16 14:03:46.000000000 +0100
 @@ -111,6 +111,13 @@ void init_uid_gid_cache (void);
  char *get_group (int);
  char *get_owner (int);
@@ -1312,7 +1286,7 @@
  #define MIN_I18NTIMELENGTH 10
  #define STD_I18NTIMELENGTH 12
 --- mc-4.6.1a/src/widget.c.utf8	2005-10-08 06:52:42.000000000 +0200
-+++ mc-4.6.1a/src/widget.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/widget.c	2005-11-16 14:03:46.000000000 +0100
 @@ -35,6 +35,9 @@
  
  #include "global.h"
@@ -2029,7 +2003,7 @@
  }
  
 --- mc-4.6.1a/src/util.c.utf8	2005-11-03 03:18:38.000000000 +0100
-+++ mc-4.6.1a/src/util.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/util.c	2005-11-16 14:03:46.000000000 +0100
 @@ -33,7 +33,11 @@
  #include <sys/types.h>
  #include <sys/stat.h>
@@ -2042,7 +2016,7 @@
  #include "global.h"
  #include "profile.h"
  #include "main.h"		/* mc_home */
-@@ -45,6 +49,10 @@
+@@ -45,9 +49,21 @@
  #include "charsets.h"
  #endif
  
@@ -2053,7 +2027,18 @@
  static const char app_text [] = "Midnight-Commander";
  int easy_patterns = 1;
  
-@@ -78,9 +86,106 @@ is_8bit_printable (unsigned char c)
++#if SLANG_VERSION >= 20000
++void SLsmg_write_nwchars(wchar_t *s, size_t n)
++{
++    while(n--)
++	SLsmg_write_char(*s++);
++}
++#endif
++
+ extern void str_replace(char *s, char from, char to)
+ {
+     for (; *s != '\0'; s++) {
+@@ -78,9 +94,106 @@ is_8bit_printable (unsigned char c)
      return (c > 31 && c != 127 && c != 155);
  }
  
@@ -2160,7 +2145,7 @@
      c &= 0xff;
  
  #ifdef HAVE_CHARSET
-@@ -98,7 +203,7 @@ is_printable (int c)
+@@ -98,7 +211,7 @@ is_printable (int c)
  #endif				/* !HAVE_CHARSET */
  }
  
@@ -2169,7 +2154,7 @@
  void
  msglen (const char *text, int *lines, int *columns)
  {
-@@ -111,8 +216,21 @@ msglen (const char *text, int *lines, in
+@@ -111,8 +224,21 @@ msglen (const char *text, int *lines, in
  	    nlines++;
  	    colindex = 0;
  	} else {
@@ -2191,7 +2176,7 @@
  		ncolumns = colindex;
  	}
      }
-@@ -206,7 +324,24 @@ name_quote (const char *s, int quote_per
+@@ -206,7 +332,24 @@ name_quote (const char *s, int quote_per
  		*d++ = '\\';
  	    break;
  	}
@@ -2216,7 +2201,7 @@
      }
      *d = '\0';
      return ret;
-@@ -228,25 +363,90 @@ const char *
+@@ -228,25 +371,90 @@ const char *
  name_trunc (const char *txt, int trunc_len)
  {
      static char x[MC_MAXPATHLEN + MC_MAXPATHLEN];
@@ -2321,7 +2306,7 @@
      return x;
  }
  
-@@ -678,11 +878,61 @@ load_file (const char *filename)
+@@ -678,11 +886,61 @@ load_file (const char *filename)
  }
  
  char *
@@ -2383,7 +2368,7 @@
  
      hintfile_base = concat_dir_and_file (mc_home, filename);
      lang = guess_message_value ();
-@@ -715,7 +965,10 @@ load_mc_home_file (const char *filename,
+@@ -715,7 +973,10 @@ load_mc_home_file (const char *filename,
      else
  	g_free (hintfile);
  
@@ -2395,7 +2380,7 @@
  }
  
  /* Check strftime() results. Some systems (i.e. Solaris) have different
-@@ -724,12 +977,14 @@ size_t
+@@ -724,12 +985,14 @@ size_t
  i18n_checktimelength (void)
  {
      size_t length, a, b;
@@ -2414,7 +2399,7 @@
      length = max (a, b);
      
      /* Don't handle big differences. Use standard value (email bug, please) */
-@@ -742,15 +997,12 @@ i18n_checktimelength (void)
+@@ -742,15 +1005,12 @@ i18n_checktimelength (void)
  const char *
  file_date (time_t when)
  {
@@ -2432,7 +2417,7 @@
  	/* strftime() format string for old dates */
  	fmtyear = _("%b %e  %Y");
  	/* strftime() format string for recent dates */
-@@ -770,7 +1022,7 @@ file_date (time_t when)
+@@ -770,7 +1030,7 @@ file_date (time_t when)
      else
  	fmt = fmttime;
      
@@ -2441,7 +2426,7 @@
      return timebuf;
  }
  
-@@ -900,10 +1152,27 @@ strip_ctrl_codes (char *s)
+@@ -900,10 +1160,27 @@ strip_ctrl_codes (char *s)
  		r++;
  	    continue;
  	}
@@ -2471,7 +2456,7 @@
      *w = 0;
      return s;
 --- mc-4.6.1a/src/file.c.utf8	2005-09-17 13:45:13.000000000 +0200
-+++ mc-4.6.1a/src/file.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/file.c	2005-11-16 14:03:46.000000000 +0100
 @@ -164,15 +164,20 @@ static const char *
  do_transform_source (FileOpContext *ctx, const char *source)
  {
@@ -2511,7 +2496,7 @@
  }
  
 --- mc-4.6.1a/src/find.c.utf8	2005-07-07 21:34:56.000000000 +0200
-+++ mc-4.6.1a/src/find.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/find.c	2005-11-16 14:03:46.000000000 +0100
 @@ -217,7 +217,7 @@ find_parameters (char **start_dir, char 
  	int l1, maxlen = 0;
  
@@ -2560,11 +2545,17 @@
  	    list->list[next_free].f.marked = 0;
  	    list->list[next_free].f.link_to_dir = link_to_dir;
 --- mc-4.6.1a/src/myslang.h.utf8	2005-09-05 05:22:04.000000000 +0200
-+++ mc-4.6.1a/src/myslang.h	2005-11-13 16:31:59.000000000 +0100
-@@ -11,6 +11,10 @@
++++ mc-4.6.1a/src/myslang.h	2005-11-16 14:03:46.000000000 +0100
+@@ -11,6 +11,16 @@
  #endif	/* HAVE_SLANG_SLANG_H */
  #endif
  
++#if SLANG_VERSION >= 20000
++#define UTF8 1
++#define SLsmg_Is_Unicode SLsmg_is_utf8_mode()
++void SLsmg_write_nwchars(wchar_t *s, size_t n);
++#endif
++
 +#ifdef UTF8
 +#    include <wchar.h>
 +#endif
@@ -2573,7 +2564,7 @@
      KEY_BACKSPACE = 400,
      KEY_END, KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT,
 --- mc-4.6.1a/src/achown.c.utf8	2005-09-05 03:36:58.000000000 +0200
-+++ mc-4.6.1a/src/achown.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/achown.c	2005-11-16 14:03:46.000000000 +0100
 @@ -584,6 +584,12 @@ init_chown_advanced (void)
      b_att[2] = button_new (XTRACT (6));
      b_user = button_new (XTRACT (5));
@@ -2588,7 +2579,7 @@
      add_widget (ch_dlg, b_group);
      add_widget (ch_dlg, b_user);
 --- mc-4.6.1a/src/dialog.c.utf8	2005-09-05 05:20:27.000000000 +0200
-+++ mc-4.6.1a/src/dialog.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/dialog.c	2005-11-16 14:03:46.000000000 +0100
 @@ -166,7 +166,7 @@ common_dialog_repaint (struct Dlg_head *
  
      if (h->title) {
@@ -2599,7 +2590,7 @@
      }
  }
 --- mc-4.6.1a/src/boxes.c.utf8	2005-06-14 15:02:31.000000000 +0200
-+++ mc-4.6.1a/src/boxes.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/boxes.c	2005-11-16 14:03:46.000000000 +0100
 @@ -153,23 +153,23 @@ display_init (int radio_sel, char *init_
  	display_title = _(display_title);
  	for (i = 0; i < LIST_TYPES; i++) {
@@ -2773,7 +2764,7 @@
          i18n_flag = 1;
      }
 --- mc-4.6.1a/src/learn.c.utf8	2005-05-27 05:35:15.000000000 +0200
-+++ mc-4.6.1a/src/learn.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/src/learn.c	2005-11-16 14:03:46.000000000 +0100
 @@ -237,7 +237,7 @@ init_learn (void)
  	learn_but[0].x = 78 / 2 + 4;
  
@@ -2784,7 +2775,7 @@
  	learn_title = _(learn_title);
  	i18n_flag = 1;
 --- mc-4.6.1a/edit/edit-widget.h.utf8	2005-08-15 22:34:26.000000000 +0200
-+++ mc-4.6.1a/edit/edit-widget.h	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/edit/edit-widget.h	2005-11-16 14:03:46.000000000 +0100
 @@ -30,6 +30,11 @@ typedef struct edit_key_map_type {
      long command;
  } edit_key_map_type;
@@ -2825,7 +2816,7 @@
      unsigned long stack_size_mask;
      unsigned long stack_bottom;
 --- mc-4.6.1a/edit/editkeys.c.utf8	2005-08-10 18:47:44.000000000 +0200
-+++ mc-4.6.1a/edit/editkeys.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/edit/editkeys.c	2005-11-16 14:03:46.000000000 +0100
 @@ -181,10 +181,10 @@ static const edit_key_map_type common_ke
   * 'command' is one of the editor commands from editcmddef.h.
   */
@@ -2881,7 +2872,7 @@
  	return 0;
      }
 --- mc-4.6.1a/edit/editwidget.c.utf8	2005-09-07 10:54:12.000000000 +0200
-+++ mc-4.6.1a/edit/editwidget.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/edit/editwidget.c	2005-11-16 14:03:46.000000000 +0100
 @@ -344,7 +344,8 @@ edit_callback (Widget *w, widget_msg_t m
  
      case WIDGET_KEY:
@@ -2893,7 +2884,7 @@
  	    /* The user may override the access-keys for the menu bar. */
  	    if (edit_translate_key (e, parm, &cmd, &ch)) {
 --- mc-4.6.1a/edit/editcmd.c.utf8	2005-10-04 23:15:06.000000000 +0200
-+++ mc-4.6.1a/edit/editcmd.c	2005-11-13 16:30:21.000000000 +0100
++++ mc-4.6.1a/edit/editcmd.c	2005-11-16 14:03:46.000000000 +0100
 @@ -61,7 +61,7 @@
  #define edit_get_save_file(f,h) input_expand_dialog (h, _(" Enter file name: "), f)
  
@@ -3837,27 +3828,27 @@
  
      /* collect max MAX_WORD_COMPLETIONS completions */
      while (*num < MAX_WORD_COMPLETIONS) {
-@@ -2739,11 +3062,14 @@ edit_collect_completions (WEdit *edit, l
+@@ -2739,11 +3062,16 @@ edit_collect_completions (WEdit *edit, l
  	    buffers1[start >> S_EDIT_BUF_SIZE][start & M_EDIT_BUF_SIZE];
  	skip = 0;
  	for (i = 0; i < *num; i++) {
--	    if (strncmp
--		((char *) &compl[i].text[word_len],
++#ifndef UTF8
+ 	    if (strncmp
+ 		((char *) &compl[i].text[word_len],
 -		 (char *) &bufpos[word_len], max (len,
 -						  compl[i].len) -
 -		 word_len) == 0) {
-+#ifndef UTF8
-+	    if (strncmp ((char *) &compl[i].text[word_len],
 +		 (char *) &bufpos[word_len],
 +#else /* UTF8 */
-+	    if (wcsncmp ((wchar_t *) &compl[i].text[word_len],
++	    if (wcsncmp
++		((wchar_t *) &compl[i].text[word_len],
 +		 (wchar_t *) &bufpos[word_len],
 +#endif /* UTF8 */
 +		 max (len, compl[i].len) - word_len) == 0) {
  		skip = 1;
  		break;		/* skip it, already added */
  	    }
-@@ -2751,7 +3077,7 @@ edit_collect_completions (WEdit *edit, l
+@@ -2751,7 +3079,7 @@ edit_collect_completions (WEdit *edit, l
  	if (skip)
  	    continue;
  
@@ -3866,7 +3857,7 @@
  	compl[*num].len = len;
  	for (i = 0; i < len; i++)
  	    compl[*num].text[i] = *(bufpos + i);
-@@ -2765,6 +3091,18 @@ edit_collect_completions (WEdit *edit, l
+@@ -2765,6 +3093,18 @@ edit_collect_completions (WEdit *edit, l
      return max_len;
  }
  
@@ -3885,7 +3876,7 @@
  
  /* let the user select its preferred completion */
  static void
-@@ -2777,6 +3115,9 @@ edit_completion_dialog (WEdit * edit, in
+@@ -2777,6 +3117,9 @@ edit_completion_dialog (WEdit * edit, in
      WListbox *compl_list;
      int compl_dlg_h;		/* completion dialog height */
      int compl_dlg_w;		/* completion dialog width */
@@ -3895,7 +3886,7 @@
  
      /* calculate the dialog metrics */
      compl_dlg_h = num_compl + 2;
-@@ -2812,9 +3153,18 @@ edit_completion_dialog (WEdit * edit, in
+@@ -2812,9 +3155,18 @@ edit_completion_dialog (WEdit * edit, in
      add_widget (compl_dlg, compl_list);
  
      /* fill the listbox with the completions */
@@ -3914,7 +3905,7 @@
  
      /* pop up the dialog */
      run_dlg (compl_dlg);
-@@ -2822,9 +3172,17 @@ edit_completion_dialog (WEdit * edit, in
+@@ -2822,9 +3174,17 @@ edit_completion_dialog (WEdit * edit, in
      /* apply the choosen completion */
      if (compl_dlg->ret_value == B_ENTER) {
  	listbox_get_current (compl_list, &curr, NULL);
@@ -3933,7 +3924,7 @@
      }
  
      /* destroy dialog before return */
-@@ -2841,8 +3199,9 @@ edit_complete_word_cmd (WEdit *edit)
+@@ -2841,8 +3201,9 @@ edit_complete_word_cmd (WEdit *edit)
  {
      int word_len = 0, i, num_compl = 0, max_len;
      long word_start = 0;
@@ -3945,7 +3936,7 @@
      struct selection compl[MAX_WORD_COMPLETIONS];	/* completions */
  
      /* don't want to disturb another search */
-@@ -2859,16 +3218,32 @@ edit_complete_word_cmd (WEdit *edit)
+@@ -2859,16 +3220,32 @@ edit_complete_word_cmd (WEdit *edit)
      /* prepare match expression */
      bufpos = &edit->buffers1[word_start >> S_EDIT_BUF_SIZE]
  	[word_start & M_EDIT_BUF_SIZE];
@@ -3979,7 +3970,7 @@
      if (num_compl > 0) {
  	/* insert completed word if there is only one match */
 --- mc-4.6.1a/edit/wordproc.c.utf8	2005-05-27 05:35:12.000000000 +0200
-+++ mc-4.6.1a/edit/wordproc.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/edit/wordproc.c	2005-11-16 14:03:46.000000000 +0100
 @@ -40,7 +40,12 @@
  
  #define tab_width option_tab_spacing
@@ -4200,7 +4191,7 @@
  		    return;
  		}
 --- mc-4.6.1a/edit/edit.h.utf8	2005-09-07 10:54:12.000000000 +0200
-+++ mc-4.6.1a/edit/edit.h	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/edit/edit.h	2005-11-16 14:03:46.000000000 +0100
 @@ -25,6 +25,27 @@
  
  #include <stdio.h>
@@ -4294,7 +4285,7 @@
  #define get_sys_error(s) (s)
  
 --- mc-4.6.1a/edit/editdraw.c.utf8	2005-09-05 04:14:29.000000000 +0200
-+++ mc-4.6.1a/edit/editdraw.c	2005-11-13 16:31:59.000000000 +0100
++++ mc-4.6.1a/edit/editdraw.c	2005-11-16 14:03:46.000000000 +0100
 @@ -69,11 +69,16 @@ static void status_string (WEdit * edit,
       * as decimal and as hex.
       */
@@ -4514,17 +4505,20 @@
      print_to_widget (edit, row, start_col, start_col_real, end_col, line);
  }
 --- mc-4.6.1a/edit/edit.c.utf8	2005-09-07 10:54:11.000000000 +0200
-+++ mc-4.6.1a/edit/edit.c	2005-11-13 16:31:59.000000000 +0100
-@@ -103,7 +103,7 @@ char *option_backup_ext = NULL;
++++ mc-4.6.1a/edit/edit.c	2005-11-16 14:03:46.000000000 +0100
+@@ -103,7 +103,11 @@ char *option_backup_ext = NULL;
  static void edit_move_to_prev_col (WEdit *edit, long p);
  static void user_menu (WEdit *edit);
  
--int edit_get_byte (WEdit * edit, long byte_index)
++#ifndef UTF8
+ int edit_get_byte (WEdit * edit, long byte_index)
++#else
 +mc_wchar_t edit_get_byte (WEdit * edit, long byte_index)
++#endif
  {
      unsigned long p;
      if (byte_index >= (edit->curs1 + edit->curs2) || byte_index < 0)
-@@ -132,7 +132,7 @@ edit_init_buffers (WEdit *edit)
+@@ -132,7 +136,7 @@ edit_init_buffers (WEdit *edit)
  
      edit->curs1 = 0;
      edit->curs2 = 0;
@@ -4533,7 +4527,7 @@
  }
  
  /*
-@@ -157,7 +157,7 @@ edit_load_file_fast (WEdit *edit, const 
+@@ -157,7 +161,7 @@ edit_load_file_fast (WEdit *edit, const 
      }
  
      if (!edit->buffers2[buf2])
@@ -4542,7 +4536,7 @@
  
      mc_read (file,
  	     (char *) edit->buffers2[buf2] + EDIT_BUF_SIZE -
-@@ -167,7 +167,7 @@ edit_load_file_fast (WEdit *edit, const 
+@@ -167,7 +171,7 @@ edit_load_file_fast (WEdit *edit, const 
      for (buf = buf2 - 1; buf >= 0; buf--) {
  	/* edit->buffers2[0] is already allocated */
  	if (!edit->buffers2[buf])
@@ -4551,7 +4545,7 @@
  	mc_read (file, (char *) edit->buffers2[buf], EDIT_BUF_SIZE);
      }
  
-@@ -240,9 +240,44 @@ edit_insert_stream (WEdit * edit, FILE *
+@@ -240,9 +244,44 @@ edit_insert_stream (WEdit * edit, FILE *
  {
      int c;
      long i = 0;
@@ -4597,7 +4591,7 @@
      }
      return i;
  }
-@@ -250,9 +285,32 @@ edit_insert_stream (WEdit * edit, FILE *
+@@ -250,9 +289,32 @@ edit_insert_stream (WEdit * edit, FILE *
  long edit_write_stream (WEdit * edit, FILE * f)
  {
      long i;
@@ -4630,7 +4624,7 @@
      return i;
  }
  
-@@ -291,12 +349,46 @@ edit_insert_file (WEdit *edit, const cha
+@@ -291,12 +353,46 @@ edit_insert_file (WEdit *edit, const cha
  	int i, file, blocklen;
  	long current = edit->curs1;
  	unsigned char *buf;
@@ -4677,7 +4671,7 @@
  	}
  	edit_cursor_move (edit, current - edit->curs1);
  	g_free (buf);
-@@ -386,7 +478,11 @@ cleanup:
+@@ -386,7 +482,11 @@ cleanup:
  static int
  edit_load_file (WEdit *edit)
  {
@@ -4689,7 +4683,7 @@
  
      /* Cannot do fast load if a filter is used */
      if (edit_find_filter (edit->filename) >= 0)
-@@ -452,6 +548,7 @@ edit_load_position (WEdit *edit)
+@@ -452,6 +552,7 @@ edit_load_position (WEdit *edit)
      edit->prev_col = column;
      edit_move_to_prev_col (edit, edit_bol (edit, edit->curs1));
      edit_move_display (edit, line - (edit->num_widget_lines / 2));
@@ -4697,7 +4691,7 @@
  }
  
  /* Save cursor position in the file */
-@@ -534,7 +631,7 @@ edit_init (WEdit *edit, int lines, int c
+@@ -534,7 +635,7 @@ edit_init (WEdit *edit, int lines, int c
      edit_set_filename (edit, filename);
      edit->stack_size = START_STACK_SIZE;
      edit->stack_size_mask = START_STACK_SIZE - 1;
@@ -4706,7 +4700,7 @@
      if (edit_load_file (edit)) {
  	/* edit_load_file already gives an error message */
  	if (to_free)
-@@ -689,13 +786,23 @@ void edit_push_action (WEdit * edit, lon
+@@ -689,13 +790,23 @@ void edit_push_action (WEdit * edit, lon
  {
      unsigned long sp = edit->stack_pointer;
      unsigned long spm1;
@@ -4732,7 +4726,7 @@
  	    if (t) {
  		edit->undo_stack = t;
  		edit->stack_size <<= 1;
-@@ -710,7 +817,7 @@ void edit_push_action (WEdit * edit, lon
+@@ -710,7 +821,7 @@ void edit_push_action (WEdit * edit, lon
  #ifdef FAST_MOVE_CURSOR
      if (c == CURS_LEFT_LOTS || c == CURS_RIGHT_LOTS) {
  	va_list ap;
@@ -4741,7 +4735,7 @@
  	edit->stack_pointer = (edit->stack_pointer + 1) & edit->stack_size_mask;
  	va_start (ap, c);
  	c = -(va_arg (ap, int));
-@@ -721,12 +828,14 @@ void edit_push_action (WEdit * edit, lon
+@@ -721,12 +832,14 @@ void edit_push_action (WEdit * edit, lon
  	&& spm1 != edit->stack_bottom
  	&& ((sp - 2) & edit->stack_size_mask) != edit->stack_bottom) {
  	int d;
@@ -4761,7 +4755,7 @@
  		    return;
  		}
  	    }
-@@ -734,19 +843,20 @@ void edit_push_action (WEdit * edit, lon
+@@ -734,19 +847,20 @@ void edit_push_action (WEdit * edit, lon
  #ifndef NO_STACK_CURSMOVE_ANIHILATION
  	    else if ((c == CURS_LEFT && d == CURS_RIGHT)
  		     || (c == CURS_RIGHT && d == CURS_LEFT)) {	/* a left then a right anihilate each other */
@@ -4787,7 +4781,7 @@
  		goto check_bottom;
  	    }
  #ifndef NO_STACK_CURSMOVE_ANIHILATION
-@@ -758,7 +868,9 @@ void edit_push_action (WEdit * edit, lon
+@@ -758,7 +872,9 @@ void edit_push_action (WEdit * edit, lon
  #endif
  	}
      }
@@ -4798,7 +4792,7 @@
    check_bottom:
  
      edit->stack_pointer = (edit->stack_pointer + 1) & edit->stack_size_mask;
-@@ -771,10 +883,10 @@ void edit_push_action (WEdit * edit, lon
+@@ -771,10 +887,10 @@ void edit_push_action (WEdit * edit, lon
         (((unsigned long) c + 1) & edit->stack_size_mask) == edit->stack_bottom)
  	do {
  	    edit->stack_bottom = (edit->stack_bottom + 1) & edit->stack_size_mask;
@@ -4811,7 +4805,7 @@
  	edit->stack_bottom = edit->stack_pointer = 0;
  }
  
-@@ -783,30 +895,30 @@ void edit_push_action (WEdit * edit, lon
+@@ -783,30 +899,30 @@ void edit_push_action (WEdit * edit, lon
     then the file should be as it was when he loaded up. Then set edit->modified to 0.
   */
  static long
@@ -4853,7 +4847,7 @@
  }
  
  /* is called whenever a modification is made by one of the four routines below */
-@@ -827,7 +939,7 @@ static inline void edit_modification (WE
+@@ -827,7 +943,7 @@ static inline void edit_modification (WE
   */
  
  void
@@ -4862,7 +4856,7 @@
  {
      /* check if file has grown to large */
      if (edit->last_byte >= SIZE_LIMIT)
-@@ -865,12 +977,11 @@ edit_insert (WEdit *edit, int c)
+@@ -865,12 +981,11 @@ edit_insert (WEdit *edit, int c)
      /* add a new buffer if we've reached the end of the last one */
      if (!(edit->curs1 & M_EDIT_BUF_SIZE))
  	edit->buffers1[edit->curs1 >> S_EDIT_BUF_SIZE] =
@@ -4878,7 +4872,7 @@
  
      /* update file length */
      edit->last_byte++;
-@@ -881,7 +992,7 @@ edit_insert (WEdit *edit, int c)
+@@ -881,7 +996,7 @@ edit_insert (WEdit *edit, int c)
  
  
  /* same as edit_insert and move left */
@@ -4887,7 +4881,7 @@
  {
      if (edit->last_byte >= SIZE_LIMIT)
  	return;
-@@ -904,7 +1015,7 @@ void edit_insert_ahead (WEdit * edit, in
+@@ -904,7 +1019,7 @@ void edit_insert_ahead (WEdit * edit, in
      edit->last_get_rule += (edit->last_get_rule >= edit->curs1);
  
      if (!((edit->curs2 + 1) & M_EDIT_BUF_SIZE))
@@ -4896,7 +4890,7 @@
      edit->buffers2[edit->curs2 >> S_EDIT_BUF_SIZE][EDIT_BUF_SIZE - (edit->curs2 & M_EDIT_BUF_SIZE) - 1] = c;
  
      edit->last_byte++;
-@@ -914,7 +1025,7 @@ void edit_insert_ahead (WEdit * edit, in
+@@ -914,7 +1029,7 @@ void edit_insert_ahead (WEdit * edit, in
  
  int edit_delete (WEdit * edit)
  {
@@ -4905,7 +4899,7 @@
      if (!edit->curs2)
  	return 0;
  
-@@ -938,7 +1049,7 @@ int edit_delete (WEdit * edit)
+@@ -938,7 +1053,7 @@ int edit_delete (WEdit * edit)
  	edit->total_lines--;
  	edit->force |= REDRAW_AFTER_CURSOR;
      }
@@ -4914,7 +4908,7 @@
      if (edit->curs1 < edit->start_display) {
  	edit->start_display--;
  	if (p == '\n')
-@@ -952,7 +1063,7 @@ int edit_delete (WEdit * edit)
+@@ -952,7 +1067,7 @@ int edit_delete (WEdit * edit)
  static int
  edit_backspace (WEdit * edit)
  {
@@ -4923,7 +4917,7 @@
      if (!edit->curs1)
  	return 0;
  
-@@ -976,7 +1087,7 @@ edit_backspace (WEdit * edit)
+@@ -976,7 +1091,7 @@ edit_backspace (WEdit * edit)
  	edit->total_lines--;
  	edit->force |= REDRAW_AFTER_CURSOR;
      }
@@ -4932,7 +4926,7 @@
  
      if (edit->curs1 < edit->start_display) {
  	edit->start_display--;
-@@ -989,10 +1100,18 @@ edit_backspace (WEdit * edit)
+@@ -989,10 +1104,18 @@ edit_backspace (WEdit * edit)
  
  #ifdef FAST_MOVE_CURSOR
  
@@ -4952,7 +4946,7 @@
  	edit->curs_line--;
  	next -= (unsigned long) dest;
  	n -= next;
-@@ -1005,7 +1124,7 @@ int
+@@ -1005,7 +1128,7 @@ int
  edit_move_backward_lots (WEdit *edit, long increment)
  {
      int r, s, t;
@@ -4961,7 +4955,7 @@
  
      if (increment > edit->curs1)
  	increment = edit->curs1;
-@@ -1045,7 +1164,7 @@ edit_move_backward_lots (WEdit *edit, lo
+@@ -1045,7 +1168,7 @@ edit_move_backward_lots (WEdit *edit, lo
  	    edit->buffers2[edit->curs2 >> S_EDIT_BUF_SIZE] = p;
  	else
  	    edit->buffers2[edit->curs2 >> S_EDIT_BUF_SIZE] =
@@ -4970,7 +4964,7 @@
      } else {
  	g_free (p);
      }
-@@ -1083,7 +1202,7 @@ edit_move_backward_lots (WEdit *edit, lo
+@@ -1083,7 +1206,7 @@ edit_move_backward_lots (WEdit *edit, lo
  		edit->buffers2[edit->curs2 >> S_EDIT_BUF_SIZE] = p;
  	    else
  		edit->buffers2[edit->curs2 >> S_EDIT_BUF_SIZE] =
@@ -4979,7 +4973,7 @@
  	} else {
  	    g_free (p);
  	}
-@@ -1115,7 +1234,7 @@ int edit_cursor_move (WEdit * edit, long
+@@ -1115,7 +1238,7 @@ int edit_cursor_move (WEdit * edit, long
  
  	    c = edit_get_byte (edit, edit->curs1 - 1);
  	    if (!((edit->curs2 + 1) & M_EDIT_BUF_SIZE))
@@ -4988,7 +4982,7 @@
  	    edit->buffers2[edit->curs2 >> S_EDIT_BUF_SIZE][EDIT_BUF_SIZE - (edit->curs2 & M_EDIT_BUF_SIZE) - 1] = c;
  	    edit->curs2++;
  	    c = edit->buffers1[(edit->curs1 - 1) >> S_EDIT_BUF_SIZE][(edit->curs1 - 1) & M_EDIT_BUF_SIZE];
-@@ -1140,7 +1259,7 @@ int edit_cursor_move (WEdit * edit, long
+@@ -1140,7 +1263,7 @@ int edit_cursor_move (WEdit * edit, long
  
  	    c = edit_get_byte (edit, edit->curs1);
  	    if (!(edit->curs1 & M_EDIT_BUF_SIZE))
@@ -4997,7 +4991,7 @@
  	    edit->buffers1[edit->curs1 >> S_EDIT_BUF_SIZE][edit->curs1 & M_EDIT_BUF_SIZE] = c;
  	    edit->curs1++;
  	    c = edit->buffers2[(edit->curs2 - 1) >> S_EDIT_BUF_SIZE][EDIT_BUF_SIZE - ((edit->curs2 - 1) & M_EDIT_BUF_SIZE) - 1];
-@@ -1247,7 +1366,7 @@ long edit_move_forward3 (WEdit * edit, l
+@@ -1247,7 +1370,7 @@ long edit_move_forward3 (WEdit * edit, l
  	q = edit->last_byte + 2;
  
      for (col = 0, p = current; p < q; p++) {
@@ -5006,7 +5000,7 @@
  	if (cols != -10) {
  	    if (col == cols)
  		return p;
-@@ -1265,7 +1384,7 @@ long edit_move_forward3 (WEdit * edit, l
+@@ -1265,7 +1388,7 @@ long edit_move_forward3 (WEdit * edit, l
  	} else if (c < 32 || c == 127)
  	    col += 2; /* Caret notation for control characters */
  	else
@@ -5015,7 +5009,7 @@
      }
      return col;
  }
-@@ -1398,7 +1517,7 @@ static int
+@@ -1398,7 +1521,7 @@ static int
  is_blank (WEdit *edit, long offset)
  {
      long s, f;
@@ -5024,7 +5018,7 @@
      s = edit_bol (edit, offset);
      f = edit_eol (edit, offset) - 1;
      while (s <= f) {
-@@ -1770,13 +1889,13 @@ static void edit_left_delete_word (WEdit
+@@ -1770,13 +1893,13 @@ static void edit_left_delete_word (WEdit
  static void
  edit_do_undo (WEdit * edit)
  {
@@ -5041,7 +5035,7 @@
  	case STACK_BOTTOM:
  	    goto done_undo;
  	case CURS_RIGHT:
-@@ -1797,31 +1916,33 @@ edit_do_undo (WEdit * edit)
+@@ -1797,31 +1920,33 @@ edit_do_undo (WEdit * edit)
  	case COLUMN_OFF:
  	    column_highlighting = 0;
  	    break;
@@ -5088,7 +5082,7 @@
      edit_update_curs_row (edit);
  
    done_undo:;
-@@ -2098,7 +2219,7 @@ static void edit_goto_matching_bracket (
+@@ -2098,7 +2223,7 @@ static void edit_goto_matching_bracket (
   * passed as -1.  Commands are executed, and char_for_insertion is
   * inserted at the cursor.
   */
@@ -5097,7 +5091,7 @@
  {
      if (command == CK_Begin_Record_Macro) {
  	edit->macro_i = 0;
-@@ -2133,7 +2254,7 @@ static const char * const shell_cmd[] = 
+@@ -2133,7 +2258,7 @@ static const char * const shell_cmd[] = 
     all of them. It also does not check for the Undo command.
   */
  void
@@ -5106,7 +5100,7 @@
  {
      edit->force |= REDRAW_LINE;
  
-@@ -2166,7 +2287,7 @@ edit_execute_cmd (WEdit *edit, int comma
+@@ -2166,7 +2291,7 @@ edit_execute_cmd (WEdit *edit, int comma
      }
  
      /* An ordinary key press */
@@ -5115,59 +5109,3 @@
  	if (edit->overwrite) {
  	    if (edit_get_byte (edit, edit->curs1) != '\n')
  		edit_delete (edit);
---- mc-4.6.1a/src/help.c.utf8	2005-11-12 17:46:32.000000000 +0100
-+++ mc-4.6.1a/src/help.c	2005-11-12 17:52:11.000000000 +0100
-@@ -449,7 +449,7 @@ static void help_show (Dlg_head *h, cons
- #ifndef HAVE_SLANG
- 			addch (acs_map [c]);
- #else
--#ifdef UTF8
-+#if defined(UTF8) && SLANG_VERSION < 20000
- 			SLsmg_draw_object (h->y + line + 2, h->x + col + 2, acs_map [c]);
- #else
- 			SLsmg_draw_object (h->y + line + 2, h->x + col + 2, c);
---- mc-4.6.1a/src/myslang.h.utf8	2005-11-12 17:46:32.000000000 +0100
-+++ mc-4.6.1a/src/myslang.h	2005-11-12 18:09:27.000000000 +0100
-@@ -11,6 +11,12 @@
- #endif	/* HAVE_SLANG_SLANG_H */
- #endif
- 
-+#if SLANG_VERSION >= 20000
-+#define UTF8 1
-+#define SLsmg_Is_Unicode SLsmg_is_utf8_mode()
-+void SLsmg_write_nwchars(wchar_t *s, size_t n);
-+#endif
-+
- #ifdef UTF8
- #    include <wchar.h>
- #endif
---- mc-4.6.1a/src/slint.c.utf8	2005-09-05 04:14:29.000000000 +0200
-+++ mc-4.6.1a/src/slint.c	2005-11-12 17:49:21.000000000 +0100
-@@ -141,7 +141,9 @@ void
- slang_init (void)
- {
-     SLtt_get_terminfo ();
--
-+#if SLANG_VERSION >= 20000
-+    SLutf8_enable (-1);
-+#endif
-    /*
-     * If the terminal in not in terminfo but begins with a well-known
-     * string such as "linux" or "xterm" S-Lang will go on, but the
---- mc-4.6.1a/src/util.c.utf8	2005-11-12 17:46:32.000000000 +0100
-+++ mc-4.6.1a/src/util.c	2005-11-12 17:55:17.000000000 +0100
-@@ -56,6 +56,14 @@
- static const char app_text [] = "Midnight-Commander";
- int easy_patterns = 1;
- 
-+#if SLANG_VERSION >= 20000
-+void SLsmg_write_nwchars(wchar_t *s, size_t n)
-+{
-+    while(n--)
-+	SLsmg_write_char(*s++);
-+}
-+#endif
-+
- extern void str_replace(char *s, char from, char to)
- {
-     for (; *s != '\0'; s++) {
