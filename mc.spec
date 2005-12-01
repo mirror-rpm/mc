@@ -1,14 +1,14 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	0.23
+Release:	4
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
 Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.bz2
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
-BuildRequires:	glib2-devel, e2fsprogs-devel
+BuildRequires:	glib2-devel e2fsprogs-devel slang-devel
 Requires:	dev >= 0:3.3-3
 
 Patch0:		mc-utf8.patch
@@ -18,8 +18,8 @@ Patch3:		mc-uglydir.patch
 Patch4:		mc-fish-upload.patch
 Patch5:		mc-userhost.patch
 Patch6:		mc-64bit.patch
-Patch7:		mc-specsyntax.patch
-Patch8:		mc-utf8-look-and-feel.patch
+Patch7:		mc-utf8-look-and-feel.patch
+Patch8:		mc-gpmfix.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -38,8 +38,8 @@ specific files.
 %patch4 -p1 -b .fish-upload
 %patch5 -p1 -b .userhost
 %patch6 -p1 -b .64bit
-%patch7 -p1 -b .specsyntax
-%patch8 -p1 -b .laf
+%patch7 -p1 -b .laf
+%patch8 -p1 -b .gpmfix
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -102,7 +102,7 @@ popd
 
 %build
 export CFLAGS="-DUTF8=1 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
-%configure --with-screen=mcslang \
+%configure --with-screen=slang \
 	     --host=%{_host} --build=%{_build} \
 	     --target=%{_target_platform} \
 	     --program-prefix=%{?_program_prefix} \
@@ -121,8 +121,7 @@ export CFLAGS="-DUTF8=1 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAG
 	     --infodir=%{_infodir} \
 	     --enable-charset \
 	     --with-samba \
-	     --without-x \
-	     --without-gpm-mouse
+	     --without-x
 make %{?_smp_mflags}
 
 %install 
@@ -177,6 +176,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Fri Dec  1 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-4
+- don't segfault when LANG is not set, thanks to Andy Shevchenko (#174070)
+- drop specsyntax patch, applied upstream
+- re-enable gpm support on compile time, but disable gpm in wrapper scripts
+  to allow users to run mc with gpm support without need to recompile mc (#163078)
+- sync NVRE with Fedoras
+- depend on external slang [now updated to 2.0.5] (#174662)
+
 * Wed Nov 16 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.23
 - update from CVS to fix the usage of glibc private symbols
 - don't try to display UTF8ized characters in hex viewing mode

@@ -1,5 +1,5 @@
---- mc-4.6.1a/src/main.c.laf	2005-11-13 17:08:54.000000000 +0100
-+++ mc-4.6.1a/src/main.c	2005-11-14 15:08:43.000000000 +0100
+--- mc-4.6.1a/src/main.c.laf	2005-11-24 16:55:06.000000000 +0100
++++ mc-4.6.1a/src/main.c	2005-11-24 16:56:27.000000000 +0100
 @@ -270,6 +270,9 @@ int midnight_shutdown = 0;
  /* The user's shell */
  const char *shell = NULL;
@@ -10,13 +10,16 @@
  /* The xterm title */
  char *xterm_title_str = NULL;
  
-@@ -2167,6 +2170,13 @@ main (int argc, char *argv[])
+@@ -2167,6 +2170,16 @@ main (int argc, char *argv[])
      /* if on, it displays the information that files have been moved to ~/.mc */
      int show_change_notice = 0;
  
 +    /* Check whether we have UTF-8 locale */
 +    char *lang = getenv("LANG");
-+    size_t len = strlen(lang);
++    size_t len = 0;
++    
++    if ( lang )
++    	len = strlen(lang);
 +    
 +    if ( len >= 5 && !strcasecmp(&lang[len-5],"UTF-8") )
 +	is_utf8 = TRUE;
@@ -24,8 +27,8 @@
      /* We had LC_CTYPE before, LC_ALL includs LC_TYPE as well */
      setlocale (LC_ALL, "");
      bindtextdomain ("mc", LOCALEDIR);
---- mc-4.6.1a/src/main.h.laf	2005-11-13 17:08:54.000000000 +0100
-+++ mc-4.6.1a/src/main.h	2005-11-14 15:18:21.000000000 +0100
+--- mc-4.6.1a/src/main.h.laf	2005-11-24 16:55:06.000000000 +0100
++++ mc-4.6.1a/src/main.h	2005-11-24 16:55:06.000000000 +0100
 @@ -67,6 +67,7 @@ extern int alternate_plus_minus;
  extern int only_leading_plus_minus;
  extern int output_starts_shell;
@@ -34,8 +37,8 @@
  extern char *xterm_title_str;
  extern char cmd_buf [512];
  extern const char *shell;
---- mc-4.6.1a/src/widget.c.laf	2005-11-13 17:08:54.000000000 +0100
-+++ mc-4.6.1a/src/widget.c	2005-11-14 15:22:00.000000000 +0100
+--- mc-4.6.1a/src/widget.c.laf	2005-11-24 16:55:06.000000000 +0100
++++ mc-4.6.1a/src/widget.c	2005-11-24 16:55:06.000000000 +0100
 @@ -1948,52 +1948,86 @@ input_new (int y, int x, int color, int 
      return in;
  }
@@ -165,8 +168,8 @@
  }
  
  /* Returns the number of items between s and e,
---- mc-4.6.1a/src/screen.c.laf	2005-11-13 17:08:54.000000000 +0100
-+++ mc-4.6.1a/src/screen.c	2005-11-13 17:08:54.000000000 +0100
+--- mc-4.6.1a/src/screen.c.laf	2005-11-24 16:55:06.000000000 +0100
++++ mc-4.6.1a/src/screen.c	2005-11-24 16:55:06.000000000 +0100
 @@ -888,6 +888,9 @@ show_dir (WPanel *panel)
      }
  #endif				/* HAVE_SLANG */
@@ -186,8 +189,8 @@
  					      ? 1
  					      : (panel->split+1))) - (!isstatus && panel->split);
  
---- mc-4.6.1a/src/widget.h.laf	2005-11-13 17:08:54.000000000 +0100
-+++ mc-4.6.1a/src/widget.h	2005-11-13 17:08:54.000000000 +0100
+--- mc-4.6.1a/src/widget.h.laf	2005-11-24 16:55:06.000000000 +0100
++++ mc-4.6.1a/src/widget.h	2005-11-24 16:55:06.000000000 +0100
 @@ -170,6 +170,10 @@ void button_set_text (WButton *b, const 
  /* Listbox manager */
  WLEntry *listbox_get_data (WListbox *l, int pos);
