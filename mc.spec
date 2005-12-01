@@ -19,7 +19,6 @@ Patch4:		mc-fish-upload.patch
 Patch5:		mc-userhost.patch
 Patch6:		mc-64bit.patch
 Patch7:		mc-utf8-look-and-feel.patch
-Patch8:		mc-gpmfix.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -39,7 +38,6 @@ specific files.
 %patch5 -p1 -b .userhost
 %patch6 -p1 -b .64bit
 %patch7 -p1 -b .laf
-%patch8 -p1 -b .gpmfix
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -121,7 +119,8 @@ export CFLAGS="-DUTF8=1 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAG
 	     --infodir=%{_infodir} \
 	     --enable-charset \
 	     --with-samba \
-	     --without-x
+	     --without-x \
+	     --without-gpm-mouse
 make %{?_smp_mflags}
 
 %install 
@@ -179,8 +178,6 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Dec  1 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-4
 - don't segfault when LANG is not set, thanks to Andy Shevchenko (#174070)
 - drop specsyntax patch, applied upstream
-- re-enable gpm support on compile time, but disable gpm in wrapper scripts
-  to allow users to run mc with gpm support without need to recompile mc (#163078)
 - sync NVRE with Fedoras
 - depend on external slang [now updated to 2.0.5] (#174662)
 
