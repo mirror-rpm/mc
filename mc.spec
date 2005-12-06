@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	4
+Release:	5
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -19,6 +19,9 @@ Patch4:		mc-fish-upload.patch
 Patch5:		mc-userhost.patch
 Patch6:		mc-64bit.patch
 Patch7:		mc-utf8-look-and-feel.patch
+Patch8:         mc-phpfix.patch
+Patch9:         mc-concat.patch
+Patch10:        mc-ministatus.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -38,6 +41,9 @@ specific files.
 %patch5 -p1 -b .userhost
 %patch6 -p1 -b .64bit
 %patch7 -p1 -b .laf
+%patch8 -p1 -b .phpfix
+%patch9 -p1 -b .concat
+%patch10 -p1 -b .ministatus
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -175,6 +181,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Tue Dec  6 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-5
+- correctly concatenate directory and file in concat_dir_and_file()
+- highlight PHP files correctly (#174802)
+- use evince instead of gv to view ps files
+- align mini status bar with main panels
+
 * Fri Dec  1 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-4
 - don't segfault when LANG is not set, thanks to Andy Shevchenko (#174070)
 - drop specsyntax patch, applied upstream
