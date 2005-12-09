@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	5
+Release: 5.1
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -181,6 +181,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
+- rebuilt
+
 * Tue Dec  6 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-5
 - correctly concatenate directory and file in concat_dir_and_file()
 - highlight PHP files correctly (#174802)
