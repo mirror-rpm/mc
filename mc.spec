@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release: 5.1
+Release:	6
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -22,6 +22,7 @@ Patch7:		mc-utf8-look-and-feel.patch
 Patch8:         mc-phpfix.patch
 Patch9:         mc-concat.patch
 Patch10:        mc-ministatus.patch
+Patch11:	mc-showfree.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -44,6 +45,7 @@ specific files.
 %patch8 -p1 -b .phpfix
 %patch9 -p1 -b .concat
 %patch10 -p1 -b .ministatus
+%patch11 -p1 -b .showfree
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -181,6 +183,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Wed Dec 28 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-6
+- display free space on a device assigned to current directory in
+  main panels
+- correctly diplay characters in mcview for non-UTF-8 LANG set (#174004)
+  thanks to Dmitry Butskoy
+    
 * Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
 - rebuilt
 

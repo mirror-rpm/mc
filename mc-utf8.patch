@@ -674,7 +674,7 @@
  	    tty_print_char (c);
 +#else
 +	    wc = convert_to_display_c (wc);
-+	    if (!is_printable (wc))
++	    if (!iswprint (wc))
 +		wc = '.';
 +	    tty_print_char (wc);
 +#endif

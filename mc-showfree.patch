@@ -1,0 +1,64 @@
+--- mc-4.6.1a/src/screen.c.showfree	2005-12-27 10:45:05.000000000 +0100
++++ mc-4.6.1a/src/screen.c	2005-12-27 12:52:58.000000000 +0100
+@@ -49,6 +49,7 @@
+ #define WANT_WIDGETS
+ #include "main.h"		/* the_menubar */
+ #include "unixcompat.h"
++#include "mountlist.h"		/* my_statfs */
+ 
+ #define ELEMENTS(arr) ( sizeof(arr) / sizeof((arr)[0]) )
+ 
+@@ -851,6 +852,9 @@ paint_dir (WPanel *panel)
+     standend ();
+ }
+ 
++static int initialized;
++static struct my_statfs myfs_stats;
++
+ static void
+ mini_info_separator (WPanel *panel)
+ {
+@@ -866,6 +870,34 @@ mini_info_separator (WPanel *panel)
+     hline ((slow_terminal ? '-' : ACS_HLINE) | NORMAL_COLOR,
+ 	   panel->widget.cols - 2);
+ #endif				/* !HAVE_SLANG */
++
++
++    {
++	struct stat st;
++	
++	if (!initialized) {
++	    initialized = 1;
++	    init_my_statfs();
++	}
++	
++	my_statfs (&myfs_stats, current_panel->cwd);
++	st = current_panel->dir.list [current_panel->selected].st;
++	
++        if (myfs_stats.avail > 0 || myfs_stats.total > 0) {
++	    char buffer1 [6], buffer2[6], *tmp;
++	    size_trunc_len (buffer1, 5, myfs_stats.avail, 1);
++	    size_trunc_len (buffer2, 5, myfs_stats.total, 1);
++	    tmp = g_strdup_printf (_("%s (%d%%) of %s"), buffer1, myfs_stats.total ?
++			(int)(100 * (double)myfs_stats.avail / myfs_stats.total) : 0,
++			buffer2);
++	    widget_move (&panel->widget, panel->widget.lines-3, panel->widget.cols-2-strlen(tmp));
++	    if (panel->active)
++	    attrset (REVERSE_COLOR);
++	    addstr (tmp);
++	    attrset (NORMAL_COLOR);
++	    g_free (tmp);
++	}
++    }
+ }
+ 
+ static void
+@@ -929,6 +961,8 @@ show_dir (WPanel *panel)
+     widget_move (&panel->widget, 0, panel->widget.cols - 3);
+     addstr ("v");
+ 
++    mini_info_separator (panel);
++
+     if (panel->active)
+ 	standend ();
+ }
