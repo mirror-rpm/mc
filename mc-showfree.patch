@@ -1,5 +1,5 @@
---- mc-4.6.1a/src/screen.c.showfree	2005-12-27 10:45:05.000000000 +0100
-+++ mc-4.6.1a/src/screen.c	2005-12-27 12:52:58.000000000 +0100
+--- mc-4.6.1a/src/screen.c.showfree	2005-12-28 16:49:52.000000000 +0100
++++ mc-4.6.1a/src/screen.c	2005-12-28 17:14:45.000000000 +0100
 @@ -49,6 +49,7 @@
  #define WANT_WIDGETS
  #include "main.h"		/* the_menubar */
@@ -8,52 +8,70 @@
  
  #define ELEMENTS(arr) ( sizeof(arr) / sizeof((arr)[0]) )
  
-@@ -851,6 +852,9 @@ paint_dir (WPanel *panel)
+@@ -106,6 +107,12 @@ int filetype_mode = 1;
+ /* The hook list for the select file function */
+ Hook *select_file_hook = 0;
+ 
++/* Old current working directory for displaying free space */
++char *old_cwd = NULL;
++
++/* Used to figure out how many free space we have */
++struct my_statfs myfs_stats;
++
+ static cb_ret_t panel_callback (Widget *, widget_msg_t msg, int parm);
+ static int panel_event (Gpm_Event *event, void *);
+ static void paint_frame (WPanel *panel);
+@@ -851,6 +858,41 @@ paint_dir (WPanel *panel)
      standend ();
  }
  
-+static int initialized;
-+static struct my_statfs myfs_stats;
++
++static void
++show_free_space(WPanel *panel)
++{
++    struct stat st;
++
++    /* Don't try to stat non-local fs */
++    if (strlen(panel->cwd) >= 2 && panel->cwd[0] == '/' && panel->cwd[1] == '#')
++	return;
++
++    if (old_cwd == NULL || strcmp(old_cwd, panel->cwd)) {
++	init_my_statfs();
++	if (old_cwd != NULL) g_free(old_cwd);
++	old_cwd = g_strdup(panel->cwd);
++    }
++
++    my_statfs (&myfs_stats, panel->cwd);
++    st = panel->dir.list [panel->selected].st;
++	
++    if (myfs_stats.avail > 0 || myfs_stats.total > 0) {
++	char buffer1 [6], buffer2[6], *tmp;
++	size_trunc_len (buffer1, 5, myfs_stats.avail, 1);
++	size_trunc_len (buffer2, 5, myfs_stats.total, 1);
++	tmp = g_strdup_printf (_("%s (%d%%) of %s"), buffer1, myfs_stats.total ?
++			       (int)(100 * (double)myfs_stats.avail / myfs_stats.total) : 0,
++			       buffer2);
++	widget_move (&panel->widget, panel->widget.lines-3, panel->widget.cols-2-strlen(tmp));
++	if (panel->active)
++	    attrset (REVERSE_COLOR);
++	addstr (tmp);
++	attrset (NORMAL_COLOR);
++	g_free (tmp);
++    }
++}
 +
  static void
  mini_info_separator (WPanel *panel)
  {
-@@ -866,6 +870,34 @@ mini_info_separator (WPanel *panel)
+@@ -866,6 +908,7 @@ mini_info_separator (WPanel *panel)
      hline ((slow_terminal ? '-' : ACS_HLINE) | NORMAL_COLOR,
  	   panel->widget.cols - 2);
  #endif				/* !HAVE_SLANG */
-+
-+
-+    {
-+	struct stat st;
-+	
-+	if (!initialized) {
-+	    initialized = 1;
-+	    init_my_statfs();
-+	}
-+	
-+	my_statfs (&myfs_stats, current_panel->cwd);
-+	st = current_panel->dir.list [current_panel->selected].st;
-+	
-+        if (myfs_stats.avail > 0 || myfs_stats.total > 0) {
-+	    char buffer1 [6], buffer2[6], *tmp;
-+	    size_trunc_len (buffer1, 5, myfs_stats.avail, 1);
-+	    size_trunc_len (buffer2, 5, myfs_stats.total, 1);
-+	    tmp = g_strdup_printf (_("%s (%d%%) of %s"), buffer1, myfs_stats.total ?
-+			(int)(100 * (double)myfs_stats.avail / myfs_stats.total) : 0,
-+			buffer2);
-+	    widget_move (&panel->widget, panel->widget.lines-3, panel->widget.cols-2-strlen(tmp));
-+	    if (panel->active)
-+	    attrset (REVERSE_COLOR);
-+	    addstr (tmp);
-+	    attrset (NORMAL_COLOR);
-+	    g_free (tmp);
-+	}
-+    }
++    show_free_space (panel);
  }
  
  static void
-@@ -929,6 +961,8 @@ show_dir (WPanel *panel)
+@@ -929,6 +972,8 @@ show_dir (WPanel *panel)
      widget_move (&panel->widget, 0, panel->widget.cols - 3);
      addstr ("v");
  
