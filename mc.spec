@@ -186,7 +186,7 @@ rm -rf $RPM_BUILD_ROOT
 * Wed Dec 28 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-6
 - display free space on a device assigned to current directory in
   main panels
-- correctly diplay characters in mcview for non-UTF-8 LANG set (#174004)
+- correctly diplay characters in mcview for non-UTF-8 LANG set (#174007)
   thanks to Dmitry Butskoy
     
 * Fri Dec 09 2005 Jesse Keating <jkeating@redhat.com>
