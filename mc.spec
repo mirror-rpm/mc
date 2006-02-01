@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	6
+Release:	7
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -19,10 +19,11 @@ Patch4:		mc-fish-upload.patch
 Patch5:		mc-userhost.patch
 Patch6:		mc-64bit.patch
 Patch7:		mc-utf8-look-and-feel.patch
-Patch8:         mc-phpfix.patch
-Patch9:         mc-concat.patch
-Patch10:        mc-ministatus.patch
-Patch11:	mc-showfree.patch
+Patch8:		mc-concat.patch
+Patch9:		mc-showfree.patch
+Patch10:	mc-cedit.patch
+Patch11:	mc-delcheck.patch
+Patch12:	mc-bracket.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -42,10 +43,11 @@ specific files.
 %patch5 -p1 -b .userhost
 %patch6 -p1 -b .64bit
 %patch7 -p1 -b .laf
-%patch8 -p1 -b .phpfix
-%patch9 -p1 -b .concat
-%patch10 -p1 -b .ministatus
-%patch11 -p1 -b .showfree
+%patch8 -p1 -b .concat
+%patch9 -p1 -b .showfree
+%patch10 -p1 -b .cedit
+%patch11 -p1 -b .delcheck
+%patch12 -p1 -b .bracket
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -170,7 +172,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/mcmfmt
 %{_bindir}/mcview
 %{_datadir}/mc/*
-%attr(4711, vcsa, root) %{_libdir}/mc/cons.saver
+%attr(4711, vcsa, root) %{_libexecdir}/mc/cons.saver
 %{_mandir}/man1/*
 %lang(es) %{_mandir}/es/man1/mc.1.gz
 %lang(hu) %{_mandir}/hu/man1/mc.1.gz
@@ -179,10 +181,20 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ru) %{_mandir}/ru/man1/mc.1.gz
 %lang(sr) %{_mandir}/sr/man1/mc.1.gz
 %config %{_sysconfdir}/profile.d/*
-%dir %{_libdir}/mc
 %dir %{_datadir}/mc
 
 %changelog
+* Wed Feb  1 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-7
+- update from CVS - fixes syntax file for PHP
+- make displaying of free space configurable
+- fix permission highlighting (#177100)
+- redirect stdout and stderr of several apps run on background
+  to /dev/null to not to mess up mc interface (#178833)
+- refresh directories to avoid errors caused by copying
+  files to non-existent directories (#177111)
+- add an option to insert changelog entry in mcedit,
+  thanks to Radek Vokal
+
 * Wed Dec 28 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-6
 - display free space on a device assigned to current directory in
   main panels

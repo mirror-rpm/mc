@@ -121,14 +121,14 @@
  # Postscript
  type/^PostScript
 -	Open=(gv %f &)
-+	Open=(evince %f &)
++	Open=(evince %f >/dev/null 2>&1 &)
  	View=%view{ascii} ps2ascii %f
  
  # PDF
  type/^PDF
 -	Open=(xpdf %f &)
-+	Open=(evince %f &)
-+	#Open=(xpdf %f &)
++	Open=(evince %f >/dev/null 2>&1 &)
++	#Open=(xpdf %f >/dev/null 2>&1 &)
  	#Open=(acroread %f &)
  	#Open=(ghostview %f &)
  	View=%view{ascii} pdftotext %f -
