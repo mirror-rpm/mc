@@ -23,7 +23,6 @@ Patch8:		mc-concat.patch
 Patch9:		mc-showfree.patch
 Patch10:	mc-cedit.patch
 Patch11:	mc-delcheck.patch
-Patch12:	mc-bracket.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -47,7 +46,6 @@ specific files.
 %patch9 -p1 -b .showfree
 %patch10 -p1 -b .cedit
 %patch11 -p1 -b .delcheck
-%patch12 -p1 -b .bracket
 
 # convert files in /lib to UTF-8
 pushd lib
