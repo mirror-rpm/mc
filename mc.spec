@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	7
+Release:	7.1
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -182,6 +182,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 
 %changelog
+* Tue Feb 07 2006 Jesse Keating <jkeating@redhat.com> - 1:4.6.1a-7.1
+- rebuilt for new gcc4.1 snapshot and glibc changes
+
 * Wed Feb  1 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-7
 - update from CVS - fixes syntax file for PHP
 - make displaying of free space configurable
