@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	7.2
+Release:	8
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -23,6 +23,7 @@ Patch8:		mc-concat.patch
 Patch9:		mc-showfree.patch
 Patch10:	mc-cedit.patch
 Patch11:	mc-delcheck.patch
+Patch12:	mc-etcmc.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -46,6 +47,7 @@ specific files.
 %patch9 -p1 -b .showfree
 %patch10 -p1 -b .cedit
 %patch11 -p1 -b .delcheck
+%patch12 -p1 -b .etcmc
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -133,14 +135,18 @@ make %{?_smp_mflags}
 
 %install 
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
+install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
+install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/mc
+install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/mc/extfs
 
 %{makeinstall} sysconfdir=$RPM_BUILD_ROOT%{_sysconfdir}
 
 install lib/{mc.sh,mc.csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 
-# install charsets, bug #76486
-install -m 644 lib/mc.charsets $RPM_BUILD_ROOT%{_datadir}/mc
+# move configuration files to /etc/mc to make it FHS compliant (#2188)
+mv -f $RPM_BUILD_ROOT%{_datadir}/mc/{cedit.menu,edit.indent.rc,edit.spell.rc,\
+mc.ext,mc.lib,mc.menu,mc.charsets} $RPM_BUILD_ROOT%{_sysconfdir}/mc
+mv -f $RPM_BUILD_ROOT%{_datadir}/mc/extfs/*.ini $RPM_BUILD_ROOT%{_sysconfdir}/mc/extfs
 
 # install man pages in various languages
 for l in es hu it pl ru sr; do
@@ -179,9 +185,17 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ru) %{_mandir}/ru/man1/mc.1.gz
 %lang(sr) %{_mandir}/sr/man1/mc.1.gz
 %config %{_sysconfdir}/profile.d/*
+%config %{_sysconfdir}/mc/*
 %dir %{_datadir}/mc
+%dir %{_sysconfdir}/mc
 
 %changelog
+* Sat Feb 25 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-8
+- make mc FHS compliant: store config files in /etc/mc and
+  extfs/*.ini files in /etc/mc/extfs instead of /usr/share/mc
+  (#2188) - the oldest open Red Hat bug is now gone ;)
+- fix warnings
+
 * Fri Feb 10 2006 Jesse Keating <jkeating@redhat.com> - 1:4.6.1a-7.2
 - bump again for double-long bug on ppc(64)
 

@@ -810,7 +810,7 @@
 +#else
 +    char     buffer[BUF_MEDIUM];
 +#endif
-+    int txtwidth;
++    int txtwidth = 0;
  
      length     = 0;
      empty_line = (file_index >= panel->count);
@@ -2462,7 +2462,7 @@
  {
      size_t j, k, l, len;
 -    const char *fnsource = x_basename (source);
-+    const char *fnsource = g_strdup (x_basename (source));
++    char *fnsource = g_strdup (x_basename (source));
      int next_reg;
      enum CaseConvs case_conv = NO_CONV;
      static char fntarget[MC_MAXPATHLEN];
