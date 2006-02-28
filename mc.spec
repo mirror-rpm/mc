@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	8
+Release:	9
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -109,6 +109,7 @@ done
 popd
 
 %build
+export CC="ccache gcc"
 export CFLAGS="-DUTF8=1 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
 %configure --with-screen=slang \
 	     --host=%{_host} --build=%{_build} \
@@ -138,6 +139,7 @@ rm -rf $RPM_BUILD_ROOT
 install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/mc
 install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/mc/extfs
+install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/mc/syntax
 
 %{makeinstall} sysconfdir=$RPM_BUILD_ROOT%{_sysconfdir}
 
@@ -147,6 +149,7 @@ install lib/{mc.sh,mc.csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 mv -f $RPM_BUILD_ROOT%{_datadir}/mc/{cedit.menu,edit.indent.rc,edit.spell.rc,\
 mc.ext,mc.lib,mc.menu,mc.charsets} $RPM_BUILD_ROOT%{_sysconfdir}/mc
 mv -f $RPM_BUILD_ROOT%{_datadir}/mc/extfs/*.ini $RPM_BUILD_ROOT%{_sysconfdir}/mc/extfs
+mv -f $RPM_BUILD_ROOT%{_datadir}/mc/syntax/Syntax $RPM_BUILD_ROOT%{_sysconfdir}/mc/syntax
 
 # install man pages in various languages
 for l in es hu it pl ru sr; do
@@ -190,6 +193,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Tue Feb 28 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-9
+- fix hotkey conflict in Layout options (#183282)
+- move syntax configuration file from /usr/share/mc to /etc/mc
+- save layout settings pernamently for showing free space, not
+  only for current session (#182127)
+- fix audio bindings, make firefox default html binding
+
 * Sat Feb 25 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-8
 - make mc FHS compliant: store config files in /etc/mc and
   extfs/*.ini files in /etc/mc/extfs instead of /usr/share/mc

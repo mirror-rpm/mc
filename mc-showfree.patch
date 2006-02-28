@@ -1,5 +1,15 @@
---- mc-4.6.1a/src/screen.c.showfree	2006-02-01 15:47:58.000000000 +0100
-+++ mc-4.6.1a/src/screen.c	2006-02-01 15:47:58.000000000 +0100
+--- mc-4.6.1a/src/setup.c.showfree	2006-01-29 21:26:05.000000000 +0100
++++ mc-4.6.1a/src/setup.c	2006-02-28 11:43:49.000000000 +0100
+@@ -133,6 +133,7 @@ static const struct {
+     { "show_mini_info", &show_mini_info },
+     { "permission_mode", &permission_mode },
+     { "filetype_mode", &filetype_mode },
++    { "free_space", &free_space },
+     { 0, 0 }
+ };
+ 
+--- mc-4.6.1a/src/screen.c.showfree	2006-02-28 11:42:47.000000000 +0100
++++ mc-4.6.1a/src/screen.c	2006-02-28 11:42:48.000000000 +0100
 @@ -49,6 +49,7 @@
  #define WANT_WIDGETS
  #include "main.h"		/* the_menubar */
@@ -80,8 +90,8 @@
      if (panel->active)
  	standend ();
  }
---- mc-4.6.1a/src/layout.c.showfree	2006-02-01 15:47:58.000000000 +0100
-+++ mc-4.6.1a/src/layout.c	2006-02-01 15:48:27.000000000 +0100
+--- mc-4.6.1a/src/layout.c.showfree	2006-02-28 11:42:47.000000000 +0100
++++ mc-4.6.1a/src/layout.c	2006-02-28 11:42:48.000000000 +0100
 @@ -99,6 +99,9 @@ int message_visible = 1;
  /* Set to show current working dir in xterm window title */
  int xterm_title = 1;
@@ -104,7 +114,7 @@
      int    *variable;
      WCheck *widget;
  } check_options [] = {
-+    { N_("show free &Space"),  &free_space,      0 },
++    { N_("show free sp&Ace"),  &free_space,      0 },
      { N_("&Xterm window title"), &xterm_title,   0 },
      { N_("h&Intbar visible"),  &message_visible, 0 },
      { N_("&Keybar visible"),   &keybar_visible,  0 },
@@ -218,7 +228,7 @@
      add_widget (layout_dlg, radio_widget);
      radio_widget->sel = horizontal_split;
 --- mc-4.6.1a/src/layout.h.showfree	2004-12-03 20:17:47.000000000 +0100
-+++ mc-4.6.1a/src/layout.h	2006-02-01 15:47:58.000000000 +0100
++++ mc-4.6.1a/src/layout.h	2006-02-28 11:42:48.000000000 +0100
 @@ -39,6 +39,7 @@ extern int keybar_visible;
  extern int output_start_y;
  extern int message_visible;
