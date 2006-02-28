@@ -109,7 +109,6 @@ done
 popd
 
 %build
-export CC="ccache gcc"
 export CFLAGS="-DUTF8=1 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
 %configure --with-screen=slang \
 	     --host=%{_host} --build=%{_build} \
