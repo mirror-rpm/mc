@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	9
+Release:	10
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -192,6 +192,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Wed Mar  8 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-10
+- fix typo in extensions patch so that C sources are
+  highlighted correctly (#184228)
+
 * Tue Feb 28 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-9
 - fix hotkey conflict in Layout options (#183282)
 - move syntax configuration file from /usr/share/mc to /etc/mc

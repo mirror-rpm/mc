@@ -44,7 +44,7 @@
 +
 +# C++
 +regex/\.(C|cc|[Cc]pp|CPP)$
-+	Inlude=editor
++	Include=editor
 +
 +include/editor
  	Open=%var{EDITOR:vi} %f
