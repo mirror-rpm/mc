@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	11
+Release:	12
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -192,6 +192,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Tue Mar 28 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-12
+- apply more robust version of FISH upload patch,
+  thanks to Dmitry Butskoy (#186456)
+
 * Thu Mar 16 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-11
 - display the Layout dialog correctly on console (#185189)
 
