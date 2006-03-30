@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	12
+Release:	13
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -13,17 +13,16 @@ Requires:	dev >= 0:3.3-3
 
 Patch0:		mc-utf8.patch
 Patch1:		mc-extensions.patch
-Patch2:		mc-promptfix.patch
-Patch3:		mc-uglydir.patch
-Patch4:		mc-fish-upload.patch
-Patch5:		mc-userhost.patch
-Patch6:		mc-64bit.patch
-Patch7:		mc-utf8-look-and-feel.patch
-Patch8:		mc-concat.patch
-Patch9:		mc-showfree.patch
-Patch10:	mc-cedit.patch
-Patch11:	mc-delcheck.patch
-Patch12:	mc-etcmc.patch
+Patch2:		mc-uglydir.patch
+Patch3:		mc-fish-upload.patch
+Patch4:		mc-userhost.patch
+Patch5:		mc-64bit.patch
+Patch6:		mc-utf8-look-and-feel.patch
+Patch7:		mc-concat.patch
+Patch8:		mc-showfree.patch
+Patch9:		mc-cedit.patch
+Patch10:	mc-delcheck.patch
+Patch11:	mc-etcmc.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -37,17 +36,16 @@ specific files.
 
 %patch0 -p1 -b .utf8
 %patch1 -p1 -b .extensions
-%patch2 -p1 -b .promptfix
-%patch3 -p1 -b .uglydir
-%patch4 -p1 -b .fish-upload
-%patch5 -p1 -b .userhost
-%patch6 -p1 -b .64bit
-%patch7 -p1 -b .laf
-%patch8 -p1 -b .concat
-%patch9 -p1 -b .showfree
-%patch10 -p1 -b .cedit
-%patch11 -p1 -b .delcheck
-%patch12 -p1 -b .etcmc
+%patch2 -p1 -b .uglydir
+%patch3 -p1 -b .fish-upload
+%patch4 -p1 -b .userhost
+%patch5 -p1 -b .64bit
+%patch6 -p1 -b .laf
+%patch7 -p1 -b .concat
+%patch8 -p1 -b .showfree
+%patch9 -p1 -b .cedit
+%patch10 -p1 -b .delcheck
+%patch11 -p1 -b .etcmc
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -192,6 +190,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Thu Mar 30 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-13
+- comment fallback to use only dd in FISH upload patch
+- drop .promptfix patch so that prompt is displayed only
+  once while in panels  
+
 * Tue Mar 28 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-12
 - apply more robust version of FISH upload patch,
   thanks to Dmitry Butskoy (#186456)
