@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	13
+Release:	14
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -190,6 +190,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Fri Apr 28 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-14
+- don't reread panel contents while in panelized mode (#188438)
+
 * Thu Mar 30 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-13
 - comment fallback to use only dd in FISH upload patch
 - drop .promptfix patch so that prompt is displayed only

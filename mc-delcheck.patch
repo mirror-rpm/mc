@@ -1,12 +1,14 @@
---- mc-4.6.1a/src/file.c.delcheck	2006-01-11 20:02:10.000000000 +0100
-+++ mc-4.6.1a/src/file.c	2006-01-11 21:38:45.000000000 +0100
-@@ -1758,6 +1758,10 @@ panel_operate (void *source_panel, FileO
+--- mc-4.6.1a/src/file.c.delcheck	2006-04-28 13:46:33.000000000 +0200
++++ mc-4.6.1a/src/file.c	2006-04-28 13:52:48.000000000 +0200
+@@ -1755,6 +1755,12 @@
      free_linklist (&linklist);
      free_linklist (&dest_dirs);
  
 +    /* Update panel contents to avoid actions on deleted files */
-+    update_panels (UP_RELOAD, UP_KEEPSEL);
-+    repaint_screen ();
++    if (!panel->is_panelized) {
++    	update_panels (UP_RELOAD, UP_KEEPSEL);
++    	repaint_screen ();
++    }
 +
      if (single_entry) {
  	if (force_single) {
