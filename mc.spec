@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	14
+Release:	15
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -14,7 +14,6 @@ Requires:	dev >= 0:3.3-3
 Patch0:		mc-utf8.patch
 Patch1:		mc-extensions.patch
 Patch2:		mc-uglydir.patch
-Patch3:		mc-fish-upload.patch
 Patch4:		mc-userhost.patch
 Patch5:		mc-64bit.patch
 Patch6:		mc-utf8-look-and-feel.patch
@@ -37,7 +36,6 @@ specific files.
 %patch0 -p1 -b .utf8
 %patch1 -p1 -b .extensions
 %patch2 -p1 -b .uglydir
-%patch3 -p1 -b .fish-upload
 %patch4 -p1 -b .userhost
 %patch5 -p1 -b .64bit
 %patch6 -p1 -b .laf
@@ -190,6 +188,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Wed May 17 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-15
+- update from CVS
+- drop .fish-upload patch, applied upstream
+- sync .showfree patch
+
 * Fri Apr 28 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-14
 - don't reread panel contents while in panelized mode (#188438)
 

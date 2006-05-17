@@ -1,6 +1,6 @@
---- mc-4.6.1a/src/setup.c.showfree	2006-01-29 21:26:05.000000000 +0100
-+++ mc-4.6.1a/src/setup.c	2006-02-28 11:43:49.000000000 +0100
-@@ -133,6 +133,7 @@ static const struct {
+--- mc-4.6.1a/src/setup.c.showfree	2006-02-23 16:32:18.000000000 +0100
++++ mc-4.6.1a/src/setup.c	2006-05-17 13:16:47.000000000 +0200
+@@ -134,6 +134,7 @@
      { "show_mini_info", &show_mini_info },
      { "permission_mode", &permission_mode },
      { "filetype_mode", &filetype_mode },
@@ -8,8 +8,8 @@
      { 0, 0 }
  };
  
---- mc-4.6.1a/src/screen.c.showfree	2006-02-28 11:42:47.000000000 +0100
-+++ mc-4.6.1a/src/screen.c	2006-02-28 11:42:48.000000000 +0100
+--- mc-4.6.1a/src/screen.c.showfree	2006-05-17 13:16:47.000000000 +0200
++++ mc-4.6.1a/src/screen.c	2006-05-17 13:16:47.000000000 +0200
 @@ -49,6 +49,7 @@
  #define WANT_WIDGETS
  #include "main.h"		/* the_menubar */
@@ -18,7 +18,7 @@
  
  #define ELEMENTS(arr) ( sizeof(arr) / sizeof((arr)[0]) )
  
-@@ -106,6 +107,12 @@ int filetype_mode = 1;
+@@ -106,6 +107,12 @@
  /* The hook list for the select file function */
  Hook *select_file_hook = 0;
  
@@ -31,7 +31,7 @@
  static cb_ret_t panel_callback (Widget *, widget_msg_t msg, int parm);
  static int panel_event (Gpm_Event *event, void *);
  static void paint_frame (WPanel *panel);
-@@ -851,6 +858,41 @@ paint_dir (WPanel *panel)
+@@ -851,6 +858,41 @@
      standend ();
  }
  
@@ -73,7 +73,7 @@
  static void
  mini_info_separator (WPanel *panel)
  {
-@@ -866,6 +908,7 @@ mini_info_separator (WPanel *panel)
+@@ -866,6 +908,7 @@
      hline ((slow_terminal ? '-' : ACS_HLINE) | NORMAL_COLOR,
  	   panel->widget.cols - 2);
  #endif				/* !HAVE_SLANG */
@@ -81,7 +81,7 @@
  }
  
  static void
-@@ -929,6 +972,8 @@ show_dir (WPanel *panel)
+@@ -929,6 +972,8 @@
      widget_move (&panel->widget, 0, panel->widget.cols - 3);
      addstr ("v");
  
@@ -90,9 +90,9 @@
      if (panel->active)
  	standend ();
  }
---- mc-4.6.1a/src/layout.c.showfree	2006-02-28 11:42:47.000000000 +0100
-+++ mc-4.6.1a/src/layout.c	2006-02-28 11:42:48.000000000 +0100
-@@ -99,6 +99,9 @@ int message_visible = 1;
+--- mc-4.6.1a/src/layout.c.showfree	2006-05-17 13:16:46.000000000 +0200
++++ mc-4.6.1a/src/layout.c	2006-05-17 13:21:04.000000000 +0200
+@@ -99,6 +99,9 @@
  /* Set to show current working dir in xterm window title */
  int xterm_title = 1;
  
@@ -102,7 +102,7 @@
  /* The starting line for the output of the subprogram */
  int output_start_y = 0;
  
-@@ -128,6 +131,7 @@ static int _command_prompt;
+@@ -128,6 +131,7 @@
  static int _keybar_visible;
  static int _message_visible;
  static int _xterm_title;
@@ -110,7 +110,7 @@
  static int _permission_mode;
  static int _filetype_mode;
  
-@@ -158,6 +162,7 @@ static struct {
+@@ -158,6 +162,7 @@
      int    *variable;
      WCheck *widget;
  } check_options [] = {
@@ -118,7 +118,7 @@
      { N_("&Xterm window title"), &xterm_title,   0 },
      { N_("h&Intbar visible"),  &message_visible, 0 },
      { N_("&Keybar visible"),   &keybar_visible,  0 },
-@@ -229,8 +234,8 @@ static int b2left_cback (int action)
+@@ -229,8 +234,8 @@
      if (_equal_split){
  	/* Turn equal split off */
  	_equal_split = 0;
@@ -129,7 +129,7 @@
  	dlg_select_widget (bleft_widget);
      }
      _first_panel_size++;
-@@ -244,8 +249,8 @@ static int b2right_cback (int action)
+@@ -244,8 +249,8 @@
      if (_equal_split){
  	/* Turn equal split off */
  	_equal_split = 0;
@@ -140,7 +140,18 @@
  	dlg_select_widget (bright_widget);
      }
      _first_panel_size--;
-@@ -300,14 +305,15 @@ layout_callback (struct Dlg_head *h, dlg
+@@ -291,23 +296,24 @@
+ 	    if (old_output_lines != _output_lines){
+ 		old_output_lines = _output_lines;
+ 		attrset (COLOR_NORMAL);
+-		dlg_move (h, 9, 16 + first_width);
++		dlg_move (h, 10, 16 + first_width);
+ 		addstr (output_lines_label);
+-		dlg_move (h, 9, 10 + first_width);
++		dlg_move (h, 10, 10 + first_width);
+ 		tty_printf ("%02d", _output_lines);
+ 	    }
+ 	}
  	return MSG_HANDLED;
  
      case DLG_POST_KEY:
@@ -164,7 +175,16 @@
  	if (console_flag){
  	    int minimum;
  	    if (_output_lines < 0)
-@@ -374,7 +380,7 @@ init_layout (void)
+@@ -335,7 +341,7 @@
+ 	    if (old_output_lines != _output_lines){
+ 		old_output_lines = _output_lines;
+ 		attrset (COLOR_NORMAL);
+-		dlg_move (h, 9, 10 + first_width);
++		dlg_move (h, 10, 10 + first_width);
+ 		tty_printf ("%02d", _output_lines);
+ 	    }
+ 	}
+@@ -374,7 +380,7 @@
  		first_width = l1;
  	}
  
@@ -173,7 +193,7 @@
  	    check_options[i].text = _(check_options[i].text);
  	    l1 = mbstrlen (check_options[i].text) + 7;
  	    if (l1 > first_width)
-@@ -391,7 +397,7 @@ init_layout (void)
+@@ -391,7 +397,7 @@
  
  
  	second_width = mbstrlen (title3) + 1;
@@ -182,7 +202,17 @@
  	    check_options[i].text = _(check_options[i].text);
  	    l1 = mbstrlen (check_options[i].text) + 7;
  	    if (l1 > second_width)
-@@ -454,15 +460,15 @@ init_layout (void)
+@@ -446,23 +452,23 @@
+ 			    0));
+     if (console_flag) {
+ 	add_widget (layout_dlg,
+-		    button_new (9, 12 + first_width, B_MINUS,
++		    button_new (10, 12 + first_width, B_MINUS,
+ 				NARROW_BUTTON, "&-", bminus_cback));
+ 	add_widget (layout_dlg,
+-		    button_new (9, 7 + first_width, B_PLUS, NARROW_BUTTON,
++		    button_new (10, 7 + first_width, B_PLUS, NARROW_BUTTON,
+ 				"&+", bplus_cback));
      }
  #define XTRACT(i) *check_options[i].variable, check_options[i].text
  
@@ -203,7 +233,7 @@
  
      _filetype_mode = filetype_mode;
      _permission_mode = permission_mode;
-@@ -472,20 +478,21 @@ init_layout (void)
+@@ -472,20 +478,21 @@
      _keybar_visible = keybar_visible;
      _message_visible = message_visible;
      _xterm_title = xterm_title;
@@ -224,12 +254,12 @@
      _output_lines = output_lines;
 -    add_widget (layout_dlg, check_options[6].widget);
 +    add_widget (layout_dlg, check_options[7].widget);
-     radio_widget = radio_new (3, 6, 2, s_split_direction, 1);
+     radio_widget = radio_new (3, 6, 2, s_split_direction);
      add_widget (layout_dlg, radio_widget);
      radio_widget->sel = horizontal_split;
 --- mc-4.6.1a/src/layout.h.showfree	2004-12-03 20:17:47.000000000 +0100
-+++ mc-4.6.1a/src/layout.h	2006-02-28 11:42:48.000000000 +0100
-@@ -39,6 +39,7 @@ extern int keybar_visible;
++++ mc-4.6.1a/src/layout.h	2006-05-17 13:16:47.000000000 +0200
+@@ -39,6 +39,7 @@
  extern int output_start_y;
  extern int message_visible;
  extern int xterm_title;
@@ -237,39 +267,3 @@
  
  extern int horizontal_split;
  extern int nice_rotating_dash;
---- mc-4.6.1a/src/layout.c.jn	2006-03-16 10:20:31.000000000 +0100
-+++ mc-4.6.1a/src/layout.c	2006-03-16 10:23:14.000000000 +0100
-@@ -296,9 +296,9 @@ layout_callback (struct Dlg_head *h, dlg
- 	    if (old_output_lines != _output_lines){
- 		old_output_lines = _output_lines;
- 		attrset (COLOR_NORMAL);
--		dlg_move (h, 9, 16 + first_width);
-+		dlg_move (h, 10, 16 + first_width);
- 		addstr (output_lines_label);
--		dlg_move (h, 9, 10 + first_width);
-+		dlg_move (h, 10, 10 + first_width);
- 		tty_printf ("%02d", _output_lines);
- 	    }
- 	}
-@@ -341,7 +341,7 @@ layout_callback (struct Dlg_head *h, dlg
- 	    if (old_output_lines != _output_lines){
- 		old_output_lines = _output_lines;
- 		attrset (COLOR_NORMAL);
--		dlg_move (h, 9, 10 + first_width);
-+		dlg_move (h, 10, 10 + first_width);
- 		tty_printf ("%02d", _output_lines);
- 	    }
- 	}
-@@ -452,10 +452,10 @@ init_layout (void)
- 			    0));
-     if (console_flag) {
- 	add_widget (layout_dlg,
--		    button_new (9, 12 + first_width, B_MINUS,
-+		    button_new (10, 12 + first_width, B_MINUS,
- 				NARROW_BUTTON, "&-", bminus_cback));
- 	add_widget (layout_dlg,
--		    button_new (9, 7 + first_width, B_PLUS, NARROW_BUTTON,
-+		    button_new (10, 7 + first_width, B_PLUS, NARROW_BUTTON,
- 				"&+", bplus_cback));
-     }
- #define XTRACT(i) *check_options[i].variable, check_options[i].text
