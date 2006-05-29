@@ -1,5 +1,5 @@
 --- mc-4.6.1a/src/setup.c.showfree	2006-02-23 16:32:18.000000000 +0100
-+++ mc-4.6.1a/src/setup.c	2006-05-17 13:16:47.000000000 +0200
++++ mc-4.6.1a/src/setup.c	2006-05-29 09:42:29.000000000 +0200
 @@ -134,6 +134,7 @@
      { "show_mini_info", &show_mini_info },
      { "permission_mode", &permission_mode },
@@ -8,19 +8,19 @@
      { 0, 0 }
  };
  
---- mc-4.6.1a/src/screen.c.showfree	2006-05-17 13:16:47.000000000 +0200
-+++ mc-4.6.1a/src/screen.c	2006-05-17 13:16:47.000000000 +0200
-@@ -49,6 +49,7 @@
- #define WANT_WIDGETS
- #include "main.h"		/* the_menubar */
- #include "unixcompat.h"
+--- mc-4.6.1a/src/main.c.showfree	2006-05-29 12:41:36.000000000 +0200
++++ mc-4.6.1a/src/main.c	2006-05-29 13:04:50.000000000 +0200
+@@ -61,6 +61,7 @@
+ #include "listmode.h"
+ #include "execute.h"
+ #include "ext.h"		/* For flush_extension_file() */
 +#include "mountlist.h"		/* my_statfs */
  
- #define ELEMENTS(arr) ( sizeof(arr) / sizeof((arr)[0]) )
- 
-@@ -106,6 +107,12 @@
- /* The hook list for the select file function */
- Hook *select_file_hook = 0;
+ /* Listbox for the command history feature */
+ #include "widget.h"
+@@ -231,6 +232,12 @@
+ /* We need to paint it after CONSOLE_RESTORE, see: load_prompt */
+ int update_prompt = 0;
  
 +/* Old current working directory for displaying free space */
 +char *old_cwd = NULL;
@@ -28,32 +28,40 @@
 +/* Used to figure out how many free space we have */
 +struct my_statfs myfs_stats;
 +
- static cb_ret_t panel_callback (Widget *, widget_msg_t msg, int parm);
- static int panel_event (Gpm_Event *event, void *);
- static void paint_frame (WPanel *panel);
-@@ -851,6 +858,41 @@
-     standend ();
+ /* The home directory */
+ const char *home_dir = NULL;
+ 
+@@ -402,6 +409,8 @@
+     int reload_other = !(force_update & UP_ONLY_CURRENT);
+     WPanel *panel;
+ 
++    show_free_space(current_panel);
++
+     update_one_panel (get_current_index (), force_update, current_file);
+     if (reload_other)
+ 	update_one_panel (get_other_index (), force_update, UP_KEEPSEL);
+@@ -467,6 +476,37 @@
+     }
  }
  
-+
-+static void
++void
 +show_free_space(WPanel *panel)
 +{
 +    struct stat st;
-+
++    
 +    /* Don't try to stat non-local fs */
-+    if (!vfs_file_is_local(panel->cwd))
++    if (!vfs_file_is_local(panel->cwd) || !free_space)
 +	return;
-+
-+    if (old_cwd == NULL || strcmp(old_cwd, panel->cwd) == 0) {
++   
++    if (old_cwd == NULL || strcmp(old_cwd, panel->cwd) != 0) {
 +	init_my_statfs();
 +	g_free(old_cwd);
 +	old_cwd = g_strdup(panel->cwd);
++	my_statfs (&myfs_stats, panel->cwd);
 +    }
-+
-+    my_statfs (&myfs_stats, panel->cwd);
++   
 +    st = panel->dir.list [panel->selected].st;
-+	
++   
 +    if (myfs_stats.avail > 0 || myfs_stats.total > 0) {
 +	char buffer1 [6], buffer2[6], *tmp;
 +	size_trunc_len (buffer1, 5, myfs_stats.avail, 1);
@@ -62,26 +70,52 @@
 +			       (int)(100 * (double)myfs_stats.avail / myfs_stats.total) : 0,
 +			       buffer2);
 +	widget_move (&panel->widget, panel->widget.lines-3, panel->widget.cols-2-strlen(tmp));
-+	if (panel->active)
-+	    attrset (REVERSE_COLOR);
 +	addstr (tmp);
-+	attrset (NORMAL_COLOR);
 +	g_free (tmp);
 +    }
 +}
-+
- static void
- mini_info_separator (WPanel *panel)
++                                                                                                                                                                                                                                 
+ static int
+ quit_cmd_internal (int quiet)
  {
-@@ -866,6 +908,7 @@
+--- mc-4.6.1a/src/main.h.showfree	2006-05-29 09:42:29.000000000 +0200
++++ mc-4.6.1a/src/main.h	2006-05-29 10:30:37.000000000 +0200
+@@ -55,6 +55,7 @@
+ extern int show_all_if_ambiguous;
+ extern int slow_terminal;
+ extern int update_prompt;	/* To comunicate with subshell */
++extern char *old_cwd;
+ extern int safe_delete;
+ extern int confirm_delete;
+ extern int confirm_directory_hotlist_delete;
+@@ -102,6 +103,7 @@
+ int load_prompt     (int, void *);
+ void save_cwds_stat (void);
+ void quiet_quit_cmd (void);	/* For cmd.c and command.c */
++void show_free_space(WPanel *panel);
+ 
+ void touch_bar      (void);
+ void update_xterm_title_path (void);
+--- mc-4.6.1a/src/screen.c.showfree	2006-05-29 09:42:29.000000000 +0200
++++ mc-4.6.1a/src/screen.c	2006-05-29 10:14:55.000000000 +0200
+@@ -47,7 +47,7 @@
+ #include "widget.h"
+ #include "menu.h"		/* menubar_visible */
+ #define WANT_WIDGETS
+-#include "main.h"		/* the_menubar */
++#include "main.h"		/* the_menubar, show_free_space() */
+ #include "unixcompat.h"
+ 
+ #define ELEMENTS(arr) ( sizeof(arr) / sizeof((arr)[0]) )
+@@ -866,6 +866,7 @@
      hline ((slow_terminal ? '-' : ACS_HLINE) | NORMAL_COLOR,
  	   panel->widget.cols - 2);
  #endif				/* !HAVE_SLANG */
-+    if (free_space) show_free_space (panel);
++    show_free_space (panel);
  }
  
  static void
-@@ -929,6 +972,8 @@
+@@ -929,6 +930,8 @@
      widget_move (&panel->widget, 0, panel->widget.cols - 3);
      addstr ("v");
  
@@ -90,8 +124,8 @@
      if (panel->active)
  	standend ();
  }
---- mc-4.6.1a/src/layout.c.showfree	2006-05-17 13:16:46.000000000 +0200
-+++ mc-4.6.1a/src/layout.c	2006-05-17 13:21:04.000000000 +0200
+--- mc-4.6.1a/src/layout.c.showfree	2006-05-29 09:42:28.000000000 +0200
++++ mc-4.6.1a/src/layout.c	2006-05-29 09:42:29.000000000 +0200
 @@ -99,6 +99,9 @@
  /* Set to show current working dir in xterm window title */
  int xterm_title = 1;
@@ -258,7 +292,7 @@
      add_widget (layout_dlg, radio_widget);
      radio_widget->sel = horizontal_split;
 --- mc-4.6.1a/src/layout.h.showfree	2004-12-03 20:17:47.000000000 +0100
-+++ mc-4.6.1a/src/layout.h	2006-05-17 13:16:47.000000000 +0200
++++ mc-4.6.1a/src/layout.h	2006-05-29 09:42:29.000000000 +0200
 @@ -39,6 +39,7 @@
  extern int output_start_y;
  extern int message_visible;
