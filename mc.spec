@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	16
+Release:	17
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -188,6 +188,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Wed Jun  7 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-17
+- apply UTF-8 fixes from Vladimir Nadvornik
+- move the free space widget to the bottom of the main panel
+  and don't use highlighting
+
 * Mon May 29 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-16
 - fix the free space widget patch: stat()s filesystem less
   frequently, display correct info in all circumstances

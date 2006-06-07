@@ -69,7 +69,7 @@
 +	tmp = g_strdup_printf (_("%s (%d%%) of %s"), buffer1, myfs_stats.total > 0 ?
 +			       (int)(100 * (double)myfs_stats.avail / myfs_stats.total) : 0,
 +			       buffer2);
-+	widget_move (&panel->widget, panel->widget.lines-3, panel->widget.cols-2-strlen(tmp));
++	widget_move (&panel->widget, panel->widget.lines-1, panel->widget.cols-2-strlen(tmp));
 +	addstr (tmp);
 +	g_free (tmp);
 +    }
