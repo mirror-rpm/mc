@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	17
+Release:	18
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -188,6 +188,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Mon Jun 12 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-18
+- apply 00-74, 00-78 patches from Egmont Koblinger with
+  UTF-8 fixes related to filename truncation and file search
+
 * Wed Jun  7 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-17
 - apply UTF-8 fixes from Vladimir Nadvornik
 - move the free space widget to the bottom of the main panel

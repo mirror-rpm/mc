@@ -1,5 +1,5 @@
 --- mc-4.6.1a/acinclude.m4.utf8	2006-04-18 15:03:11.000000000 +0200
-+++ mc-4.6.1a/acinclude.m4	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/acinclude.m4	2006-06-12 08:34:00.000000000 +0200
 @@ -398,14 +398,14 @@
      fi
  
@@ -24,7 +24,7 @@
      if test x$with_screen = xslang; then
  	AC_DEFINE(HAVE_SYSTEM_SLANG, 1,
 --- mc-4.6.1a/src/layout.c.utf8	2006-02-28 17:15:21.000000000 +0100
-+++ mc-4.6.1a/src/layout.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/layout.c	2006-06-12 08:34:00.000000000 +0200
 @@ -369,36 +369,36 @@
  
  	while (i--) {
@@ -99,7 +99,7 @@
      widget_set_size (&the_menubar->widget, 0, 0, 1, COLS);
  
 --- mc-4.6.1a/src/tty.c.utf8	2006-05-15 15:26:18.000000000 +0200
-+++ mc-4.6.1a/src/tty.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/tty.c	2006-06-12 08:34:00.000000000 +0200
 @@ -134,10 +134,12 @@
       * defined or not. Congratulations! At least, they left the API call
       * for SLsmg_write_nchars as it has always been.
@@ -118,7 +118,7 @@
      addch(c);
  #endif
 --- mc-4.6.1a/src/option.c.utf8	2006-02-28 17:15:21.000000000 +0100
-+++ mc-4.6.1a/src/option.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/option.c	2006-06-12 08:34:00.000000000 +0200
 @@ -123,12 +123,12 @@
  	title2 = _(" Pause after run... ");
  	title3 = _(" Other options ");
@@ -167,7 +167,7 @@
  	i18n_config_flag = 1;
      }
 --- mc-4.6.1a/src/menu.h.utf8	2004-12-03 20:17:47.000000000 +0100
-+++ mc-4.6.1a/src/menu.h	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/menu.h	2006-06-12 08:34:00.000000000 +0200
 @@ -21,6 +21,8 @@
      menu_entry *entries;
      int    start_x;		/* position relative to menubar start */
@@ -178,7 +178,7 @@
  
  extern int menubar_visible;
 --- mc-4.6.1a/src/menu.c.utf8	2005-09-05 04:12:09.000000000 +0200
-+++ mc-4.6.1a/src/menu.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/menu.c	2006-06-12 08:34:00.000000000 +0200
 @@ -22,6 +22,7 @@
  #include <string.h>
  
@@ -381,7 +381,7 @@
      g_free (menu->help_node);
      g_free (menu);
 --- mc-4.6.1a/src/filegui.c.utf8	2006-01-30 10:22:33.000000000 +0100
-+++ mc-4.6.1a/src/filegui.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/filegui.c	2006-06-12 08:34:00.000000000 +0200
 @@ -65,6 +65,7 @@
  #include "filegui.h"
  #include "key.h"		/* get_event */
@@ -528,7 +528,7 @@
      return dest_dir;
  }
 --- mc-4.6.1a/src/panelize.c.utf8	2005-05-27 05:35:15.000000000 +0200
-+++ mc-4.6.1a/src/panelize.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/panelize.c	2006-06-12 08:34:00.000000000 +0200
 @@ -127,7 +127,7 @@
  	i = sizeof (panelize_but) / sizeof (panelize_but[0]);
  	while (i--) {
@@ -554,7 +554,7 @@
  #endif				/* ENABLE_NLS */
  
 --- mc-4.6.1a/src/slint.c.utf8	2005-09-05 04:14:29.000000000 +0200
-+++ mc-4.6.1a/src/slint.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/slint.c	2006-06-12 08:34:00.000000000 +0200
 @@ -141,7 +141,9 @@
  slang_init (void)
  {
@@ -567,7 +567,7 @@
      * If the terminal in not in terminfo but begins with a well-known
      * string such as "linux" or "xterm" S-Lang will go on, but the
 --- mc-4.6.1a/src/main.c.utf8	2006-05-15 15:26:18.000000000 +0200
-+++ mc-4.6.1a/src/main.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/main.c	2006-06-12 08:34:00.000000000 +0200
 @@ -704,7 +704,7 @@
  	int prompt_len;
  
@@ -590,7 +590,7 @@
  	} while (*++s);
  	fprintf (stdout, "\33]0;mc - %s\7", p);
 --- mc-4.6.1a/src/view.c.utf8	2006-02-03 15:33:19.000000000 +0100
-+++ mc-4.6.1a/src/view.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/view.c	2006-06-12 08:34:00.000000000 +0200
 @@ -43,6 +43,10 @@
  #include <sys/stat.h>
  #include <unistd.h>
@@ -682,7 +682,7 @@
  	col++;
  	tty_setcolor (NORMAL_COLOR);
 --- mc-4.6.1a/src/screen.c.utf8	2006-02-08 11:10:37.000000000 +0100
-+++ mc-4.6.1a/src/screen.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/screen.c	2006-06-12 08:45:28.000000000 +0200
 @@ -171,21 +171,56 @@
  static const char *
  string_file_name (file_entry *fe, int len)
@@ -711,7 +711,9 @@
 +	for (i = 0; i < sizeof (buffer) - 1; i++) {
 +	    wchar_t wc;
 +	    int len;
-+
+ 
+-	if (!is_printable(c))
+-	    c = '?';
 +	    len = mbrtowc (&wc, str, mbmax, &s);
 +	    if (!len)
 +		break;
@@ -738,11 +740,9 @@
 +
 +	    c = fe->fname[i];
  
--	if (!is_printable(c))
--	    c = '?';
-+	    if (!c) break;
- 
 -	buffer[i] = c;
++	    if (!c) break;
++
 +	    if (!is_printable(c)) c = '?';
 +
 +	    buffer[i] = c;
@@ -892,7 +892,7 @@
 +	    default:
 +		break;
 +	    }
- 
++
 +	    attrset (color);
 +
 +	    if (wide) {
@@ -954,7 +954,7 @@
 +			    len - txtlen - still);
 +		}
 +		buffer[len] = '\0';
-+
+ 
 +		if (perm)
 +		    add_permission_string (buffer, format->field_len, fe,
 +					   attr, color, perm - 1);
@@ -1047,8 +1047,71 @@
  	    } else {
  		attrset (NORMAL_COLOR);
  		one_vline ();
+@@ -1891,11 +2024,24 @@
+     int i;
+     int wrapped = 0;
+     int found;
++    int prevpos, pos;
++    int j;
++    mbstate_t mbs;
+ 
+     l = strlen (panel->search_buffer);
+     if (c_code == KEY_BACKSPACE) {
+-	if (l)
+-	    panel->search_buffer[--l] = '\0';
++	if (l) {
++	    prevpos = pos = 0;
++	    memset (&mbs, 0, sizeof (mbs));
++	    while (pos < l) {
++		prevpos = pos;
++		j = mbrlen (panel->search_buffer + pos, l - pos, &mbs);
++		if (j <= 0) break;
++		pos += j;
++	    }
++	    --l;
++	    panel->search_buffer[prevpos] = 0;
++	}
+     } else {
+ 	if (c_code && l < sizeof (panel->search_buffer)) {
+ 	    panel->search_buffer[l] = c_code;
+@@ -1904,6 +2050,14 @@
+ 	}
+     }
+ 
++    prevpos = pos = 0;
++    memset (&mbs, 0, sizeof (mbs));
++    while (pos < l) {
++	prevpos = pos;
++	j = mbrlen (panel->search_buffer + pos, l - pos, &mbs);
++	if (j <= 0) break;
++	pos += j;
++    }
+     found = 0;
+     for (i = panel->selected; !wrapped || i != panel->selected; i++) {
+ 	if (i >= panel->count) {
+@@ -1914,9 +2068,9 @@
+ 	}
+ 	if (panel->
+ 	    case_sensitive
+-	    ? (strncmp (panel->dir.list[i].fname, panel->search_buffer, l)
++	    ? (strncmp (panel->dir.list[i].fname, panel->search_buffer, pos)
+ 	       == 0) : (g_strncasecmp (panel->dir.list[i].fname,
+-				       panel->search_buffer, l) == 0)) {
++				       panel->search_buffer, pos) == 0)) {
+ 	    unselect_item (panel);
+ 	    panel->selected = i;
+ 	    select_item (panel);
+@@ -1925,7 +2079,7 @@
+ 	}
+     }
+     if (!found)
+-	panel->search_buffer[--l] = 0;
++	panel->search_buffer[prevpos] = 0;
+ 
+     paint_panel (panel);
+ }
 --- mc-4.6.1a/src/widget.h.utf8	2006-02-28 17:15:21.000000000 +0100
-+++ mc-4.6.1a/src/widget.h	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/widget.h	2006-06-12 08:34:00.000000000 +0200
 @@ -22,6 +22,7 @@
      char *text;			/* text of button */
      int hotkey;			/* hot KEY */
@@ -1092,7 +1155,7 @@
      int  need_push;		/* need to push the current Input on hist? */
      char **completions;		/* Possible completions array */
 --- mc-4.6.1a/src/tty.h.utf8	2006-05-15 15:26:18.000000000 +0200
-+++ mc-4.6.1a/src/tty.h	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/tty.h	2006-06-12 08:34:00.000000000 +0200
 @@ -8,6 +8,8 @@
      of ifdefs in the other files small.
   */
@@ -1103,7 +1166,7 @@
  #   include "myslang.h"
  #endif
 --- mc-4.6.1a/src/hotlist.c.utf8	2006-02-14 10:15:17.000000000 +0100
-+++ mc-4.6.1a/src/hotlist.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/hotlist.c	2006-06-12 08:34:00.000000000 +0200
 @@ -565,7 +565,7 @@
  
  			row = hotlist_but [i].y;
@@ -1165,7 +1228,7 @@
  
      strip_password (label_string, 1);
 --- mc-4.6.1a/src/help.c.utf8	2005-07-22 11:29:50.000000000 +0200
-+++ mc-4.6.1a/src/help.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/help.c	2006-06-12 08:34:00.000000000 +0200
 @@ -449,10 +449,28 @@
  #ifndef HAVE_SLANG
  			addch (acs_map [c]);
@@ -1209,7 +1272,7 @@
      if (!filename)
  	g_free (hlpfile);
 --- mc-4.6.1a/src/wtools.c.utf8	2006-02-28 17:15:21.000000000 +0100
-+++ mc-4.6.1a/src/wtools.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/wtools.c	2006-06-12 08:34:00.000000000 +0200
 @@ -49,11 +49,11 @@
      /* Adjust sizes */
      lines = (lines > LINES - 6) ? LINES - 6 : lines;
@@ -1270,7 +1333,7 @@
  #endif				/* ENABLE_NLS */
  
 --- mc-4.6.1a/src/util.h.utf8	2006-02-03 18:04:17.000000000 +0100
-+++ mc-4.6.1a/src/util.h	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/util.h	2006-06-12 08:34:00.000000000 +0200
 @@ -103,6 +103,13 @@
  char *get_group (int);
  char *get_owner (int);
@@ -1286,7 +1349,7 @@
  #define MIN_I18NTIMELENGTH 10
  #define STD_I18NTIMELENGTH 12
 --- mc-4.6.1a/src/widget.c.utf8	2006-02-28 17:15:21.000000000 +0100
-+++ mc-4.6.1a/src/widget.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/widget.c	2006-06-12 08:34:00.000000000 +0200
 @@ -36,6 +36,9 @@
  
  #include "global.h"
@@ -2003,7 +2066,7 @@
  }
  
 --- mc-4.6.1a/src/util.c.utf8	2005-11-03 03:18:38.000000000 +0100
-+++ mc-4.6.1a/src/util.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/util.c	2006-06-12 08:34:00.000000000 +0200
 @@ -33,7 +33,11 @@
  #include <sys/types.h>
  #include <sys/stat.h>
@@ -2474,7 +2537,7 @@
      *w = 0;
      return s;
 --- mc-4.6.1a/src/file.c.utf8	2006-03-29 13:38:25.000000000 +0200
-+++ mc-4.6.1a/src/file.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/file.c	2006-06-12 08:34:00.000000000 +0200
 @@ -161,15 +161,20 @@
  do_transform_source (FileOpContext *ctx, const char *source)
  {
@@ -2513,8 +2576,24 @@
      return fntarget;
  }
  
+@@ -1693,13 +1700,13 @@
+     *dp = '\0';
+ 
+     if (single_source) {
+-	i = fmd_xlen - strlen (format_string) - 4;
++	i = fmd_xlen - mbstrlen (format_string) - 4;
+ 	g_snprintf (cmd_buf, sizeof (cmd_buf), format_string,
+ 		    name_trunc (single_source, i));
+     } else {
+ 	g_snprintf (cmd_buf, sizeof (cmd_buf), format_string,
+ 		    panel->marked);
+-	i = strlen (cmd_buf) + 6 - fmd_xlen;
++	i = mbstrlen (cmd_buf) + 6 - fmd_xlen;
+ 	if (i > 0) {
+ 	    fmd_xlen += i;
+ 	    fmd_init_i18n (TRUE);	/* to recalculate positions of child widgets */
 --- mc-4.6.1a/src/find.c.utf8	2006-02-04 12:03:35.000000000 +0100
-+++ mc-4.6.1a/src/find.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/find.c	2006-06-12 08:34:00.000000000 +0200
 @@ -217,7 +217,7 @@
  	int l1, maxlen = 0;
  
@@ -2563,7 +2642,7 @@
  	    list->list[next_free].f.marked = 0;
  	    list->list[next_free].f.link_to_dir = link_to_dir;
 --- mc-4.6.1a/src/myslang.h.utf8	2005-09-05 05:22:04.000000000 +0200
-+++ mc-4.6.1a/src/myslang.h	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/myslang.h	2006-06-12 08:34:00.000000000 +0200
 @@ -11,6 +11,16 @@
  #endif	/* HAVE_SLANG_SLANG_H */
  #endif
@@ -2582,7 +2661,7 @@
      KEY_BACKSPACE = 400,
      KEY_END, KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT,
 --- mc-4.6.1a/src/achown.c.utf8	2005-09-05 03:36:58.000000000 +0200
-+++ mc-4.6.1a/src/achown.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/achown.c	2006-06-12 08:34:00.000000000 +0200
 @@ -584,6 +584,12 @@
      b_att[2] = button_new (XTRACT (6));
      b_user = button_new (XTRACT (5));
@@ -2597,7 +2676,7 @@
      add_widget (ch_dlg, b_group);
      add_widget (ch_dlg, b_user);
 --- mc-4.6.1a/src/dialog.c.utf8	2005-09-05 05:20:27.000000000 +0200
-+++ mc-4.6.1a/src/dialog.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/dialog.c	2006-06-12 08:34:00.000000000 +0200
 @@ -166,7 +166,7 @@
  
      if (h->title) {
@@ -2608,7 +2687,7 @@
      }
  }
 --- mc-4.6.1a/src/boxes.c.utf8	2006-02-28 17:15:21.000000000 +0100
-+++ mc-4.6.1a/src/boxes.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/boxes.c	2006-06-12 08:34:00.000000000 +0200
 @@ -153,23 +153,23 @@
  	display_title = _(display_title);
  	for (i = 0; i < LIST_TYPES; i++) {
@@ -2782,7 +2861,7 @@
          i18n_flag = 1;
      }
 --- mc-4.6.1a/src/learn.c.utf8	2005-05-27 05:35:15.000000000 +0200
-+++ mc-4.6.1a/src/learn.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/src/learn.c	2006-06-12 08:34:00.000000000 +0200
 @@ -237,7 +237,7 @@
  	learn_but[0].x = 78 / 2 + 4;
  
@@ -2793,7 +2872,7 @@
  	learn_title = _(learn_title);
  	i18n_flag = 1;
 --- mc-4.6.1a/edit/edit-widget.h.utf8	2006-03-17 16:41:21.000000000 +0100
-+++ mc-4.6.1a/edit/edit-widget.h	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/edit/edit-widget.h	2006-06-12 08:34:00.000000000 +0200
 @@ -30,6 +30,11 @@
      long command;
  } edit_key_map_type;
@@ -2834,7 +2913,7 @@
      unsigned long stack_size_mask;
      unsigned long stack_bottom;
 --- mc-4.6.1a/edit/editkeys.c.utf8	2006-02-01 18:07:11.000000000 +0100
-+++ mc-4.6.1a/edit/editkeys.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/edit/editkeys.c	2006-06-12 08:34:00.000000000 +0200
 @@ -182,10 +182,10 @@
   * 'command' is one of the editor commands from editcmddef.h.
   */
@@ -2890,7 +2969,7 @@
  	return 0;
      }
 --- mc-4.6.1a/edit/editwidget.c.utf8	2005-09-07 10:54:12.000000000 +0200
-+++ mc-4.6.1a/edit/editwidget.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/edit/editwidget.c	2006-06-12 08:34:00.000000000 +0200
 @@ -344,7 +344,8 @@
  
      case WIDGET_KEY:
@@ -2902,7 +2981,7 @@
  	    /* The user may override the access-keys for the menu bar. */
  	    if (edit_translate_key (e, parm, &cmd, &ch)) {
 --- mc-4.6.1a/edit/editcmd.c.utf8	2006-03-17 16:41:21.000000000 +0100
-+++ mc-4.6.1a/edit/editcmd.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/edit/editcmd.c	2006-06-12 08:34:00.000000000 +0200
 @@ -61,7 +61,7 @@
  #define edit_get_save_file(f,h) input_expand_dialog (h, _(" Enter file name: "), f)
  
@@ -3988,7 +4067,7 @@
      if (num_compl > 0) {
  	/* insert completed word if there is only one match */
 --- mc-4.6.1a/edit/wordproc.c.utf8	2005-05-27 05:35:12.000000000 +0200
-+++ mc-4.6.1a/edit/wordproc.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/edit/wordproc.c	2006-06-12 08:34:00.000000000 +0200
 @@ -40,7 +40,12 @@
  
  #define tab_width option_tab_spacing
@@ -4209,7 +4288,7 @@
  		    return;
  		}
 --- mc-4.6.1a/edit/edit.h.utf8	2006-02-04 15:41:42.000000000 +0100
-+++ mc-4.6.1a/edit/edit.h	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/edit/edit.h	2006-06-12 08:34:00.000000000 +0200
 @@ -25,6 +25,27 @@
  
  #include <stdio.h>
@@ -4303,7 +4382,7 @@
  #define get_sys_error(s) (s)
  
 --- mc-4.6.1a/edit/editdraw.c.utf8	2005-09-05 04:14:29.000000000 +0200
-+++ mc-4.6.1a/edit/editdraw.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/edit/editdraw.c	2006-06-12 08:34:00.000000000 +0200
 @@ -69,11 +69,16 @@
       * as decimal and as hex.
       */
@@ -4523,7 +4602,7 @@
      print_to_widget (edit, row, start_col, start_col_real, end_col, line);
  }
 --- mc-4.6.1a/edit/edit.c.utf8	2006-02-10 13:29:36.000000000 +0100
-+++ mc-4.6.1a/edit/edit.c	2006-06-07 13:45:36.000000000 +0200
++++ mc-4.6.1a/edit/edit.c	2006-06-12 08:34:00.000000000 +0200
 @@ -103,7 +103,11 @@
  static void edit_move_to_prev_col (WEdit *edit, long p);
  static void user_menu (WEdit *edit);
