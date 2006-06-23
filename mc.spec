@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	18
+Release:	19
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -22,6 +22,7 @@ Patch8:		mc-showfree.patch
 Patch9:		mc-cedit.patch
 Patch10:	mc-delcheck.patch
 Patch11:	mc-etcmc.patch
+Patch12:	mc-segfault.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -44,6 +45,7 @@ specific files.
 %patch9 -p1 -b .cedit
 %patch10 -p1 -b .delcheck
 %patch11 -p1 -b .etcmc
+%patch12 -p1 -b .segfault
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -188,6 +190,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Fri Jun 16 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-19
+- fix segfault in wordproc.c (#194562)
+
 * Mon Jun 12 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-18
 - apply 00-74, 00-78 patches from Egmont Koblinger with
   UTF-8 fixes related to filename truncation and file search
