@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	19
+Release:	20
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -190,6 +190,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Mon Jul 10 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-20
+- correctly display free space on devices referred to by
+  symlinks (#197738)
+
 * Fri Jun 16 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-19
 - fix segfault in wordproc.c (#194562)
 

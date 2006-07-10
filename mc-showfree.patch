@@ -1,5 +1,5 @@
 --- mc-4.6.1a/src/setup.c.showfree	2006-02-23 16:32:18.000000000 +0100
-+++ mc-4.6.1a/src/setup.c	2006-05-29 09:42:29.000000000 +0200
++++ mc-4.6.1a/src/setup.c	2006-07-10 12:44:43.000000000 +0200
 @@ -134,6 +134,7 @@
      { "show_mini_info", &show_mini_info },
      { "permission_mode", &permission_mode },
@@ -8,8 +8,8 @@
      { 0, 0 }
  };
  
---- mc-4.6.1a/src/main.c.showfree	2006-05-29 12:41:36.000000000 +0200
-+++ mc-4.6.1a/src/main.c	2006-05-29 13:04:50.000000000 +0200
+--- mc-4.6.1a/src/main.c.showfree	2006-07-10 12:44:43.000000000 +0200
++++ mc-4.6.1a/src/main.c	2006-07-10 14:09:24.000000000 +0200
 @@ -61,6 +61,7 @@
  #include "listmode.h"
  #include "execute.h"
@@ -40,27 +40,38 @@
      update_one_panel (get_current_index (), force_update, current_file);
      if (reload_other)
  	update_one_panel (get_other_index (), force_update, UP_KEEPSEL);
-@@ -467,6 +476,37 @@
+@@ -467,6 +476,48 @@
      }
  }
  
 +void
 +show_free_space(WPanel *panel)
 +{
-+    struct stat st;
-+    
 +    /* Don't try to stat non-local fs */
 +    if (!vfs_file_is_local(panel->cwd) || !free_space)
 +	return;
 +   
 +    if (old_cwd == NULL || strcmp(old_cwd, panel->cwd) != 0) {
++    	struct stat st;
++    
 +	init_my_statfs();
 +	g_free(old_cwd);
 +	old_cwd = g_strdup(panel->cwd);
-+	my_statfs (&myfs_stats, panel->cwd);
++	
++	if ( mc_lstat (panel->cwd, &st) )
++	    return;
++
++	if ( !S_ISLNK (st.st_mode) ) {
++	    my_statfs (&myfs_stats, panel->cwd);
++	} else
++	{
++	    char buf[MC_MAXPATHLEN];
++	    memset (buf, 0, sizeof(buf));
++	    if ( mc_readlink (panel->cwd, buf, sizeof(buf)-1) <= 0 )
++	    	return;
++	    my_statfs (&myfs_stats, buf);
++	}
 +    }
-+   
-+    st = panel->dir.list [panel->selected].st;
 +   
 +    if (myfs_stats.avail > 0 || myfs_stats.total > 0) {
 +	char buffer1 [6], buffer2[6], *tmp;
@@ -78,8 +89,8 @@
  static int
  quit_cmd_internal (int quiet)
  {
---- mc-4.6.1a/src/main.h.showfree	2006-05-29 09:42:29.000000000 +0200
-+++ mc-4.6.1a/src/main.h	2006-05-29 10:30:37.000000000 +0200
+--- mc-4.6.1a/src/main.h.showfree	2006-07-10 12:44:43.000000000 +0200
++++ mc-4.6.1a/src/main.h	2006-07-10 12:44:43.000000000 +0200
 @@ -55,6 +55,7 @@
  extern int show_all_if_ambiguous;
  extern int slow_terminal;
@@ -96,8 +107,8 @@
  
  void touch_bar      (void);
  void update_xterm_title_path (void);
---- mc-4.6.1a/src/screen.c.showfree	2006-05-29 09:42:29.000000000 +0200
-+++ mc-4.6.1a/src/screen.c	2006-05-29 10:14:55.000000000 +0200
+--- mc-4.6.1a/src/screen.c.showfree	2006-07-10 12:44:43.000000000 +0200
++++ mc-4.6.1a/src/screen.c	2006-07-10 12:44:43.000000000 +0200
 @@ -47,7 +47,7 @@
  #include "widget.h"
  #include "menu.h"		/* menubar_visible */
@@ -124,8 +135,8 @@
      if (panel->active)
  	standend ();
  }
---- mc-4.6.1a/src/layout.c.showfree	2006-05-29 09:42:28.000000000 +0200
-+++ mc-4.6.1a/src/layout.c	2006-05-29 09:42:29.000000000 +0200
+--- mc-4.6.1a/src/layout.c.showfree	2006-07-10 12:44:43.000000000 +0200
++++ mc-4.6.1a/src/layout.c	2006-07-10 12:44:43.000000000 +0200
 @@ -99,6 +99,9 @@
  /* Set to show current working dir in xterm window title */
  int xterm_title = 1;
@@ -292,7 +303,7 @@
      add_widget (layout_dlg, radio_widget);
      radio_widget->sel = horizontal_split;
 --- mc-4.6.1a/src/layout.h.showfree	2004-12-03 20:17:47.000000000 +0100
-+++ mc-4.6.1a/src/layout.h	2006-05-29 09:42:29.000000000 +0200
++++ mc-4.6.1a/src/layout.h	2006-07-10 12:44:43.000000000 +0200
 @@ -39,6 +39,7 @@
  extern int output_start_y;
  extern int message_visible;
