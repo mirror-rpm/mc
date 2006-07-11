@@ -1,11 +1,13 @@
+%define date 2006-06-30-18
+
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	20
+Release:	21
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
-Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/mc-%{version}.tar.bz2
+Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/snapshots/mc-%{date}.tar.gz
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel
@@ -22,7 +24,7 @@ Patch8:		mc-showfree.patch
 Patch9:		mc-cedit.patch
 Patch10:	mc-delcheck.patch
 Patch11:	mc-etcmc.patch
-Patch12:	mc-segfault.patch
+Patch12:	mc-rpmobsolete.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -32,7 +34,7 @@ ability to FTP, view tar and zip files, and to poke into RPMs for
 specific files.
 
 %prep
-%setup -q -n %{name}-%{version}
+%setup -q -n %{name}-%{date}
 
 %patch0 -p1 -b .utf8
 %patch1 -p1 -b .extensions
@@ -45,7 +47,7 @@ specific files.
 %patch9 -p1 -b .cedit
 %patch10 -p1 -b .delcheck
 %patch11 -p1 -b .etcmc
-%patch12 -p1 -b .segfault
+%patch12 -p1 -b .rpmobsolete
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -190,6 +192,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Tue Jul 11 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-21
+- update to new mc snapshot (fixes #195810)
+- drop .segfault patch, applied upstream
+- highlight "Serial:" and "Copyright:" obsolete RPM tags so that
+  everyone is aware it's obsolete
+
 * Mon Jul 10 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-20
 - correctly display free space on devices referred to by
   symlinks (#197738)
