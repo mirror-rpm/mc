@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell.
 Name:		mc
 Version:	4.6.1a
-Release:	21
+Release:	21.1
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -192,6 +192,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - 1:4.6.1a-21.1
+- rebuild
+
 * Tue Jul 11 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-21
 - update to new mc snapshot (fixes #195810)
 - drop .segfault patch, applied upstream
