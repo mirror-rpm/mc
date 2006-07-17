@@ -1,9 +1,9 @@
 %define date 2006-06-30-18
 
-Summary:	User-friendly text console file manager and visual shell.
+Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	21.1
+Release:	22
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -25,6 +25,7 @@ Patch9:		mc-cedit.patch
 Patch10:	mc-delcheck.patch
 Patch11:	mc-etcmc.patch
 Patch12:	mc-rpmobsolete.patch
+Patch13:	mc-case.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -48,6 +49,7 @@ specific files.
 %patch10 -p1 -b .delcheck
 %patch11 -p1 -b .etcmc
 %patch12 -p1 -b .rpmobsolete
+%patch13 -p1 -b .case
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -192,6 +194,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Mon Jul 17 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-22
+- use less ugly UTF-8 special characters for scrollbars
+- properly highlight RPM tags that differ in case while
+  editing spec file
+
 * Wed Jul 12 2006 Jesse Keating <jkeating@redhat.com> - 1:4.6.1a-21.1
 - rebuild
 
