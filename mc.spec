@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	24%{?dist}
+Release:	25%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -26,6 +26,7 @@ Patch10:	mc-delcheck.patch
 Patch11:	mc-etcmc.patch
 Patch12:	mc-exit.patch
 Patch13:	mc-fishfix.patch
+Patch14:	mc-assembly.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -50,6 +51,7 @@ specific files.
 %patch11 -p1 -b .etcmc
 %patch12 -p1 -b .exit
 %patch13 -p1 -b .fishfix
+%patch14 -p1 -b .assembly
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -194,6 +196,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Wed Aug 23 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-25.fc6
+- highlight AMD64 registers properly when editing assembly sources
+
 * Mon Aug 21 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-24.fc6
 - fix segfault caused by improper parsing of ls output while
   deleting files via shell link (#202623)
