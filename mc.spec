@@ -3,13 +3,13 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	26%{?dist}
+Release:	27%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
 Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/snapshots/mc-%{date}.tar.gz
 URL:		http://www.ibiblio.org/mc/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-root
+BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel
 Requires:	dev >= 0:3.3-3
 
@@ -28,6 +28,7 @@ Patch12:	mc-exit.patch
 Patch13:	mc-fishfix.patch
 Patch14:	mc-assembly.patch
 Patch15:	mc-spec.patch
+Patch16:	mc-utf8-8bit-hex.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -54,6 +55,7 @@ specific files.
 %patch13 -p1 -b .fishfix
 %patch14 -p1 -b .assembly
 %patch15 -p1 -b .spec
+%patch16 -p1 -b .8bit-hex
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -198,6 +200,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Tue Sep  5 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-27.fc6
+- display hex values correctly even for non-UTF8 locales, thanks
+  to Egmont Koblinger
+- fix BuildRoot
+
 * Sat Sep  2 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-26.fc6
 - correctly highlight Requires(pre,post,preun,postun) in spec
 
