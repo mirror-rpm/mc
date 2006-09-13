@@ -1,9 +1,9 @@
-%define date 2006-08-12-18
+%define date 2006-09-12-21
 
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	27%{?dist}
+Release:	28%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -26,9 +26,7 @@ Patch10:	mc-delcheck.patch
 Patch11:	mc-etcmc.patch
 Patch12:	mc-exit.patch
 Patch13:	mc-fishfix.patch
-Patch14:	mc-assembly.patch
-Patch15:	mc-spec.patch
-Patch16:	mc-utf8-8bit-hex.patch
+Patch14:	mc-utf8-8bit-hex.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -53,9 +51,7 @@ specific files.
 %patch11 -p1 -b .etcmc
 %patch12 -p1 -b .exit
 %patch13 -p1 -b .fishfix
-%patch14 -p1 -b .assembly
-%patch15 -p1 -b .spec
-%patch16 -p1 -b .8bit-hex
+%patch14 -p1 -b .8bit-hex
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -200,6 +196,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Wed Sep 13 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-28.fc6
+- update to new CVS snapshot (09-12-21)
+- drop .assembly, .spec patches -> applied upstream
+
 * Tue Sep  5 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-27.fc6
 - display hex values correctly even for non-UTF8 locales, thanks
   to Egmont Koblinger
