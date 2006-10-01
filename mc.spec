@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	29%{?dist}
+Release:	30%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -198,6 +198,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Sun Oct 01 2006 Jesse Keating <jkeating@redhat.com> 4.6.1a-30
+- rebuilt for unwind info generation, broken in gcc-4.1.1-21
+
 * Tue Sep 26 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-29
 - add experimental IPv6 support for ftpfs (#198386), thanks to
   Dan Kopecek for the patch
