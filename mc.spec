@@ -1,9 +1,9 @@
-%define date 2006-09-12-21
+%define date 2006-09-25-14
 
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	30%{?dist}
+Release:	31%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -198,6 +198,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Tue Oct 10 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-31
+- update to new CVS snapshot
+
 * Sun Oct 01 2006 Jesse Keating <jkeating@redhat.com> 4.6.1a-30
 - rebuilt for unwind info generation, broken in gcc-4.1.1-21
 
