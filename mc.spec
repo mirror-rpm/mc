@@ -199,6 +199,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %changelog
 * Fri Oct 27 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-32
+- update to new CVS snapshot
 - fix IPv6 FISH support
 - use better UTF-8 characters for scrollbars
 
