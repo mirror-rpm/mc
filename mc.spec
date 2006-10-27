@@ -1,9 +1,9 @@
-%define date 2006-09-25-14
+%define date 2006-10-15-16
 
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	31%{?dist}
+Release:	32%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -198,6 +198,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Fri Oct 27 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-32
+- fix IPv6 FISH support
+- use better UTF-8 characters for scrollbars
+
 * Tue Oct 10 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-31
 - update to new CVS snapshot
 

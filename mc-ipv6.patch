@@ -386,3 +386,28 @@
  #define OPT_FLUSH        1
  #define OPT_IGNORE_ERROR 2
  
+--- mc-2006-08-12-18/vfs/utilvfs.c.ipv6	2006-01-30 18:01:58.000000000 +0100
++++ mc-2006-08-12-18/vfs/utilvfs.c	2010-12-14 20:41:09.000000000 +0100
+@@ -109,7 +109,21 @@ vfs_split_url (const char *path, char **
+     }
+ 
+     /* Check if the host comes with a port spec, if so, chop it */
+-    colon = strchr (rest, ':');
++    if ('[' == *rest) {
++      colon = strchr (++rest, ']');
++      if (colon) {
++	colon[0] = '\0';
++	colon[1] = '\0';
++	colon++;
++      } else {
++	g_free (pcopy);
++	*host = NULL;
++	*port = 0;
++	return NULL;
++      }
++    } else
++      colon = strchr (rest, ':');
++
+     if (colon) {
+ 	*colon = 0;
+ 	if (sscanf (colon + 1, "%d", port) == 1) {
