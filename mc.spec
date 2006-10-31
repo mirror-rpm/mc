@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	32%{?dist}
+Release:	33%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -28,6 +28,7 @@ Patch12:	mc-exit.patch
 Patch13:	mc-fishfix.patch
 Patch14:	mc-utf8-8bit-hex.patch
 Patch15:	mc-ipv6.patch
+Patch16:	mc-rpmconf.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -54,6 +55,7 @@ specific files.
 %patch13 -p1 -b .fishfix
 %patch14 -p1 -b .8bit-hex
 %patch15 -p1 -b .ipv6
+%patch16 -p1 -b .rpmconf
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -198,6 +200,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Tue Oct 31 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-33
+- display also conflicts in addition to provides/obsoletes/requires
+  while browsing RPM vfs
+
 * Fri Oct 27 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-32
 - update to new CVS snapshot
 - fix IPv6 FISH support
