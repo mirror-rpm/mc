@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	33%{?dist}
+Release:	34%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -200,6 +200,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Wed Nov  2 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-34
+- fix #214255 - sh vfs disconnects with special character in filename
+- drop fish-upload patch, applied upstream
+
 * Tue Oct 31 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-33
 - display also conflicts in addition to provides/obsoletes/requires
   while browsing RPM vfs
