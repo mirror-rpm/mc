@@ -1,9 +1,9 @@
-%define date 2006-10-15-16
+%define date 2006-11-14-16
 
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	34%{?dist}
+Release:	35%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -15,20 +15,18 @@ Requires:	dev >= 0:3.3-3
 
 Patch0:		mc-utf8.patch
 Patch1:		mc-extensions.patch
-Patch2:		mc-uglydir.patch
-Patch4:		mc-userhost.patch
-Patch5:		mc-64bit.patch
-Patch6:		mc-utf8-look-and-feel.patch
-Patch7:		mc-concat.patch
-Patch8:		mc-showfree.patch
-Patch9:		mc-cedit.patch
-Patch10:	mc-delcheck.patch
-Patch11:	mc-etcmc.patch
-Patch12:	mc-exit.patch
-Patch13:	mc-fishfix.patch
-Patch14:	mc-utf8-8bit-hex.patch
-Patch15:	mc-ipv6.patch
-Patch16:	mc-rpmconf.patch
+Patch2:		mc-userhost.patch
+Patch3:		mc-64bit.patch
+Patch4:		mc-utf8-look-and-feel.patch
+Patch5:		mc-concat.patch
+Patch6:		mc-showfree.patch
+Patch7:		mc-cedit.patch
+Patch8:		mc-delcheck.patch
+Patch9:		mc-etcmc.patch
+Patch10:	mc-exit.patch
+Patch11:	mc-utf8-8bit-hex.patch
+Patch12:	mc-ipv6.patch
+Patch13:	mc-newlinedir.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -42,20 +40,18 @@ specific files.
 
 %patch0 -p1 -b .utf8
 %patch1 -p1 -b .extensions
-%patch2 -p1 -b .uglydir
-%patch4 -p1 -b .userhost
-%patch5 -p1 -b .64bit
-%patch6 -p1 -b .laf
-%patch7 -p1 -b .concat
-%patch8 -p1 -b .showfree
-%patch9 -p1 -b .cedit
-%patch10 -p1 -b .delcheck
-%patch11 -p1 -b .etcmc
-%patch12 -p1 -b .exit
-%patch13 -p1 -b .fishfix
-%patch14 -p1 -b .8bit-hex
-%patch15 -p1 -b .ipv6
-%patch16 -p1 -b .rpmconf
+%patch2 -p1 -b .userhost
+%patch3 -p1 -b .64bit
+%patch4 -p1 -b .laf
+%patch5 -p1 -b .concat
+%patch6 -p1 -b .showfree
+%patch7 -p1 -b .cedit
+%patch8 -p1 -b .delcheck
+%patch9 -p1 -b .etcmc
+%patch10 -p1 -b .exit
+%patch11 -p1 -b .8bit-hex
+%patch12 -p1 -b .ipv6
+%patch13 -p1 -b .newlinedir
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -200,6 +196,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Thu Nov 16 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-35
+- update to new CVS snapshot
+- drop .fishfix, .rpmconf patches, applied upstream
+- fix IPv6 patch (should fix #206234 and #213212)
+- don't crash when directory ending with newline is listed (#215909),
+  disable support for directories with '\n' in name to avoid
+  further issues (remove .uglydir patch) and report chdir error
+
 * Wed Nov  2 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-34
 - fix #214255 - sh vfs disconnects with special character in filename
 - drop fish-upload patch, applied upstream

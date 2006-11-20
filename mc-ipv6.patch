@@ -259,7 +259,7 @@
 -
 -	SUP.use_passive_connection = 0;
 -	print_vfs_message (_("ftpfs: could not setup passive mode"));
-+  if (getsockname (SUP.sock, (struct sockaddr *) &data_addr, &data_addrlen) == -1)
++  if (getpeername (SUP.sock, (struct sockaddr *) &data_addr, &data_addrlen) == -1)
 +    return -1;
 +  
 +  switch (data_addr.ss_family) {
