@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	36%{?dist}
+Release:	37%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -28,6 +28,7 @@ Patch11:	mc-utf8-8bit-hex.patch
 Patch12:	mc-ipv6.patch
 Patch13:	mc-newlinedir.patch
 Patch14:	mc-tmpcrash.patch
+Patch15:	mc-cloexec.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -54,6 +55,7 @@ specific files.
 %patch12 -p1 -b .ipv6
 %patch13 -p1 -b .newlinedir
 %patch14 -p1 -b .tmpcrash
+%patch15 -p1 -b .cloexec
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -198,6 +200,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Mon Dec  4 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-37
+- update bindings
+- attempt to fcntl() descriptors appropriatelly so that subshell
+  doesn't leave them open while execve()ing commands (#217027)
+- more general fix for #215909
+
 * Thu Nov 27 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-36
 - don't crash when temporary directory cannot be created (#217342)
 
