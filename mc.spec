@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	37%{?dist}
+Release:	38%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -200,6 +200,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Thu Dec 21 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-38
+- rebuild because of the %%{_host} macro change (Related: #220273)
+
 * Mon Dec  4 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-37
 - update bindings
 - attempt to fcntl() descriptors appropriatelly so that subshell
