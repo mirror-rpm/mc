@@ -1,9 +1,9 @@
-%define date 2006-11-14-16
+%define date 2006-12-28-05
 
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	38%{?dist}
+Release:	39%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -200,6 +200,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Thu Jan  4 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-39
+- update to new CVS snapshot (fixes #220828)
+- update bindings again
+
 * Thu Dec 21 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-38
 - rebuild because of the %%{_host} macro change (Related: #220273)
 
