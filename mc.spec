@@ -1,9 +1,9 @@
-%define date 2006-12-28-05
+%define date 2007-01-22-13
 
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	39%{?dist}
+Release:	40%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -27,8 +27,7 @@ Patch10:	mc-exit.patch
 Patch11:	mc-utf8-8bit-hex.patch
 Patch12:	mc-ipv6.patch
 Patch13:	mc-newlinedir.patch
-Patch14:	mc-tmpcrash.patch
-Patch15:	mc-cloexec.patch
+Patch14:	mc-cloexec.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -54,8 +53,7 @@ specific files.
 %patch11 -p1 -b .8bit-hex
 %patch12 -p1 -b .ipv6
 %patch13 -p1 -b .newlinedir
-%patch14 -p1 -b .tmpcrash
-%patch15 -p1 -b .cloexec
+%patch14 -p1 -b .cloexec
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -138,7 +136,7 @@ export CFLAGS="-DUTF8=1 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAG
 	     --enable-charset \
 	     --with-samba \
 	     --without-x \
-	     --without-gpm-mouse
+	     --with-gpm-mouse
 make %{?_smp_mflags}
 
 %install 
@@ -200,6 +198,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_sysconfdir}/mc
 
 %changelog
+* Mon Jan 22 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-40
+- update to new upstream CVS snapshot
+- drop upstreamed tmpcrash patch
+- reenable gpm support as it is now fixed (#168076)
+
 * Thu Jan  4 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-39
 - update to new CVS snapshot (fixes #220828)
 - update bindings again
