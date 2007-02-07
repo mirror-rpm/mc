@@ -887,7 +887,7 @@ rm -rf $RPM_BUILD_ROOT
   script
 
 * Fri Sep 25 1999 Bill Nottingham <notting@redhat.com>
-- chkconfig --del in %preun, not %postun
+- chkconfig --del in %%preun, not %postun
 
 * Wed Sep 22 1999 Michael Fulbright <drmike@redhat.com>
 - updated to 4.5.39-pre9
@@ -1044,14 +1044,14 @@ rm -rf $RPM_BUILD_ROOT
 - added support for mc alias in %%{_sysconfdir}/profile.d/mc.csh (for csh and tcsh)
 - lowered number of SysV init scripts in %%{_sysconfdir}/rc.d/rc[0,1,6].d
   (mcserv needs to be killed before inet)
-- removed all references to $RPM_SOURCE_DIR
+- removed all references to RPM_SOURCE_DIR
 - restored $RPM_OPT_FLAGS when compiling
 - minor cleanup of spec file: redundant directives and comments removed
 
 * Sun May 18 1997 Michele Marziani <marziani@fe.infn.it>
 
 - removed all references to non-existent mc.rpmfs
-- added mcedit.1 to the %files section
+- added mcedit.1 to the %%files section
 - reverted to un-gzipped man pages (RedHat style)
 - removed double install line for mcserv.pamd
 
@@ -1089,6 +1089,6 @@ rm -rf $RPM_BUILD_ROOT
 - added %%{_sysconfdir}/pamd.d/mcserv PAM config file.
 - added instaling icons,
 - added %%{_sysconfdir}/profile.d/mc.sh,
-- in %doc added NEWS README,
+- in %%doc added NEWS README,
 - removed %%{prefix}/lib/mc/FAQ,
 - added mcserv.init script for mcserv (start/stop on level 86).
