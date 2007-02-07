@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	40%{?dist}
+Release:	41.20070122cvs%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -117,22 +117,6 @@ popd
 %build
 export CFLAGS="-DUTF8=1 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
 %configure --with-screen=slang \
-	     --host=%{_host} --build=%{_build} \
-	     --target=%{_target_platform} \
-	     --program-prefix=%{?_program_prefix} \
-	     --prefix=%{_prefix} \
-	     --exec-prefix=%{_exec_prefix} \
-	     --bindir=%{_bindir} \
-	     --sbindir=%{_sbindir} \
-	     --sysconfdir=%{_sysconfdir} \
-	     --datadir=%{_datadir} \
-	     --includedir=%{_includedir} \
-	     --libdir=%{_libdir} \
-	     --libexecdir=%{_libexecdir} \
-	     --localstatedir=%{_localstatedir} \
-	     --sharedstatedir=%{_sharedstatedir} \
-	     --mandir=%{_mandir} \
-	     --infodir=%{_infodir} \
 	     --enable-charset \
 	     --with-samba \
 	     --without-x \
@@ -146,7 +130,7 @@ install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/mc
 install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/mc/extfs
 install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/mc/syntax
 
-%{makeinstall} sysconfdir=$RPM_BUILD_ROOT%{_sysconfdir}
+make install DESTDIR="$RPM_BUILD_ROOT"
 
 install lib/{mc.sh,mc.csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 
@@ -196,8 +180,12 @@ rm -rf $RPM_BUILD_ROOT
 %config %{_sysconfdir}/mc/*
 %dir %{_datadir}/mc
 %dir %{_sysconfdir}/mc
+%dir %{_libexecdir}/mc
 
 %changelog
+* Tue Feb  6 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-41
+- merge review spec fixes (#226133)
+
 * Mon Jan 22 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-40
 - update to new upstream CVS snapshot
 - drop upstreamed tmpcrash patch
@@ -639,7 +627,7 @@ rm -rf $RPM_BUILD_ROOT
 - fix a bunch of buffer overflows and memory leaks (CAN-2004-0226)
 - fix hardlink handling in cpio filesystem
 - fix handling of filenames with single/double quotes and backslashes
-  in %{_datadir}/mc/extfs/rpm
+  in %%{_datadir}/mc/extfs/rpm
 - update php.syntax file (#112645)
 - fix crash with large syntax file (#112644)
 - update CAN-2003-1023 fix to still make vfs symlinks relative,
@@ -812,7 +800,7 @@ rm -rf $RPM_BUILD_ROOT
 - Updated Japanese translation.
 
 * Sun Jan 14 2001 Florian La Roche <Florian.LaRoche@redhat.de>
-- do not prereq %{_sysconfdir}/init.d
+- do not prereq %%{_sysconfdir}/init.d
 - do not require gpm for s390
 
 * Mon Aug 21 2000 Jonathan Blandford <jrb@redhat.com>
@@ -947,7 +935,7 @@ rm -rf $RPM_BUILD_ROOT
 - patched so that TERM variable set to xterm produces color
 
 * Mon Mar 22 1999 Michael Fulbright <drmike@redhat.com>
-- made sure %{_sysconfdir}/pam.d/mcserv has right permissions
+- made sure %%{_sysconfdir}/pam.d/mcserv has right permissions
 
 * Thu Mar 18 1999 Michael Fulbright <drmike@redhat.com>
 - version 4.5.27
@@ -997,7 +985,7 @@ rm -rf $RPM_BUILD_ROOT
 - removed tkmc
 
 * Wed Apr 8 1998 Marc Ewing <marc@redhat.com>
-- add %{prefix}/lib/mc/layout to gmc
+- add %%{prefix}/lib/mc/layout to gmc
 
 * Tue Dec 23 1997 Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>
 - added --without-debug to configure,
@@ -1026,10 +1014,10 @@ rm -rf $RPM_BUILD_ROOT
 * Sun Oct 26 1997 Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>
 
 - updated to 4.1.6
-- added %attr macros in %%files,
+- added %%attr macros in %%files,
 - a few simplification in %%install,
 - removed glibc patch,
-- fixed installing %{_sysconfdir}/X11/wmconfig/tkmc.
+- fixed installing %%{_sysconfdir}/X11/wmconfig/tkmc.
 
 * Thu Oct 23 1997 Michael K. Johnson <johnsonm@redhat.com>
 
@@ -1053,8 +1041,8 @@ rm -rf $RPM_BUILD_ROOT
 
 * Thu May 22 1997 Michele Marziani <marziani@fe.infn.it>
 
-- added support for mc alias in %{_sysconfdir}/profile.d/mc.csh (for csh and tcsh)
-- lowered number of SysV init scripts in %{_sysconfdir}/rc.d/rc[0,1,6].d
+- added support for mc alias in %%{_sysconfdir}/profile.d/mc.csh (for csh and tcsh)
+- lowered number of SysV init scripts in %%{_sysconfdir}/rc.d/rc[0,1,6].d
   (mcserv needs to be killed before inet)
 - removed all references to $RPM_SOURCE_DIR
 - restored $RPM_OPT_FLAGS when compiling
@@ -1071,10 +1059,10 @@ rm -rf $RPM_BUILD_ROOT
 
 - added new rpmfs script,
 - removed mcfn_install from mc (adding mc() to bash enviroment is in
-  %{_sysconfdir}/profile.d/mc.sh),
-- %{_sysconfdir}/profile.d/mc.sh changed to %config,
-- removed %{prefix}/lib/mc/bin/create_vcs,
-- removed %{prefix}/lib/mc/term.
+  %%{_sysconfdir}/profile.d/mc.sh),
+- %%{_sysconfdir}/profile.d/mc.sh changed to %%config,
+- removed %%{prefix}/lib/mc/bin/create_vcs,
+- removed %%{prefix}/lib/mc/term.
 
 * Wed May 9 1997 Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>
 
@@ -1084,23 +1072,23 @@ rm -rf $RPM_BUILD_ROOT
 * Tue May 7 1997 Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>
 
 - new version 3.5.27,
-- %dir %{prefix}/lib/mc/icons and icons removed from tkmc,
+- %%dir %%{prefix}/lib/mc/icons and icons removed from tkmc,
 - added commented xmc part.
 
 * Tue Apr 22 1997 Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>
 
 - FIX spec:
    - added URL field,
-   - in mc added missing %{prefix}/lib/mc/mc.ext, %{prefix}/lib/mc/mc.hint,
-     %{prefix}/lib/mc/mc.hlp, %{prefix}/lib/mc/mc.lib, %{prefix}/lib/mc/mc.menu.
+   - in mc added missing %%{prefix}/lib/mc/mc.ext, %%{prefix}/lib/mc/mc.hint,
+     %%{prefix}/lib/mc/mc.hlp, %%{prefix}/lib/mc/mc.lib, %%{prefix}/lib/mc/mc.menu.
 
 * Fri Apr 18 1997 Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>
 
 - added making packages: tkmc, mcserv (xmc not work yet),
 - gziped man pages,
-- added %{_sysconfdir}/pamd.d/mcserv PAM config file.
+- added %%{_sysconfdir}/pamd.d/mcserv PAM config file.
 - added instaling icons,
-- added %{_sysconfdir}/profile.d/mc.sh,
+- added %%{_sysconfdir}/profile.d/mc.sh,
 - in %doc added NEWS README,
-- removed %{prefix}/lib/mc/FAQ,
+- removed %%{prefix}/lib/mc/FAQ,
 - added mcserv.init script for mcserv (start/stop on level 86).
