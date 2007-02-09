@@ -1,9 +1,9 @@
-%define date 2007-01-22-13
+%define date 2007-01-24-03
 
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	41.20070122cvs%{?dist}
+Release:	42.20070124cvs%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -183,6 +183,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Fri Feb  9 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-42
+- update to new CVS snapshot
+
 * Tue Feb  6 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-41
 - merge review spec fixes (#226133)
 
