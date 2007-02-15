@@ -1,5 +1,5 @@
---- mc-4.6.1a/src/setup.c.showfree	2006-02-23 16:32:18.000000000 +0100
-+++ mc-4.6.1a/src/setup.c	2006-07-10 12:44:43.000000000 +0200
+--- mc-2007-01-24-03/src/setup.c.showfree	2006-02-23 16:45:06.000000000 +0100
++++ mc-2007-01-24-03/src/setup.c	2007-02-15 09:53:48.000000000 +0100
 @@ -134,6 +134,7 @@
      { "show_mini_info", &show_mini_info },
      { "permission_mode", &permission_mode },
@@ -8,8 +8,8 @@
      { 0, 0 }
  };
  
---- mc-4.6.1a/src/main.c.showfree	2006-07-10 12:44:43.000000000 +0200
-+++ mc-4.6.1a/src/main.c	2006-07-10 14:09:24.000000000 +0200
+--- mc-2007-01-24-03/src/main.c.showfree	2007-02-15 09:53:48.000000000 +0100
++++ mc-2007-01-24-03/src/main.c	2007-02-15 09:53:48.000000000 +0100
 @@ -61,6 +61,7 @@
  #include "listmode.h"
  #include "execute.h"
@@ -40,7 +40,7 @@
      update_one_panel (get_current_index (), force_update, current_file);
      if (reload_other)
  	update_one_panel (get_other_index (), force_update, UP_KEEPSEL);
-@@ -467,6 +476,48 @@
+@@ -467,6 +476,38 @@
      }
  }
  
@@ -52,25 +52,15 @@
 +	return;
 +   
 +    if (old_cwd == NULL || strcmp(old_cwd, panel->cwd) != 0) {
-+    	struct stat st;
++	char rpath[PATH_MAX];
 +    
 +	init_my_statfs();
 +	g_free(old_cwd);
 +	old_cwd = g_strdup(panel->cwd);
 +	
-+	if ( mc_lstat (panel->cwd, &st) )
-+	    return;
-+
-+	if ( !S_ISLNK (st.st_mode) ) {
-+	    my_statfs (&myfs_stats, panel->cwd);
-+	} else
-+	{
-+	    char buf[MC_MAXPATHLEN];
-+	    memset (buf, 0, sizeof(buf));
-+	    if ( mc_readlink (panel->cwd, buf, sizeof(buf)-1) <= 0 )
-+	    	return;
-+	    my_statfs (&myfs_stats, buf);
-+	}
++	if (mc_realpath (panel->cwd, rpath) == NULL)
++            return;
++	my_statfs (&myfs_stats, rpath);
 +    }
 +   
 +    if (myfs_stats.avail > 0 || myfs_stats.total > 0) {
@@ -89,8 +79,8 @@
  static int
  quit_cmd_internal (int quiet)
  {
---- mc-4.6.1a/src/main.h.showfree	2006-07-10 12:44:43.000000000 +0200
-+++ mc-4.6.1a/src/main.h	2006-07-10 12:44:43.000000000 +0200
+--- mc-2007-01-24-03/src/main.h.showfree	2007-02-15 09:53:48.000000000 +0100
++++ mc-2007-01-24-03/src/main.h	2007-02-15 09:53:48.000000000 +0100
 @@ -55,6 +55,7 @@
  extern int show_all_if_ambiguous;
  extern int slow_terminal;
@@ -107,8 +97,8 @@
  
  void touch_bar      (void);
  void update_xterm_title_path (void);
---- mc-4.6.1a/src/screen.c.showfree	2006-07-10 12:44:43.000000000 +0200
-+++ mc-4.6.1a/src/screen.c	2006-07-10 12:44:43.000000000 +0200
+--- mc-2007-01-24-03/src/screen.c.showfree	2007-02-15 09:53:48.000000000 +0100
++++ mc-2007-01-24-03/src/screen.c	2007-02-15 09:53:48.000000000 +0100
 @@ -47,7 +47,7 @@
  #include "widget.h"
  #include "menu.h"		/* menubar_visible */
@@ -126,7 +116,7 @@
  }
  
  static void
-@@ -929,6 +930,8 @@
+@@ -910,6 +911,8 @@
      widget_move (&panel->widget, 0, panel->widget.cols - 3);
      addstr ("v");
  
@@ -135,9 +125,9 @@
      if (panel->active)
  	standend ();
  }
---- mc-4.6.1a/src/layout.c.showfree	2006-07-10 12:44:43.000000000 +0200
-+++ mc-4.6.1a/src/layout.c	2006-07-10 12:44:43.000000000 +0200
-@@ -99,6 +99,9 @@
+--- mc-2007-01-24-03/src/layout.c.showfree	2007-02-15 09:53:47.000000000 +0100
++++ mc-2007-01-24-03/src/layout.c	2007-02-15 09:53:48.000000000 +0100
+@@ -96,6 +96,9 @@
  /* Set to show current working dir in xterm window title */
  int xterm_title = 1;
  
@@ -147,7 +137,7 @@
  /* The starting line for the output of the subprogram */
  int output_start_y = 0;
  
-@@ -128,6 +131,7 @@
+@@ -125,6 +128,7 @@
  static int _keybar_visible;
  static int _message_visible;
  static int _xterm_title;
@@ -155,7 +145,7 @@
  static int _permission_mode;
  static int _filetype_mode;
  
-@@ -158,6 +162,7 @@
+@@ -155,6 +159,7 @@
      int    *variable;
      WCheck *widget;
  } check_options [] = {
@@ -163,7 +153,7 @@
      { N_("&Xterm window title"), &xterm_title,   0 },
      { N_("h&Intbar visible"),  &message_visible, 0 },
      { N_("&Keybar visible"),   &keybar_visible,  0 },
-@@ -229,8 +234,8 @@
+@@ -226,8 +231,8 @@
      if (_equal_split){
  	/* Turn equal split off */
  	_equal_split = 0;
@@ -174,7 +164,7 @@
  	dlg_select_widget (bleft_widget);
      }
      _first_panel_size++;
-@@ -244,8 +249,8 @@
+@@ -241,8 +246,8 @@
      if (_equal_split){
  	/* Turn equal split off */
  	_equal_split = 0;
@@ -185,7 +175,7 @@
  	dlg_select_widget (bright_widget);
      }
      _first_panel_size--;
-@@ -291,23 +296,24 @@
+@@ -288,23 +293,24 @@
  	    if (old_output_lines != _output_lines){
  		old_output_lines = _output_lines;
  		attrset (COLOR_NORMAL);
@@ -220,7 +210,7 @@
  	if (console_flag){
  	    int minimum;
  	    if (_output_lines < 0)
-@@ -335,7 +341,7 @@
+@@ -332,7 +338,7 @@
  	    if (old_output_lines != _output_lines){
  		old_output_lines = _output_lines;
  		attrset (COLOR_NORMAL);
@@ -229,7 +219,7 @@
  		tty_printf ("%02d", _output_lines);
  	    }
  	}
-@@ -374,7 +380,7 @@
+@@ -371,7 +377,7 @@
  		first_width = l1;
  	}
  
@@ -238,7 +228,7 @@
  	    check_options[i].text = _(check_options[i].text);
  	    l1 = mbstrlen (check_options[i].text) + 7;
  	    if (l1 > first_width)
-@@ -391,7 +397,7 @@
+@@ -388,7 +394,7 @@
  
  
  	second_width = mbstrlen (title3) + 1;
@@ -247,7 +237,7 @@
  	    check_options[i].text = _(check_options[i].text);
  	    l1 = mbstrlen (check_options[i].text) + 7;
  	    if (l1 > second_width)
-@@ -446,23 +452,23 @@
+@@ -443,23 +449,23 @@
  			    0));
      if (console_flag) {
  	add_widget (layout_dlg,
@@ -278,7 +268,7 @@
  
      _filetype_mode = filetype_mode;
      _permission_mode = permission_mode;
-@@ -472,20 +478,21 @@
+@@ -469,20 +475,21 @@
      _keybar_visible = keybar_visible;
      _message_visible = message_visible;
      _xterm_title = xterm_title;
@@ -302,8 +292,8 @@
      radio_widget = radio_new (3, 6, 2, s_split_direction);
      add_widget (layout_dlg, radio_widget);
      radio_widget->sel = horizontal_split;
---- mc-4.6.1a/src/layout.h.showfree	2004-12-03 20:17:47.000000000 +0100
-+++ mc-4.6.1a/src/layout.h	2006-07-10 12:44:43.000000000 +0200
+--- mc-2007-01-24-03/src/layout.h.showfree	2004-12-03 20:17:47.000000000 +0100
++++ mc-2007-01-24-03/src/layout.h	2007-02-15 09:53:48.000000000 +0100
 @@ -39,6 +39,7 @@
  extern int output_start_y;
  extern int message_visible;

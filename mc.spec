@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	42.20070124cvs%{?dist}
+Release:	43.20070124cvs%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -176,13 +176,25 @@ rm -rf $RPM_BUILD_ROOT
 %lang(pl) %{_mandir}/pl/man1/mc.1.gz
 %lang(ru) %{_mandir}/ru/man1/mc.1.gz
 %lang(sr) %{_mandir}/sr/man1/mc.1.gz
-%config %{_sysconfdir}/profile.d/*
-%config %{_sysconfdir}/mc/*
+%{_sysconfdir}/profile.d/*
+%config %{_sysconfdir}/mc/syntax/Syntax
+%config %{_sysconfdir}/mc/mc.charsets
+%config %{_sysconfdir}/mc/mc.lib
+%config(noreplace) %{_sysconfdir}/mc/*edit*
+%config(noreplace) %{_sysconfdir}/mc/mc.ext
+%config(noreplace) %{_sysconfdir}/mc/mc.menu
+%config(noreplace) %{_sysconfdir}/mc/extfs/extfs.ini
+%config(noreplace) %{_sysconfdir}/mc/extfs/sfs.ini
 %dir %{_datadir}/mc
 %dir %{_sysconfdir}/mc
 %dir %{_libexecdir}/mc
 
 %changelog
+* Thu Feb 15 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-43
+- display free space correctly for multiple filesystems (#225153)
+  (thanks to Tomas Heinrich for patch)
+- fix up configs
+
 * Fri Feb  9 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-42
 - update to new CVS snapshot
 
