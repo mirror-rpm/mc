@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	43.20070124cvs%{?dist}
+Release:	44.20070124cvs%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -187,9 +187,14 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{_sysconfdir}/mc/extfs/sfs.ini
 %dir %{_datadir}/mc
 %dir %{_sysconfdir}/mc
+%dir %{_sysconfdir}/mc/syntax
+%dir %{_sysconfdir}/mc/extfs
 %dir %{_libexecdir}/mc
 
 %changelog
+* Mon Apr  2 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-44
+- fix unowned directories (#233880)
+
 * Thu Feb 15 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-43
 - display free space correctly for multiple filesystems (#225153)
   (thanks to Tomas Heinrich for patch)
