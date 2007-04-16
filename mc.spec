@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	44.20070124cvs%{?dist}
+Release:	45.20070124cvs%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -192,6 +192,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Mon Apr 16 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-45
+- fix segmentation fault while editing non-UTF8 files (#229383)
+
 * Mon Apr  2 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-44
 - fix unowned directories (#233880)
 

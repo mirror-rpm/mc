@@ -5201,3 +5201,106 @@
  	if (edit->overwrite) {
  	    if (edit_get_byte (edit, edit->curs1) != '\n')
  		edit_delete (edit);
+--- mc/edit/edit.c.jn	2007-04-16 18:14:22.000000000 +0200
++++ mc/edit/edit.c	2007-04-16 18:26:25.000000000 +0200
+@@ -1526,7 +1526,11 @@
+     f = edit_eol (edit, offset) - 1;
+     while (s <= f) {
+ 	c = edit_get_byte (edit, s++);
++#ifndef UTF8
+ 	if (!isspace (c))
++#else
++	if (!iswspace (c))
++#endif /* UTF8 */
+ 	    return 0;
+     }
+     return 1;
+@@ -1781,6 +1785,7 @@
+ 	    return 2;
+ 	return 0x80000000UL;
+     }
++#ifndef UTF8
+     if (isupper (c))
+ 	c = 'A';
+     else if (islower (c))
+@@ -1791,6 +1796,18 @@
+ 	c = '0';
+     else if (isspace (c))
+ 	c = ' ';
++#else
++    if (iswupper (c))
++	c = 'A';
++    else if (iswlower (c))
++	c = 'a';
++    else if (iswalpha (c))
++	c = 'a';
++    else if (iswdigit (c))
++	c = '0';
++    else if (iswspace (c))
++	c = ' ';
++#endif /* UTF8 */
+     q = strchr (option_chars_move_whole_word, c);
+     if (!q)
+ 	return 0xFFFFFFFFUL;
+@@ -1815,10 +1832,18 @@
+ 	c2 = edit_get_byte (edit, edit->curs1);
+ 	if (!(my_type_of (c1) & my_type_of (c2)))
+ 	    break;
++#ifndef UTF8
+ 	if (isspace (c1) && !isspace (c2))
++#else
++	if (iswspace (c1) && !iswspace (c2))
++#endif /* UTF8 */
+ 	    break;
+ 	if (s)
++#ifndef UTF8
+ 	    if (!isspace (c1) && isspace (c2))
++#else
++	    if (!iswspace (c1) && iswspace (c2))
++#endif /* UTF8 */
+ 		break;
+     }
+ }
+@@ -1841,10 +1866,18 @@
+ 	c2 = edit_get_byte (edit, edit->curs1);
+ 	if (!(my_type_of (c1) & my_type_of (c2)))
+ 	    break;
++#ifndef UTF8
+ 	if (isspace (c1) && !isspace (c2))
++#else
++	if (iswspace (c1) && !iswspace (c2))
++#endif /* UTF8 */
+ 	    break;
+ 	if (s)
++#ifndef UTF8
+ 	    if (!isspace (c1) && isspace (c2))
++#else
++	    if (!iswspace (c1) && iswspace (c2))
++#endif /* UTF8 */
+ 		break;
+     }
+ }
+@@ -1864,7 +1897,11 @@
+ 	    break;
+ 	c1 = edit_delete (edit);
+ 	c2 = edit_get_byte (edit, edit->curs1);
++#ifndef UTF8
+ 	if ((isspace (c1) == 0) != (isspace (c2) == 0))
++#else
++	if ((iswspace (c1) == 0) != (iswspace (c2) == 0))
++#endif /* UTF8 */
+ 	    break;
+ 	if (!(my_type_of (c1) & my_type_of (c2)))
+ 	    break;
+@@ -1879,7 +1916,11 @@
+ 	    break;
+ 	c1 = edit_backspace (edit);
+ 	c2 = edit_get_byte (edit, edit->curs1 - 1);
++#ifndef UTF8
+ 	if ((isspace (c1) == 0) != (isspace (c2) == 0))
++#else
++	if ((iswspace (c1) == 0) != (iswspace (c2) == 0))
++#endif /* UTF8 */
+ 	    break;
+ 	if (!(my_type_of (c1) & my_type_of (c2)))
+ 	    break;
