@@ -1,9 +1,9 @@
-%define date 2007-01-24-03
+%define date 2007-06-04-22
 
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	45.20070124cvs%{?dist}
+Release:	46.20070604cvs%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -28,6 +28,7 @@ Patch11:	mc-utf8-8bit-hex.patch
 Patch12:	mc-ipv6.patch
 Patch13:	mc-newlinedir.patch
 Patch14:	mc-cloexec.patch
+Patch15:	mc-prompt.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -54,6 +55,7 @@ specific files.
 %patch12 -p1 -b .ipv6
 %patch13 -p1 -b .newlinedir
 %patch14 -p1 -b .cloexec
+%patch15 -p1 -b .prompt
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -192,6 +194,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Tue Jul 12 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-46
+- update to new upstream CVS snapshot (2007-06-04-22)
+- don't print prompts multiple times when switching
+  between mc and subshell
+
 * Mon Apr 16 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-45
 - fix segmentation fault while editing non-UTF8 files (#229383)
 

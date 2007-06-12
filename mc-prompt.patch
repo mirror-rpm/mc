@@ -1,0 +1,21 @@
+--- mc-2007-06-04-22/src/main.c.prompt	2007-06-12 15:23:25.000000000 +0200
++++ mc-2007-06-04-22/src/main.c	2007-06-12 15:45:08.000000000 +0200
+@@ -453,9 +453,16 @@ do_possible_cd (const char *new_dir)
+ void
+ do_update_prompt (void)
+ {
++    static char *old_subshell_prompt = NULL;
++
+     if (update_prompt) {
+-	printf ("%s", subshell_prompt);
+-	fflush (stdout);
++	if (old_subshell_prompt == NULL
++	    || strcmp (old_subshell_prompt, subshell_prompt)) {
++		g_free (old_subshell_prompt);
++		old_subshell_prompt = g_strdup (subshell_prompt);
++		printf ("\r\n%s", subshell_prompt);
++		fflush (stdout);
++	}
+ 	update_prompt = 0;
+     }
+ }
