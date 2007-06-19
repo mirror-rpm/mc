@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	46.20070604cvs%{?dist}
+Release:	47.20070604cvs%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -29,6 +29,7 @@ Patch12:	mc-ipv6.patch
 Patch13:	mc-newlinedir.patch
 Patch14:	mc-cloexec.patch
 Patch15:	mc-prompt.patch
+Patch16:	mc-refresh.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -56,6 +57,7 @@ specific files.
 %patch13 -p1 -b .newlinedir
 %patch14 -p1 -b .cloexec
 %patch15 -p1 -b .prompt
+%patch16 -p1 -b .refresh
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -194,6 +196,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Tue Jun 19 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-47
+- refresh contents of terminal when resized during time
+  expensive I/O operations (#236502)
+
 * Tue Jul 12 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-46
 - update to new upstream CVS snapshot (2007-06-04-22)
 - don't print prompts multiple times when switching
