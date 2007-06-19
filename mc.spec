@@ -200,7 +200,7 @@ rm -rf $RPM_BUILD_ROOT
 - refresh contents of terminal when resized during time
   expensive I/O operations (#236502)
 
-* Tue Jul 12 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-46
+* Tue Jun 12 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-46
 - update to new upstream CVS snapshot (2007-06-04-22)
 - don't print prompts multiple times when switching
   between mc and subshell
