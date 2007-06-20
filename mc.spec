@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	47.20070604cvs%{?dist}
+Release:	48.20070604cvs%{?dist}
 Epoch:		1
 License:	GPL
 Group:		System Environment/Shells
@@ -196,6 +196,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Wed Jun 20 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-48
+- fix displaying of prompt in subshell (#244025)
+
 * Tue Jun 19 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-47
 - refresh contents of terminal when resized during time
   expensive I/O operations (#236502)
