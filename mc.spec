@@ -3,9 +3,9 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	48.20070604cvs%{?dist}
+Release:	49.20070604cvs%{?dist}
 Epoch:		1
-License:	GPL
+License:	GPLv2
 Group:		System Environment/Shells
 Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/snapshots/mc-%{date}.tar.gz
 URL:		http://www.ibiblio.org/mc/
@@ -196,6 +196,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Thu Aug 23 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-49
+- update License
+- rebuild for ppc32
+
 * Wed Jun 20 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-48
 - fix displaying of prompt in subshell (#244025)
 
