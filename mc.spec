@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	49.20070604cvs%{?dist}
+Release:	50.20070604cvs%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -30,6 +30,7 @@ Patch13:	mc-newlinedir.patch
 Patch14:	mc-cloexec.patch
 Patch15:	mc-prompt.patch
 Patch16:	mc-refresh.patch
+Patch17:	mc-preserveattr.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -58,6 +59,7 @@ specific files.
 %patch14 -p1 -b .cloexec
 %patch15 -p1 -b .prompt
 %patch16 -p1 -b .refresh
+%patch17 -p1 -b .preserveattr
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -196,6 +198,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Wed Nov 14 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-50
+- don't preserve attributes in copy/move while the option is
+  switched off (#195614)
+- rebuild to fix iso9660 vfs because of missing gawk in
+  buildroot(#381751, #363611)
+
 * Thu Aug 23 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-49
 - update License
 - rebuild for ppc32
