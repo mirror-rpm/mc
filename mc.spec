@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	50.20070604cvs%{?dist}
+Release:	51.20070604cvs%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -121,7 +121,7 @@ done
 popd
 
 %build
-export CFLAGS="-DUTF8=1 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
+export CFLAGS="-DUTF8=1 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -fgnu89-inline"
 %configure --with-screen=slang \
 	     --enable-charset \
 	     --with-samba \
@@ -198,6 +198,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Tue Jan  8 2008 Jindrich Novy <jnovy@redhat.com> 4.6.1a-51
+- add -fgnu89-inline to let mc compile with gcc 4.3.0+
+
 * Wed Nov 14 2007 Jindrich Novy <jnovy@redhat.com> 4.6.1a-50
 - don't preserve attributes in copy/move while the option is
   switched off (#195614)
