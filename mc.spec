@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.1a
-Release:	51.20070604cvs%{?dist}
+Release:	52.20070604cvs%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -198,6 +198,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 1:4.6.1a-52.20070604cvs
+- Autorebuild for GCC 4.3
+
 * Tue Jan  8 2008 Jindrich Novy <jnovy@redhat.com> 4.6.1a-51
 - add -fgnu89-inline to let mc compile with gcc 4.3.0+
 
