@@ -1,13 +1,11 @@
-%define date 2007-06-04-22
-
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.6.1a
-Release:	52.20070604cvs%{?dist}
+Version:	4.6.2
+Release:	1.pre1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
-Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/snapshots/mc-%{date}.tar.gz
+Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/snapshots/mc-%{version}-pre1.tar.gz
 URL:		http://www.ibiblio.org/mc/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel
@@ -40,8 +38,7 @@ ability to FTP, view tar and zip files, and to poke into RPMs for
 specific files.
 
 %prep
-%setup -q -n %{name}-%{date}
-
+%setup -q -n %{name}-%{version}-pre1
 %patch0 -p1 -b .utf8
 %patch1 -p1 -b .extensions
 %patch2 -p1 -b .userhost
@@ -198,6 +195,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Mon Feb 25 2008 Jindrich Novy <jnovy@redhat.com> 4.6.2-1.pre1
+- update to 4.6.2-pre1
+- forwardport the UTF-8 patch to 4.6.2-pre1 and convert new
+  functionality to support UTF-8
+
 * Tue Feb 19 2008 Fedora Release Engineering <rel-eng@fedoraproject.org> - 1:4.6.1a-52.20070604cvs
 - Autorebuild for GCC 4.3
 
