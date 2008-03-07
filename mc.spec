@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.2
-Release:	1.pre1%{?dist}
+Release:	2.pre1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -29,6 +29,7 @@ Patch14:	mc-cloexec.patch
 Patch15:	mc-prompt.patch
 Patch16:	mc-refresh.patch
 Patch17:	mc-preserveattr.patch
+Patch18:	mc-lzma.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -57,6 +58,7 @@ specific files.
 %patch15 -p1 -b .prompt
 %patch16 -p1 -b .refresh
 %patch17 -p1 -b .preserveattr
+%patch18 -p1 -b .lzmavfs
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -195,6 +197,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Fri Mar  7 2008 Jindrich Novy <jnovy@redhat.com> 4.6.2-2.pre1
+- add lzma vfs support by Lasse Collin
+- update extensions patch to use xdg-open
+
 * Mon Feb 25 2008 Jindrich Novy <jnovy@redhat.com> 4.6.2-1.pre1
 - update to 4.6.2-pre1
 - forwardport the UTF-8 patch to 4.6.2-pre1 and convert new
