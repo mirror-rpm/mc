@@ -5392,3 +5392,32 @@ diff -up mc-4.6.2-pre1/acinclude.m4.utf8 mc-4.6.2-pre1/acinclude.m4
  
      if test x$with_screen = xslang; then
  	AC_DEFINE(HAVE_SYSTEM_SLANG, 1,
+diff -Nrbu mc-4.6.1a/src/view.c mc-4.6.1a-OK/src/view.c
+--- mc-4.6.2-pre1/src/view.c	2006-05-05 19:01:49.000000000 +0400
++++ mc-4.6.2-pre1/src/view.c	2006-05-05 18:39:24.000000000 +0400
+@@ -2006,16 +2006,19 @@
+ 	if (col >= view->dpy_text_column
+ 	    && col - view->dpy_text_column < width) {
+ 	    widget_move (view, top + row, left + (col - view->dpy_text_column));
+-#ifndef UTF8
++#ifdef UTF8
++	    if (SLsmg_is_utf8_mode ()) {
++		if (!iswprint (wc))
++		    wc = '.';
++		tty_print_char (wc);
++	    } else {
++#endif
+ 	    c = convert_to_display_c (c);
+ 	    if (!is_printable (c))
+ 		c = '.';
+ 	    tty_print_char (c);
+-#else
+-	    wc = convert_to_display_c (wc);
+-	    if (!iswprint (wc))
+-		wc = '.';
+-	    tty_print_char (wc);
++#ifdef UTF8
++	    }
+ #endif
+ 	}
+ 	col++;
