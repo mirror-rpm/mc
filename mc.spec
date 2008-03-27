@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.2
-Release:	2.pre1%{?dist}
+Release:	3.pre1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -30,6 +30,7 @@ Patch15:	mc-prompt.patch
 Patch16:	mc-refresh.patch
 Patch17:	mc-preserveattr.patch
 Patch18:	mc-lzma.patch
+Patch19:	mc-hintchk.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -59,6 +60,7 @@ specific files.
 %patch16 -p1 -b .refresh
 %patch17 -p1 -b .preserveattr
 %patch18 -p1 -b .lzmavfs
+%patch19 -p1 -b .hintchk
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -149,8 +151,7 @@ mv -f $RPM_BUILD_ROOT%{_datadir}/mc/syntax/Syntax $RPM_BUILD_ROOT%{_sysconfdir}/
 for l in es hu it pl ru sr; do
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/${l}
 mkdir -p $RPM_BUILD_ROOT%{_mandir}/${l}/man1
-gzip -nf9 doc/${l}/mc.1
-install -m 644 doc/${l}/mc.1.gz $RPM_BUILD_ROOT%{_mandir}/${l}/man1
+install -m 644 doc/${l}/mc.1 $RPM_BUILD_ROOT%{_mandir}/${l}/man1
 done
 
 for I in /etc/pam.d/mcserv \
@@ -175,12 +176,12 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/mc/*
 %attr(4711, vcsa, root) %{_libexecdir}/mc/cons.saver
 %{_mandir}/man1/*
-%lang(es) %{_mandir}/es/man1/mc.1.gz
-%lang(hu) %{_mandir}/hu/man1/mc.1.gz
-%lang(it) %{_mandir}/it/man1/mc.1.gz
-%lang(pl) %{_mandir}/pl/man1/mc.1.gz
-%lang(ru) %{_mandir}/ru/man1/mc.1.gz
-%lang(sr) %{_mandir}/sr/man1/mc.1.gz
+%lang(es) %{_mandir}/es/man1/mc.1*
+%lang(hu) %{_mandir}/hu/man1/mc.1*
+%lang(it) %{_mandir}/it/man1/mc.1*
+%lang(pl) %{_mandir}/pl/man1/mc.1*
+%lang(ru) %{_mandir}/ru/man1/mc.1*
+%lang(sr) %{_mandir}/sr/man1/mc.1*
 %{_sysconfdir}/profile.d/*
 %config %{_sysconfdir}/mc/syntax/Syntax
 %config %{_sysconfdir}/mc/mc.charsets
@@ -197,6 +198,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Thu Mar 27 2008 Jindrich Novy <jnovy@redhat.com> 4.6.2-3.pre1
+- don't segfault when hint or help files are missing (#439025),
+  thanks to Tomas Heinrich
+- fix displaying of 8bit encoded files in UTF-8 (#426756),
+  thanks to Andrew Zabolotny
+- don't gzip man pages, leave it to brp-compress
+
 * Fri Mar  7 2008 Jindrich Novy <jnovy@redhat.com> 4.6.2-2.pre1
 - add lzma vfs support by Lasse Collin
 - update extensions patch to use xdg-open
