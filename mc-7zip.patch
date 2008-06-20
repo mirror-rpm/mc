@@ -1,0 +1,23 @@
+diff -ru mc-4.6.2-pre1/vfs/extfs/u7z mc-4.6.2-pre1_u7z/vfs/extfs/u7z
+--- mc-4.6.2-pre1/vfs/extfs/u7z	2005-06-22 06:21:43.000000000 +0400
++++ mc-4.6.2-pre1_u7z/vfs/extfs/u7z	2008-06-19 08:49:05.000000000 +0400
+@@ -47,8 +47,8 @@
+ }
+ 
+ # override any locale for dates
+-LC_ALL=C
+-export LC_ALL
++LC_DATE=C
++export LC_DATE
+ 
+ umask 077
+ 
+@@ -56,7 +56,7 @@
+ shift
+ 
+ case "$cmd" in
+-  list)    mcu7zip_list    "$@" ;;
++  list)    mcu7zip_list "$@"|sort -k 8 ;;
+   copyout) mcu7zip_copyout "$@" ;;
+   copyin)  mcu7zip_copyin  "$@" ;;
+   mkdir)   mcu7zip_mkdir   "$@" ;;

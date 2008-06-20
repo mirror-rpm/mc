@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.2
-Release:	3.pre1%{?dist}
+Release:	4.pre1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -31,6 +31,7 @@ Patch16:	mc-refresh.patch
 Patch17:	mc-preserveattr.patch
 Patch18:	mc-lzma.patch
 Patch19:	mc-hintchk.patch
+Patch20:	mc-7zip.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -61,6 +62,7 @@ specific files.
 %patch17 -p1 -b .preserveattr
 %patch18 -p1 -b .lzmavfs
 %patch19 -p1 -b .hintchk
+%patch20 -p1 -b .7zip
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -198,6 +200,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Fri Jun 20 2008 Jindrich Novy <jnovy@redhat.com> 4.6.2-4.pre1
+- fix displaying of 7zip archive contents (#452090) - gvlat@pochta.ru
+
 * Thu Mar 27 2008 Jindrich Novy <jnovy@redhat.com> 4.6.2-3.pre1
 - don't segfault when hint or help files are missing (#439025),
   thanks to Tomas Heinrich
