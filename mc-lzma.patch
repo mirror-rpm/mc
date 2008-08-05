@@ -17,31 +17,30 @@
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
 
-diff -Naru mc-4.6.1.orig/edit/edit.c mc-4.6.1/edit/edit.c
---- mc-4.6.1.orig/edit/edit.c	2005-05-27 17:19:18.000000000 +0300
-+++ mc-4.6.1/edit/edit.c	2006-03-17 17:39:49.000000000 +0200
-@@ -186,6 +186,7 @@
+diff -up mc-4.6.2-pre1/edit/edit.c.lzmavfs mc-4.6.2-pre1/edit/edit.c
+--- mc-4.6.2-pre1/edit/edit.c.lzmavfs	2008-08-05 15:31:29.000000000 +0200
++++ mc-4.6.2-pre1/edit/edit.c	2008-08-05 15:31:29.000000000 +0200
+@@ -185,6 +185,7 @@ edit_load_file_fast (WEdit *edit, const 
  static const struct edit_filters {
      const char *read, *write, *extension;
  } all_filters[] = {
-+    { "lzma -cd %s 2>&1",   "lzma > %s",   ".bz2" },
++    { "lzma -cd %s 2>&1",   "lzma > %s",   ".lzma" },
      { "bzip2 -cd %s 2>&1",  "bzip2 > %s",  ".bz2" },
      { "gzip -cd %s 2>&1",   "gzip > %s",   ".gz"  },
      { "gzip -cd %s 2>&1",   "gzip > %s",   ".Z"   }
-
-diff -Naru mc-4.6.1.orig/src/util.c mc-4.6.1/src/util.c
---- mc-4.6.1.orig/src/util.c	2005-05-27 17:19:18.000000000 +0300
-+++ mc-4.6.1/src/util.c	2006-03-17 18:20:50.000000000 +0200
-@@ -900,7 +900,7 @@
-  * Warning: this function moves the current file pointer */
- int get_compression_type (int fd)
+diff -up mc-4.6.2-pre1/src/util.c.lzmavfs mc-4.6.2-pre1/src/util.c
+--- mc-4.6.2-pre1/src/util.c.lzmavfs	2008-08-05 15:31:29.000000000 +0200
++++ mc-4.6.2-pre1/src/util.c	2008-08-05 15:31:29.000000000 +0200
+@@ -1239,7 +1239,7 @@ get_current_wd (char *buffer, int size)
+ enum compression_type
+ get_compression_type (int fd)
  {
 -    unsigned char magic[4];
 +    unsigned char magic[16];
  
      /* Read the magic signature */
      if (mc_read (fd, (char *) magic, 4) != 4)
-@@ -944,6 +944,31 @@
+@@ -1283,6 +1283,31 @@ get_compression_type (int fd)
  	    return COMPRESSION_BZIP2;
  	}
      }
@@ -73,7 +72,7 @@ diff -Naru mc-4.6.1.orig/src/util.c mc-4.6.1/src/util.c
      return 0;
  }
  
-@@ -954,6 +979,7 @@
+@@ -1293,6 +1318,7 @@ decompress_extension (int type)
  	case COMPRESSION_GZIP: return "#ugz";
  	case COMPRESSION_BZIP:   return "#ubz";
  	case COMPRESSION_BZIP2:  return "#ubz2";
@@ -81,10 +80,10 @@ diff -Naru mc-4.6.1.orig/src/util.c mc-4.6.1/src/util.c
  	}
  	/* Should never reach this place */
  	fprintf (stderr, "Fatal: decompress_extension called with an unknown argument\n");
-diff -Naru mc-4.6.1.orig/src/util.h mc-4.6.1/src/util.h
---- mc-4.6.1.orig/src/util.h	2005-01-13 21:20:47.000000000 +0200
-+++ mc-4.6.1/src/util.h	2006-03-17 17:34:34.000000000 +0200
-@@ -169,7 +169,8 @@
+diff -up mc-4.6.2-pre1/src/util.h.lzmavfs mc-4.6.2-pre1/src/util.h
+--- mc-4.6.2-pre1/src/util.h.lzmavfs	2008-08-05 15:31:29.000000000 +0200
++++ mc-4.6.2-pre1/src/util.h	2008-08-05 15:31:29.000000000 +0200
+@@ -186,7 +186,8 @@ enum compression_type {
  	COMPRESSION_NONE,
  	COMPRESSION_GZIP,
  	COMPRESSION_BZIP,
@@ -93,11 +92,11 @@ diff -Naru mc-4.6.1.orig/src/util.h mc-4.6.1/src/util.h
 +	COMPRESSION_LZMA
  };
  
- int get_compression_type (int fd);
-diff -Naru mc-4.6.1.orig/vfs/extfs/iso9660.in mc-4.6.1/vfs/extfs/iso9660.in
---- mc-4.6.1.orig/vfs/extfs/iso9660.in	2004-10-29 12:14:38.000000000 +0300
-+++ mc-4.6.1/vfs/extfs/iso9660.in	2006-03-17 17:45:28.000000000 +0200
-@@ -25,6 +25,7 @@
+ /* Looks for ``magic'' bytes at the start of the VFS file to guess the
+diff -up mc-4.6.2-pre1/vfs/extfs/iso9660.in.lzmavfs mc-4.6.2-pre1/vfs/extfs/iso9660.in
+--- mc-4.6.2-pre1/vfs/extfs/iso9660.in.lzmavfs	2006-07-19 13:19:52.000000000 +0200
++++ mc-4.6.2-pre1/vfs/extfs/iso9660.in	2008-08-05 15:31:29.000000000 +0200
+@@ -29,6 +29,7 @@ test_iso () {
  mcisofs_list () {
  # left as a reminder to implement compressed image support =)
  case "$1" in
@@ -105,10 +104,10 @@ diff -Naru mc-4.6.1.orig/vfs/extfs/iso9660.in mc-4.6.1/vfs/extfs/iso9660.in
    *.bz2) MYCAT="bzip2 -dc";;
    *.gz)  MYCAT="gzip -dc";;
    *.z)   MYCAT="gzip -dc";;
-diff -Naru mc-4.6.1.orig/vfs/extfs/lslR.in mc-4.6.1/vfs/extfs/lslR.in
---- mc-4.6.1.orig/vfs/extfs/lslR.in	2003-06-22 12:54:21.000000000 +0300
-+++ mc-4.6.1/vfs/extfs/lslR.in	2006-03-17 17:45:08.000000000 +0200
-@@ -12,6 +12,7 @@
+diff -up mc-4.6.2-pre1/vfs/extfs/lslR.in.lzmavfs mc-4.6.2-pre1/vfs/extfs/lslR.in
+--- mc-4.6.2-pre1/vfs/extfs/lslR.in.lzmavfs	2003-06-22 11:54:21.000000000 +0200
++++ mc-4.6.2-pre1/vfs/extfs/lslR.in	2008-08-05 15:31:29.000000000 +0200
+@@ -12,6 +12,7 @@ AWK=@AWK@
  
  mclslRfs_list () {
  case "$1" in
@@ -116,10 +115,10 @@ diff -Naru mc-4.6.1.orig/vfs/extfs/lslR.in mc-4.6.1/vfs/extfs/lslR.in
    *.bz2) MYCAT="bzip2 -dc";;
    *.gz)  MYCAT="gzip -dc";;
    *.z)   MYCAT="gzip -dc";;
-diff -Naru mc-4.6.1.orig/vfs/extfs/mailfs.in mc-4.6.1/vfs/extfs/mailfs.in
---- mc-4.6.1.orig/vfs/extfs/mailfs.in	2002-12-24 08:56:17.000000000 +0200
-+++ mc-4.6.1/vfs/extfs/mailfs.in	2006-03-17 17:53:47.000000000 +0200
-@@ -7,6 +7,7 @@
+diff -up mc-4.6.2-pre1/vfs/extfs/mailfs.in.lzmavfs mc-4.6.2-pre1/vfs/extfs/mailfs.in
+--- mc-4.6.2-pre1/vfs/extfs/mailfs.in.lzmavfs	2006-05-28 14:35:57.000000000 +0200
++++ mc-4.6.2-pre1/vfs/extfs/mailfs.in	2008-08-05 15:31:29.000000000 +0200
+@@ -7,6 +7,7 @@ use bytes;
  
  $zcat="zcat";                 # gunzip to stdout
  $bzcat="bzip2 -dc";           # bunzip2 to stdout
@@ -127,7 +126,7 @@ diff -Naru mc-4.6.1.orig/vfs/extfs/mailfs.in mc-4.6.1/vfs/extfs/mailfs.in
  $file="file";                 # "file" command
  $TZ='GMT';                    # default timezone (for Date module)
  
-@@ -132,6 +133,8 @@
+@@ -182,6 +183,8 @@ if (/gzip/) {
      exit 1 unless (open IN, "$zcat $mbox_qname|");
  } elsif (/bzip/) {
      exit 1 unless (open IN, "$bzcat $mbox_qname|");
@@ -136,10 +135,10 @@ diff -Naru mc-4.6.1.orig/vfs/extfs/mailfs.in mc-4.6.1/vfs/extfs/mailfs.in
  } else {
      exit 1 unless (open IN, "<$mbox_name");
  }
-diff -Naru mc-4.6.1.orig/vfs/extfs/patchfs.in mc-4.6.1/vfs/extfs/patchfs.in
---- mc-4.6.1.orig/vfs/extfs/patchfs.in	2004-11-17 01:00:40.000000000 +0200
-+++ mc-4.6.1/vfs/extfs/patchfs.in	2006-03-17 17:52:47.000000000 +0200
-@@ -12,6 +12,7 @@
+diff -up mc-4.6.2-pre1/vfs/extfs/patchfs.in.lzmavfs mc-4.6.2-pre1/vfs/extfs/patchfs.in
+--- mc-4.6.2-pre1/vfs/extfs/patchfs.in.lzmavfs	2004-11-17 00:00:40.000000000 +0100
++++ mc-4.6.2-pre1/vfs/extfs/patchfs.in	2008-08-05 15:31:29.000000000 +0200
+@@ -12,6 +12,7 @@ use POSIX;
  use File::Temp 'tempfile';
  
  # standard binaries
@@ -147,7 +146,7 @@ diff -Naru mc-4.6.1.orig/vfs/extfs/patchfs.in mc-4.6.1/vfs/extfs/patchfs.in
  my $bzip = 'bzip2';
  my $gzip = 'gzip';
  my $fileutil = 'file';
-@@ -70,7 +71,9 @@
+@@ -70,7 +71,9 @@ sub myin
      my ($qfname)=(quotemeta $_[0]);
  
      $_=`$fileutil $qfname`;
@@ -158,7 +157,7 @@ diff -Naru mc-4.6.1.orig/vfs/extfs/patchfs.in mc-4.6.1/vfs/extfs/patchfs.in
  	return "$bzip -dc $qfname";
      } elsif (/gzip/) {
  	return "$gzip -dc $qfname";
-@@ -86,7 +89,9 @@
+@@ -86,7 +89,9 @@ sub myout
      my ($sep) = $append ? '>>' : '>';
  
      $_=`$fileutil $qfname`;
@@ -169,10 +168,10 @@ diff -Naru mc-4.6.1.orig/vfs/extfs/patchfs.in mc-4.6.1/vfs/extfs/patchfs.in
  	return "$bzip -c $sep $qfname";
      } elsif (/gzip/) {
  	return "$gzip -c $sep $qfname";
-diff -Naru mc-4.6.1.orig/vfs/extfs/sfs.ini mc-4.6.1/vfs/extfs/sfs.ini
---- mc-4.6.1.orig/vfs/extfs/sfs.ini	1998-12-15 17:57:43.000000000 +0200
-+++ mc-4.6.1/vfs/extfs/sfs.ini	2006-03-17 17:44:01.000000000 +0200
-@@ -10,6 +10,8 @@
+diff -up mc-4.6.2-pre1/vfs/extfs/sfs.ini.lzmavfs mc-4.6.2-pre1/vfs/extfs/sfs.ini
+--- mc-4.6.2-pre1/vfs/extfs/sfs.ini.lzmavfs	1998-12-15 16:57:43.000000000 +0100
++++ mc-4.6.2-pre1/vfs/extfs/sfs.ini	2008-08-05 15:31:29.000000000 +0200
+@@ -10,6 +10,8 @@ bz/1	bzip < %1 > %3
  ubz/1	bzip -d < %1 > %3
  bz2/1	bzip2 < %1 > %3
  ubz2/1	bzip2 -d < %1 > %3

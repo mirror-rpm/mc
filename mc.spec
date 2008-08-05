@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.2
-Release:	4.pre1%{?dist}
+Release:	5.pre1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -32,6 +32,7 @@ Patch17:	mc-preserveattr.patch
 Patch18:	mc-lzma.patch
 Patch19:	mc-hintchk.patch
 Patch20:	mc-7zip.patch
+Patch21:	mc-oldrpmtags.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -63,6 +64,7 @@ specific files.
 %patch18 -p1 -b .lzmavfs
 %patch19 -p1 -b .hintchk
 %patch20 -p1 -b .7zip
+%patch21 -p1 -b .oldrpmtags
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -200,6 +202,12 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Tue Aug  5 2008 Jindrich Novy <jnovy@redhat.com> 4.6.2-5.pre1
+- don't try to parse obsolete RPM tags in RPM VFS (#457912),
+  thanks to Milan Broz
+- use correct extension for lzma and regenerate so that it applies
+  with fuzz==0
+
 * Fri Jun 20 2008 Jindrich Novy <jnovy@redhat.com> 4.6.2-4.pre1
 - fix displaying of 7zip archive contents (#452090) - gvlat@pochta.ru
 

@@ -1,0 +1,14 @@
+diff -up mc-4.6.2-pre1/vfs/extfs/rpm.oldrpmtags mc-4.6.2-pre1/vfs/extfs/rpm
+--- mc-4.6.2-pre1/vfs/extfs/rpm.oldrpmtags	2006-11-01 11:30:26.000000000 +0100
++++ mc-4.6.2-pre1/vfs/extfs/rpm	2008-08-05 15:26:47.000000000 +0200
+@@ -95,10 +95,6 @@ mcrpmfs_list ()
+ 	 echo "$FILEPREF 0 $DATE INFO/PACKAGER"
+      test "`$RPM -qp --qf \"%{URL}\" \"$f\"`" = "(none)" ||
+ 	 echo "$FILEPREF 0 $DATE INFO/URL"
+-     test "`$RPM -qp --qf \"%{SERIAL}\" \"$f\"`" = "(none)" ||
+-	 echo "$FILEPREF 0 $DATE INFO/SERIAL"
+-     test "`$RPM -qp --qf \"%{COPYRIGHT}\" \"$f\"`" = "(none)" ||
+-	 echo "$FILEPREF 0 $DATE INFO/COPYRIGHT"
+      test "`$RPM -qp --qf \"%{EPOCH}\" \"$f\"`" = "(none)" ||
+ 	 echo "$FILEPREF 0 $DATE INFO/EPOCH"
+      test "`$RPM -qp --qf \"%{LICENSE}\" \"$f\"`" = "(none)" ||
