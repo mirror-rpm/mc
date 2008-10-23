@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.2
-Release:	6.pre1%{?dist}
+Release:	7.pre1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -34,6 +34,7 @@ Patch19:	mc-hintchk.patch
 Patch20:	mc-7zip.patch
 Patch21:	mc-oldrpmtags.patch
 Patch22:	mc-shellcwd.patch
+Patch23:	mc-cedit-configurable-highlight.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -67,6 +68,7 @@ specific files.
 %patch20 -p1 -b .7zip
 %patch21 -p1 -b .oldrpmtags
 %patch22 -p1 -b .shellcwd
+%patch23 -p1 -b .cedit-configurable-highlight
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -204,6 +206,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Thu Oct 23 2008 Jindrich Novy <jnovy@redhat.com> 4.6.2-7.pre1
+- allow switching of trailing spaces/tab highlighting with crtl-v,
+  patch from Jan Engelhardt (#464738)
+- update the UTF-8 patch accordingly
+
 * Tue Sep  2 2008 Jindrich Novy <jnovy@redhat.com> 4.6.2-6.pre1
 - do not change directory in panel to subshell directory
   when switched back from subshell (#460633)
