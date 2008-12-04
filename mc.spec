@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.2
-Release:	7.pre1%{?dist}
+Release:	8.pre1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -206,6 +206,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Thu Dec  4 2008 Jindrich Novy <jnovy@redhat.com> 4.6.2-8.pre1
+- fix a couple of UTF-8 related display bugs (#464708),
+  thanks to Rafał Mużyło
+
 * Thu Oct 23 2008 Jindrich Novy <jnovy@redhat.com> 4.6.2-7.pre1
 - allow switching of trailing spaces/tab highlighting with crtl-v,
   patch from Jan Engelhardt (#464738)

@@ -1,6 +1,6 @@
 diff -up mc-4.6.2-pre1/acinclude.m4.utf8 mc-4.6.2-pre1/acinclude.m4
 --- mc-4.6.2-pre1/acinclude.m4.utf8	2006-09-07 17:59:51.000000000 +0200
-+++ mc-4.6.2-pre1/acinclude.m4	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/acinclude.m4	2008-12-04 13:25:34.000000000 +0100
 @@ -399,14 +399,14 @@ AC_DEFUN([MC_WITH_SLANG], [
      fi
  
@@ -26,7 +26,7 @@ diff -up mc-4.6.2-pre1/acinclude.m4.utf8 mc-4.6.2-pre1/acinclude.m4
  	AC_DEFINE(HAVE_SYSTEM_SLANG, 1,
 diff -up mc-4.6.2-pre1/edit/editcmd.c.utf8 mc-4.6.2-pre1/edit/editcmd.c
 --- mc-4.6.2-pre1/edit/editcmd.c.utf8	2007-05-02 13:22:01.000000000 +0200
-+++ mc-4.6.2-pre1/edit/editcmd.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/edit/editcmd.c	2008-12-04 13:25:34.000000000 +0100
 @@ -61,7 +61,7 @@
  #define edit_get_save_file(f,h) input_expand_dialog (h, _(" Enter file name: "), f)
  
@@ -1113,7 +1113,7 @@ diff -up mc-4.6.2-pre1/edit/editcmd.c.utf8 mc-4.6.2-pre1/edit/editcmd.c
  	/* insert completed word if there is only one match */
 diff -up mc-4.6.2-pre1/edit/edit.c.utf8 mc-4.6.2-pre1/edit/edit.c
 --- mc-4.6.2-pre1/edit/edit.c.utf8	2007-01-04 16:37:23.000000000 +0100
-+++ mc-4.6.2-pre1/edit/edit.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/edit/edit.c	2008-12-04 13:25:34.000000000 +0100
 @@ -102,7 +102,11 @@ char *option_backup_ext = NULL;
  
  static void user_menu (WEdit *edit);
@@ -1817,7 +1817,7 @@ diff -up mc-4.6.2-pre1/edit/edit.c.utf8 mc-4.6.2-pre1/edit/edit.c
  		edit_delete (edit);
 diff -up mc-4.6.2-pre1/edit/editdraw.c.utf8 mc-4.6.2-pre1/edit/editdraw.c
 --- mc-4.6.2-pre1/edit/editdraw.c.utf8	2007-08-27 14:06:03.000000000 +0200
-+++ mc-4.6.2-pre1/edit/editdraw.c	2008-10-23 14:00:45.000000000 +0200
++++ mc-4.6.2-pre1/edit/editdraw.c	2008-12-04 13:25:34.000000000 +0100
 @@ -70,11 +70,16 @@ static void status_string (WEdit * edit,
       * as decimal and as hex.
       */
@@ -2092,7 +2092,7 @@ diff -up mc-4.6.2-pre1/edit/editdraw.c.utf8 mc-4.6.2-pre1/edit/editdraw.c
  }
 diff -up mc-4.6.2-pre1/edit/edit.h.utf8 mc-4.6.2-pre1/edit/edit.h
 --- mc-4.6.2-pre1/edit/edit.h.utf8	2006-12-10 23:07:28.000000000 +0100
-+++ mc-4.6.2-pre1/edit/edit.h	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/edit/edit.h	2008-12-04 13:25:34.000000000 +0100
 @@ -25,6 +25,27 @@
  
  #include <stdio.h>
@@ -2187,7 +2187,7 @@ diff -up mc-4.6.2-pre1/edit/edit.h.utf8 mc-4.6.2-pre1/edit/edit.h
  
 diff -up mc-4.6.2-pre1/edit/editkeys.c.utf8 mc-4.6.2-pre1/edit/editkeys.c
 --- mc-4.6.2-pre1/edit/editkeys.c.utf8	2006-02-01 18:07:11.000000000 +0100
-+++ mc-4.6.2-pre1/edit/editkeys.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/edit/editkeys.c	2008-12-04 13:25:34.000000000 +0100
 @@ -182,10 +182,10 @@ static const edit_key_map_type common_ke
   * 'command' is one of the editor commands from editcmddef.h.
   */
@@ -2244,7 +2244,7 @@ diff -up mc-4.6.2-pre1/edit/editkeys.c.utf8 mc-4.6.2-pre1/edit/editkeys.c
      }
 diff -up mc-4.6.2-pre1/edit/editwidget.c.utf8 mc-4.6.2-pre1/edit/editwidget.c
 --- mc-4.6.2-pre1/edit/editwidget.c.utf8	2006-12-10 23:07:28.000000000 +0100
-+++ mc-4.6.2-pre1/edit/editwidget.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/edit/editwidget.c	2008-12-04 13:25:34.000000000 +0100
 @@ -331,7 +331,8 @@ edit_callback (Widget *w, widget_msg_t m
  
      case WIDGET_KEY:
@@ -2257,7 +2257,7 @@ diff -up mc-4.6.2-pre1/edit/editwidget.c.utf8 mc-4.6.2-pre1/edit/editwidget.c
  	    if (edit_translate_key (e, parm, &cmd, &ch)) {
 diff -up mc-4.6.2-pre1/edit/edit-widget.h.utf8 mc-4.6.2-pre1/edit/edit-widget.h
 --- mc-4.6.2-pre1/edit/edit-widget.h.utf8	2007-02-03 02:03:53.000000000 +0100
-+++ mc-4.6.2-pre1/edit/edit-widget.h	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/edit/edit-widget.h	2008-12-04 13:25:34.000000000 +0100
 @@ -30,6 +30,11 @@ typedef struct edit_key_map_type {
      long command;
  } edit_key_map_type;
@@ -2299,7 +2299,7 @@ diff -up mc-4.6.2-pre1/edit/edit-widget.h.utf8 mc-4.6.2-pre1/edit/edit-widget.h
      unsigned long stack_bottom;
 diff -up mc-4.6.2-pre1/edit/wordproc.c.utf8 mc-4.6.2-pre1/edit/wordproc.c
 --- mc-4.6.2-pre1/edit/wordproc.c.utf8	2006-06-16 22:01:29.000000000 +0200
-+++ mc-4.6.2-pre1/edit/wordproc.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/edit/wordproc.c	2008-12-04 13:25:34.000000000 +0100
 @@ -40,7 +40,12 @@
  
  #define tab_width option_tab_spacing
@@ -2521,7 +2521,7 @@ diff -up mc-4.6.2-pre1/edit/wordproc.c.utf8 mc-4.6.2-pre1/edit/wordproc.c
  		}
 diff -up mc-4.6.2-pre1/src/achown.c.utf8 mc-4.6.2-pre1/src/achown.c
 --- mc-4.6.2-pre1/src/achown.c.utf8	2005-09-05 03:36:58.000000000 +0200
-+++ mc-4.6.2-pre1/src/achown.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/achown.c	2008-12-04 13:25:34.000000000 +0100
 @@ -584,6 +584,12 @@ init_chown_advanced (void)
      b_att[2] = button_new (XTRACT (6));
      b_user = button_new (XTRACT (5));
@@ -2537,7 +2537,7 @@ diff -up mc-4.6.2-pre1/src/achown.c.utf8 mc-4.6.2-pre1/src/achown.c
      add_widget (ch_dlg, b_user);
 diff -up mc-4.6.2-pre1/src/boxes.c.utf8 mc-4.6.2-pre1/src/boxes.c
 --- mc-4.6.2-pre1/src/boxes.c.utf8	2006-02-28 17:15:21.000000000 +0100
-+++ mc-4.6.2-pre1/src/boxes.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/boxes.c	2008-12-04 13:25:34.000000000 +0100
 @@ -153,23 +153,23 @@ display_init (int radio_sel, char *init_
  	display_title = _(display_title);
  	for (i = 0; i < LIST_TYPES; i++) {
@@ -2712,7 +2712,7 @@ diff -up mc-4.6.2-pre1/src/boxes.c.utf8 mc-4.6.2-pre1/src/boxes.c
      }
 diff -up mc-4.6.2-pre1/src/dialog.c.utf8 mc-4.6.2-pre1/src/dialog.c
 --- mc-4.6.2-pre1/src/dialog.c.utf8	2005-09-05 05:20:27.000000000 +0200
-+++ mc-4.6.2-pre1/src/dialog.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/dialog.c	2008-12-04 13:25:34.000000000 +0100
 @@ -166,7 +166,7 @@ common_dialog_repaint (struct Dlg_head *
  
      if (h->title) {
@@ -2724,7 +2724,7 @@ diff -up mc-4.6.2-pre1/src/dialog.c.utf8 mc-4.6.2-pre1/src/dialog.c
  }
 diff -up mc-4.6.2-pre1/src/file.c.utf8 mc-4.6.2-pre1/src/file.c
 --- mc-4.6.2-pre1/src/file.c.utf8	2007-02-22 15:29:11.000000000 +0100
-+++ mc-4.6.2-pre1/src/file.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/file.c	2008-12-04 13:25:34.000000000 +0100
 @@ -161,15 +161,20 @@ static const char *
  do_transform_source (FileOpContext *ctx, const char *source)
  {
@@ -2781,7 +2781,7 @@ diff -up mc-4.6.2-pre1/src/file.c.utf8 mc-4.6.2-pre1/src/file.c
  	    fmd_init_i18n (TRUE);	/* to recalculate positions of child widgets */
 diff -up mc-4.6.2-pre1/src/filegui.c.utf8 mc-4.6.2-pre1/src/filegui.c
 --- mc-4.6.2-pre1/src/filegui.c.utf8	2007-08-23 15:16:39.000000000 +0200
-+++ mc-4.6.2-pre1/src/filegui.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/filegui.c	2008-12-04 13:25:34.000000000 +0100
 @@ -65,6 +65,7 @@
  #include "filegui.h"
  #include "key.h"		/* get_event */
@@ -2929,7 +2929,7 @@ diff -up mc-4.6.2-pre1/src/filegui.c.utf8 mc-4.6.2-pre1/src/filegui.c
  }
 diff -up mc-4.6.2-pre1/src/find.c.utf8 mc-4.6.2-pre1/src/find.c
 --- mc-4.6.2-pre1/src/find.c.utf8	2006-02-04 12:03:35.000000000 +0100
-+++ mc-4.6.2-pre1/src/find.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/find.c	2008-12-04 13:25:34.000000000 +0100
 @@ -217,7 +217,7 @@ find_parameters (char **start_dir, char 
  	int l1, maxlen = 0;
  
@@ -2979,7 +2979,7 @@ diff -up mc-4.6.2-pre1/src/find.c.utf8 mc-4.6.2-pre1/src/find.c
  	    list->list[next_free].f.link_to_dir = link_to_dir;
 diff -up mc-4.6.2-pre1/src/help.c.utf8 mc-4.6.2-pre1/src/help.c
 --- mc-4.6.2-pre1/src/help.c.utf8	2007-01-20 12:40:45.000000000 +0100
-+++ mc-4.6.2-pre1/src/help.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/help.c	2008-12-04 13:25:34.000000000 +0100
 @@ -447,10 +447,28 @@ static void help_show (Dlg_head *h, cons
  #ifndef HAVE_SLANG
  			addch (acs_map [c]);
@@ -3024,7 +3024,7 @@ diff -up mc-4.6.2-pre1/src/help.c.utf8 mc-4.6.2-pre1/src/help.c
  	g_free (hlpfile);
 diff -up mc-4.6.2-pre1/src/hotlist.c.utf8 mc-4.6.2-pre1/src/hotlist.c
 --- mc-4.6.2-pre1/src/hotlist.c.utf8	2006-08-08 14:17:14.000000000 +0200
-+++ mc-4.6.2-pre1/src/hotlist.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/hotlist.c	2008-12-04 13:25:34.000000000 +0100
 @@ -563,7 +563,7 @@ init_i18n_stuff(int list_type, int cols)
  
  			row = hotlist_but [i].y;
@@ -3087,7 +3087,7 @@ diff -up mc-4.6.2-pre1/src/hotlist.c.utf8 mc-4.6.2-pre1/src/hotlist.c
      strip_password (label_string, 1);
 diff -up mc-4.6.2-pre1/src/layout.c.utf8 mc-4.6.2-pre1/src/layout.c
 --- mc-4.6.2-pre1/src/layout.c.utf8	2006-11-08 14:37:25.000000000 +0100
-+++ mc-4.6.2-pre1/src/layout.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/layout.c	2008-12-04 13:25:34.000000000 +0100
 @@ -366,36 +366,36 @@ init_layout (void)
  
  	while (i--) {
@@ -3163,7 +3163,7 @@ diff -up mc-4.6.2-pre1/src/layout.c.utf8 mc-4.6.2-pre1/src/layout.c
  
 diff -up mc-4.6.2-pre1/src/learn.c.utf8 mc-4.6.2-pre1/src/learn.c
 --- mc-4.6.2-pre1/src/learn.c.utf8	2005-05-27 05:35:15.000000000 +0200
-+++ mc-4.6.2-pre1/src/learn.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/learn.c	2008-12-04 13:25:34.000000000 +0100
 @@ -237,7 +237,7 @@ init_learn (void)
  	learn_but[0].x = 78 / 2 + 4;
  
@@ -3175,7 +3175,7 @@ diff -up mc-4.6.2-pre1/src/learn.c.utf8 mc-4.6.2-pre1/src/learn.c
  	i18n_flag = 1;
 diff -up mc-4.6.2-pre1/src/main.c.utf8 mc-4.6.2-pre1/src/main.c
 --- mc-4.6.2-pre1/src/main.c.utf8	2006-09-22 17:14:58.000000000 +0200
-+++ mc-4.6.2-pre1/src/main.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/main.c	2008-12-04 13:25:34.000000000 +0100
 @@ -704,7 +704,7 @@ load_prompt (int fd, void *unused)
  	int prompt_len;
  
@@ -3199,7 +3199,7 @@ diff -up mc-4.6.2-pre1/src/main.c.utf8 mc-4.6.2-pre1/src/main.c
  	fprintf (stdout, "\33]0;mc - %s\7", p);
 diff -up mc-4.6.2-pre1/src/menu.c.utf8 mc-4.6.2-pre1/src/menu.c
 --- mc-4.6.2-pre1/src/menu.c.utf8	2005-09-05 04:12:09.000000000 +0200
-+++ mc-4.6.2-pre1/src/menu.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/menu.c	2008-12-04 13:25:34.000000000 +0100
 @@ -22,6 +22,7 @@
  #include <string.h>
  
@@ -3403,7 +3403,7 @@ diff -up mc-4.6.2-pre1/src/menu.c.utf8 mc-4.6.2-pre1/src/menu.c
      g_free (menu);
 diff -up mc-4.6.2-pre1/src/menu.h.utf8 mc-4.6.2-pre1/src/menu.h
 --- mc-4.6.2-pre1/src/menu.h.utf8	2004-12-03 20:17:47.000000000 +0100
-+++ mc-4.6.2-pre1/src/menu.h	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/menu.h	2008-12-04 13:25:34.000000000 +0100
 @@ -21,6 +21,8 @@ typedef struct Menu {
      menu_entry *entries;
      int    start_x;		/* position relative to menubar start */
@@ -3415,7 +3415,7 @@ diff -up mc-4.6.2-pre1/src/menu.h.utf8 mc-4.6.2-pre1/src/menu.h
  extern int menubar_visible;
 diff -up mc-4.6.2-pre1/src/myslang.h.utf8 mc-4.6.2-pre1/src/myslang.h
 --- mc-4.6.2-pre1/src/myslang.h.utf8	2005-09-05 05:22:04.000000000 +0200
-+++ mc-4.6.2-pre1/src/myslang.h	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/myslang.h	2008-12-04 13:25:34.000000000 +0100
 @@ -11,6 +11,16 @@
  #endif	/* HAVE_SLANG_SLANG_H */
  #endif
@@ -3435,7 +3435,7 @@ diff -up mc-4.6.2-pre1/src/myslang.h.utf8 mc-4.6.2-pre1/src/myslang.h
      KEY_END, KEY_UP, KEY_DOWN, KEY_LEFT, KEY_RIGHT,
 diff -up mc-4.6.2-pre1/src/option.c.utf8 mc-4.6.2-pre1/src/option.c
 --- mc-4.6.2-pre1/src/option.c.utf8	2006-02-28 17:15:21.000000000 +0100
-+++ mc-4.6.2-pre1/src/option.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/option.c	2008-12-04 13:25:34.000000000 +0100
 @@ -123,12 +123,12 @@ init_configure (void)
  	title2 = _(" Pause after run... ");
  	title3 = _(" Other options ");
@@ -3485,7 +3485,7 @@ diff -up mc-4.6.2-pre1/src/option.c.utf8 mc-4.6.2-pre1/src/option.c
      }
 diff -up mc-4.6.2-pre1/src/panelize.c.utf8 mc-4.6.2-pre1/src/panelize.c
 --- mc-4.6.2-pre1/src/panelize.c.utf8	2005-05-27 05:35:15.000000000 +0200
-+++ mc-4.6.2-pre1/src/panelize.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/panelize.c	2008-12-04 13:25:34.000000000 +0100
 @@ -127,7 +127,7 @@ init_panelize (void)
  	i = sizeof (panelize_but) / sizeof (panelize_but[0]);
  	while (i--) {
@@ -3512,7 +3512,7 @@ diff -up mc-4.6.2-pre1/src/panelize.c.utf8 mc-4.6.2-pre1/src/panelize.c
  
 diff -up mc-4.6.2-pre1/src/screen.c.utf8 mc-4.6.2-pre1/src/screen.c
 --- mc-4.6.2-pre1/src/screen.c.utf8	2007-08-24 14:22:29.000000000 +0200
-+++ mc-4.6.2-pre1/src/screen.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/screen.c	2008-12-04 13:25:34.000000000 +0100
 @@ -171,21 +171,56 @@ add_permission_string (char *dest, int w
  static const char *
  string_file_name (file_entry *fe, int len)
@@ -3942,7 +3942,7 @@ diff -up mc-4.6.2-pre1/src/screen.c.utf8 mc-4.6.2-pre1/src/screen.c
  }
 diff -up mc-4.6.2-pre1/src/slint.c.utf8 mc-4.6.2-pre1/src/slint.c
 --- mc-4.6.2-pre1/src/slint.c.utf8	2005-09-05 04:14:29.000000000 +0200
-+++ mc-4.6.2-pre1/src/slint.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/slint.c	2008-12-04 13:25:34.000000000 +0100
 @@ -141,7 +141,9 @@ void
  slang_init (void)
  {
@@ -3956,7 +3956,7 @@ diff -up mc-4.6.2-pre1/src/slint.c.utf8 mc-4.6.2-pre1/src/slint.c
      * string such as "linux" or "xterm" S-Lang will go on, but the
 diff -up mc-4.6.2-pre1/src/tty.c.utf8 mc-4.6.2-pre1/src/tty.c
 --- mc-4.6.2-pre1/src/tty.c.utf8	2006-05-23 09:38:59.000000000 +0200
-+++ mc-4.6.2-pre1/src/tty.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/tty.c	2008-12-04 13:25:34.000000000 +0100
 @@ -134,10 +134,12 @@ tty_print_char(int c)
       * defined or not. Congratulations! At least, they left the API call
       * for SLsmg_write_nchars as it has always been.
@@ -3976,7 +3976,7 @@ diff -up mc-4.6.2-pre1/src/tty.c.utf8 mc-4.6.2-pre1/src/tty.c
  #endif
 diff -up mc-4.6.2-pre1/src/tty.h.utf8 mc-4.6.2-pre1/src/tty.h
 --- mc-4.6.2-pre1/src/tty.h.utf8	2006-05-15 15:26:18.000000000 +0200
-+++ mc-4.6.2-pre1/src/tty.h	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/tty.h	2008-12-04 13:25:34.000000000 +0100
 @@ -8,6 +8,8 @@
      of ifdefs in the other files small.
   */
@@ -3988,7 +3988,7 @@ diff -up mc-4.6.2-pre1/src/tty.h.utf8 mc-4.6.2-pre1/src/tty.h
  #endif
 diff -up mc-4.6.2-pre1/src/util.c.utf8 mc-4.6.2-pre1/src/util.c
 --- mc-4.6.2-pre1/src/util.c.utf8	2005-11-03 03:18:38.000000000 +0100
-+++ mc-4.6.2-pre1/src/util.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/util.c	2008-12-04 13:25:34.000000000 +0100
 @@ -33,7 +33,11 @@
  #include <sys/types.h>
  #include <sys/stat.h>
@@ -4460,7 +4460,7 @@ diff -up mc-4.6.2-pre1/src/util.c.utf8 mc-4.6.2-pre1/src/util.c
      return s;
 diff -up mc-4.6.2-pre1/src/util.h.utf8 mc-4.6.2-pre1/src/util.h
 --- mc-4.6.2-pre1/src/util.h.utf8	2006-02-03 18:04:17.000000000 +0100
-+++ mc-4.6.2-pre1/src/util.h	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/util.h	2008-12-04 13:25:34.000000000 +0100
 @@ -103,6 +103,13 @@ void init_uid_gid_cache (void);
  char *get_group (int);
  char *get_owner (int);
@@ -4477,7 +4477,7 @@ diff -up mc-4.6.2-pre1/src/util.h.utf8 mc-4.6.2-pre1/src/util.h
  #define STD_I18NTIMELENGTH 12
 diff -up mc-4.6.2-pre1/src/view.c.utf8 mc-4.6.2-pre1/src/view.c
 --- mc-4.6.2-pre1/src/view.c.utf8	2006-12-30 14:16:54.000000000 +0100
-+++ mc-4.6.2-pre1/src/view.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/view.c	2008-12-04 15:00:00.000000000 +0100
 @@ -43,6 +43,10 @@
  #include <sys/stat.h>
  #include <unistd.h>
@@ -4550,7 +4550,7 @@ diff -up mc-4.6.2-pre1/src/view.c.utf8 mc-4.6.2-pre1/src/view.c
  	    int c_prev;
  	    int c_next;
  
-@@ -1988,10 +2027,20 @@ view_display_text (WView * view)
+@@ -1988,10 +2027,21 @@ view_display_text (WView * view)
  	if (col >= view->dpy_text_column
  	    && col - view->dpy_text_column < width) {
  	    widget_move (view, top + row, left + (col - view->dpy_text_column));
@@ -4559,6 +4559,7 @@ diff -up mc-4.6.2-pre1/src/view.c.utf8 mc-4.6.2-pre1/src/view.c
 +		if (!iswprint (wc))
 +		    wc = '.';
 +		tty_print_char (wc);
++		col += wcwidth (wc) - 1;
 +	    } else {
 +#endif
  	    c = convert_to_display_c (c);
@@ -4573,7 +4574,7 @@ diff -up mc-4.6.2-pre1/src/view.c.utf8 mc-4.6.2-pre1/src/view.c
  	tty_setcolor (NORMAL_COLOR);
 diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
 --- mc-4.6.2-pre1/src/widget.c.utf8	2006-05-29 13:58:43.000000000 +0200
-+++ mc-4.6.2-pre1/src/widget.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/widget.c	2008-12-04 14:56:25.000000000 +0100
 @@ -36,6 +36,9 @@
  
  #include "global.h"
@@ -4806,7 +4807,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
  
      l = g_new (WLabel, 1);
      init_widget (&l->widget, y, x, 1, width, label_callback, NULL);
-@@ -778,13 +819,69 @@ static void draw_history_button (WInput 
+@@ -778,13 +819,73 @@ static void draw_history_button (WInput 
  /* Pointer to killed data */
  static char *kill_buffer = 0;
  
@@ -4850,7 +4851,11 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
 +	l = mbrtowc(&wc, in->buffer + pos, len - pos, &mbs);
 +	if (l <= 0)
 +	    return width;
-+	pos += l; width += wcwidth(wc);
++	pos += l;
++	if (wcwidth (wc)>0 && in->is_password)
++	    width++;
++	else
++	    width += wcwidth(wc);
 +	i++;
 +    };
 +    return width;
@@ -4878,7 +4883,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
  
      if (should_show_history_button (in))
  	has_history = HISTORY_BUTTON_WIDTH;
-@@ -794,7 +891,7 @@ update_input (WInput *in, int clear_firs
+@@ -794,7 +895,7 @@ update_input (WInput *in, int clear_firs
  
      /* Make the point visible */
      if ((in->point < in->first_shown) ||
@@ -4887,7 +4892,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
  	in->first_shown = in->point - (in->field_len / 3);
  	if (in->first_shown < 0)
  	    in->first_shown = 0;
-@@ -814,14 +911,29 @@ update_input (WInput *in, int clear_firs
+@@ -814,14 +915,30 @@ update_input (WInput *in, int clear_firs
  	addch (' ');
      widget_move (&in->widget, 0, 0);
      
@@ -4900,7 +4905,8 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
 +    for (i = 0, j = in->first_shown; (i < in->field_len - has_history) && (j < buf_len); i++,j++){
 +	char * chp = in->buffer + charpos(in,j);
 +	size_t res = mbrtowc(&c, chp, strlen(chp), &mbs);
-+	c = (res && iswprint (c)) ? 0 : '.';
++	if (res == 0) continue;
++	c = (iswprint (c)) ? 0 : L'.';
 +#endif /* UTF8 */
 +	if (in->is_password) 
  	    c = '*';
@@ -4919,7 +4925,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
  
      if (clear_first)
  	    in->first = 0;
-@@ -974,7 +1086,7 @@ char *
+@@ -974,7 +1091,7 @@ char *
  show_hist (GList *history, int widget_x, int widget_y)
  {
      GList *hi, *z;
@@ -4928,7 +4934,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
      int x, y, w, h;
      char *q, *r = 0;
      Dlg_head *query_dlg;
-@@ -987,7 +1099,7 @@ show_hist (GList *history, int widget_x,
+@@ -987,7 +1104,7 @@ show_hist (GList *history, int widget_x,
      z = g_list_first (history);
      hi = z;
      while (hi) {
@@ -4937,7 +4943,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
  	    maxlen = i;
  	count++;
  	hi = g_list_next (hi);
-@@ -1157,35 +1269,83 @@ new_input (WInput *in)
+@@ -1157,35 +1274,83 @@ new_input (WInput *in)
      in->need_push = 1;
      in->buffer [0] = 0;
      in->point = 0;
@@ -5024,7 +5030,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
      return MSG_HANDLED;
  }
  
-@@ -1193,12 +1353,14 @@ static void
+@@ -1193,12 +1358,14 @@ static void
  beginning_of_line (WInput *in)
  {
      in->point = 0;
@@ -5040,7 +5046,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
  }
  
  static void
-@@ -1206,18 +1368,21 @@ backward_char (WInput *in)
+@@ -1206,18 +1373,21 @@ backward_char (WInput *in)
  {
      if (in->point)
  	in->point--;
@@ -5063,7 +5069,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
      char *p = in->buffer + in->point;
  
      while (*p
-@@ -1227,11 +1392,39 @@ forward_word (WInput * in)
+@@ -1227,11 +1397,39 @@ forward_word (WInput * in)
      while (*p && isalnum ((unsigned char) *p))
  	p++;
      in->point = p - in->buffer;
@@ -5103,7 +5109,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
      char *p = in->buffer + in->point;
  
      while (p - 1 > in->buffer - 1 && (isspace ((unsigned char) *(p - 1))
-@@ -1241,6 +1434,32 @@ backward_word (WInput *in)
+@@ -1241,6 +1439,32 @@ backward_word (WInput *in)
      while (p - 1 > in->buffer - 1 && isalnum ((unsigned char) *(p - 1)))
  	p--;
      in->point = p - in->buffer;
@@ -5136,7 +5142,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
  }
  
  static void
-@@ -1273,8 +1492,9 @@ backward_delete (WInput *in)
+@@ -1273,8 +1497,9 @@ backward_delete (WInput *in)
      
      if (!in->point)
  	return;
@@ -5148,7 +5154,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
      in->need_push = 1;
      in->point--;
  }
-@@ -1282,10 +1502,8 @@ backward_delete (WInput *in)
+@@ -1282,10 +1507,8 @@ backward_delete (WInput *in)
  static void
  delete_char (WInput *in)
  {
@@ -5161,7 +5167,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
      in->need_push = 1;
  }
  
-@@ -1300,6 +1518,9 @@ copy_region (WInput *in, int x_first, in
+@@ -1300,6 +1523,9 @@ copy_region (WInput *in, int x_first, in
      
      g_free (kill_buffer);
  
@@ -5171,7 +5177,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
      kill_buffer = g_strndup(in->buffer+first,last-first);
  }
  
-@@ -1308,11 +1529,13 @@ delete_region (WInput *in, int x_first, 
+@@ -1308,11 +1534,13 @@ delete_region (WInput *in, int x_first, 
  {
     int first = min (x_first, x_last);
     int last  = max (x_first, x_last);
@@ -5187,7 +5193,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
     in->need_push = 1;
  }
  
-@@ -1329,6 +1552,8 @@ kill_word (WInput *in)
+@@ -1329,6 +1557,8 @@ kill_word (WInput *in)
      copy_region (in, old_point, new_point);
      delete_region (in, old_point, new_point);
      in->need_push = 1;
@@ -5196,7 +5202,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
  }
  
  static void
-@@ -1372,16 +1597,20 @@ yank (WInput *in)
+@@ -1372,16 +1602,20 @@ yank (WInput *in)
      
      if (!kill_buffer)
          return;
@@ -5219,7 +5225,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
  }
  
  void
-@@ -1391,9 +1620,10 @@ assign_text (WInput *in, const char *tex
+@@ -1391,9 +1625,10 @@ assign_text (WInput *in, const char *tex
      g_free (in->buffer);
      in->buffer = g_strdup (text);	/* was in->buffer->text */
      in->current_max_len = strlen (in->buffer) + 1;
@@ -5231,7 +5237,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
  }
  
  static void
-@@ -1520,6 +1750,7 @@ port_region_marked_for_delete (WInput *i
+@@ -1520,6 +1755,7 @@ port_region_marked_for_delete (WInput *i
      *in->buffer = 0;
      in->point = 0;
      in->first = 0;
@@ -5239,7 +5245,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
  }
  
  cb_ret_t
-@@ -1548,7 +1779,11 @@ handle_char (WInput *in, int c_code)
+@@ -1548,7 +1784,11 @@ handle_char (WInput *in, int c_code)
  	}
      }
      if (!input_map [i].fn){
@@ -5251,7 +5257,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
  	    return MSG_NOT_HANDLED;
  	if (in->first){
  	    port_region_marked_for_delete (in);
-@@ -1581,6 +1816,9 @@ input_set_point (WInput *in, int pos)
+@@ -1581,6 +1821,9 @@ input_set_point (WInput *in, int pos)
      if (pos != in->point)
      	free_completions (in);
      in->point = pos;
@@ -5261,7 +5267,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
      update_input (in, 1);
  }
  
-@@ -1621,7 +1859,7 @@ input_callback (Widget *w, widget_msg_t 
+@@ -1621,7 +1864,7 @@ input_callback (Widget *w, widget_msg_t 
  	return MSG_HANDLED;
  
      case WIDGET_CURSOR:
@@ -5270,7 +5276,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
  	return MSG_HANDLED;
  
      case WIDGET_DESTROY:
-@@ -1645,7 +1883,7 @@ input_event (Gpm_Event * event, void *da
+@@ -1645,7 +1888,7 @@ input_event (Gpm_Event * event, void *da
  	    && should_show_history_button (in)) {
  	    do_show_hist (in);
  	} else {
@@ -5279,7 +5285,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
  	    if (event->x - in->first_shown - 1 < in->point)
  		in->point = event->x - in->first_shown - 1;
  	    if (in->point < 0)
-@@ -1702,7 +1940,8 @@ input_new (int y, int x, int color, int 
+@@ -1702,7 +1945,8 @@ input_new (int y, int x, int color, int 
      in->is_password = 0;
  
      strcpy (in->buffer, def_text);
@@ -5291,7 +5297,7 @@ diff -up mc-4.6.2-pre1/src/widget.c.utf8 mc-4.6.2-pre1/src/widget.c
  
 diff -up mc-4.6.2-pre1/src/widget.h.utf8 mc-4.6.2-pre1/src/widget.h
 --- mc-4.6.2-pre1/src/widget.h.utf8	2006-02-28 17:15:21.000000000 +0100
-+++ mc-4.6.2-pre1/src/widget.h	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/widget.h	2008-12-04 13:25:34.000000000 +0100
 @@ -22,6 +22,7 @@ typedef struct WButton {
      char *text;			/* text of button */
      int hotkey;			/* hot KEY */
@@ -5336,7 +5342,7 @@ diff -up mc-4.6.2-pre1/src/widget.h.utf8 mc-4.6.2-pre1/src/widget.h
      char **completions;		/* Possible completions array */
 diff -up mc-4.6.2-pre1/src/wtools.c.utf8 mc-4.6.2-pre1/src/wtools.c
 --- mc-4.6.2-pre1/src/wtools.c.utf8	2006-09-14 11:12:49.000000000 +0200
-+++ mc-4.6.2-pre1/src/wtools.c	2008-10-23 14:00:12.000000000 +0200
++++ mc-4.6.2-pre1/src/wtools.c	2008-12-04 13:25:34.000000000 +0100
 @@ -49,11 +49,11 @@ create_listbox_window (int cols, int lin
      /* Adjust sizes */
      lines = (lines > LINES - 6) ? LINES - 6 : lines;
