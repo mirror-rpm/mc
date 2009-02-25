@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.2
-Release:	8.pre1%{?dist}
+Release:	9.pre1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -206,6 +206,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:4.6.2-9.pre1
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
+
 * Thu Dec  4 2008 Jindrich Novy <jnovy@redhat.com> 4.6.2-8.pre1
 - fix a couple of UTF-8 related display bugs (#464708),
   thanks to Rafał Mużyło
