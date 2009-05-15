@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.2
-Release:	9.pre1%{?dist}
+Release:	10.pre1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -208,7 +208,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
-* Fri May 15 2009 Jindrich Novy <jnovy@redhat.com> 4.6.2-9.pre1
+* Fri May 15 2009 Jindrich Novy <jnovy@redhat.com> 4.6.2-10.pre1
 - fix segfault in mc editor when pressing ctrl+right (skip one word)
   in binary file (#500818)
 - don't use dpkg tools for *.deb files (#495649), thanks to Dan Horak
