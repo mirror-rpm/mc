@@ -1,0 +1,11 @@
+diff -up mc-4.6.2-pre1/edit/edit.c.segv mc-4.6.2-pre1/edit/edit.c
+--- mc-4.6.2-pre1/edit/edit.c.segv	2009-05-15 11:42:08.000000000 +0200
++++ mc-4.6.2-pre1/edit/edit.c	2009-05-15 11:54:29.000000000 +0200
+@@ -1808,6 +1808,7 @@ my_type_of (int c)
+ 	c = '0';
+     else if (iswspace (c))
+ 	c = ' ';
++    if ( c > 0xff ) c = ' ';
+ #endif /* UTF8 */
+     q = strchr (option_chars_move_whole_word, c);
+     if (!q)

@@ -35,6 +35,7 @@ Patch20:	mc-7zip.patch
 Patch21:	mc-oldrpmtags.patch
 Patch22:	mc-shellcwd.patch
 Patch23:	mc-cedit-configurable-highlight.patch
+Patch24:	mc-edit-segv.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -69,6 +70,7 @@ specific files.
 %patch21 -p1 -b .oldrpmtags
 %patch22 -p1 -b .shellcwd
 %patch23 -p1 -b .cedit-configurable-highlight
+%patch24 -p1 -b .edit-segv
 
 # convert files in /lib to UTF-8
 pushd lib
@@ -206,6 +208,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Fri May 15 2009 Jindrich Novy <jnovy@redhat.com> 4.6.2-9.pre1
+- fix segfault in mc editor when pressing ctrl+right (skip one word)
+  in binary file (#500818)
+- don't use dpkg tools for *.deb files (#495649), thanks to Dan Horak
+
 * Wed Feb 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:4.6.2-9.pre1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_11_Mass_Rebuild
 
