@@ -1,37 +1,34 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.2
-Release:	10.pre1%{?dist}
+Release:	11%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
-Source0:	http://www.ibiblio.org/pub/Linux/utils/file/managers/mc/snapshots/mc-%{version}-pre1.tar.gz
-URL:		http://www.ibiblio.org/mc/
+# tarball from http://www.midnight-commander.org/downloads/3
+Source0:	mc-%{version}.tar.gz
+URL:		http://www.midnight-commander.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel
+BuildRequires:	gettext cvs automake autoconf
 Requires:	dev >= 0:3.3-3
 
-Patch0:		mc-utf8.patch
+# UTF-8 patch from http://www.midnight-commander.org/downloads/4
+Patch0:		mc-4.6.2-utf8.patch
 Patch1:		mc-extensions.patch
 Patch2:		mc-userhost.patch
 Patch3:		mc-64bit.patch
-Patch4:		mc-utf8-look-and-feel.patch
-Patch5:		mc-concat.patch
 Patch6:		mc-showfree.patch
 Patch7:		mc-cedit.patch
 Patch8:		mc-delcheck.patch
 Patch9:		mc-etcmc.patch
 Patch10:	mc-exit.patch
-Patch11:	mc-utf8-8bit-hex.patch
 Patch12:	mc-ipv6.patch
 Patch13:	mc-newlinedir.patch
-Patch14:	mc-cloexec.patch
 Patch15:	mc-prompt.patch
 Patch16:	mc-refresh.patch
-Patch17:	mc-preserveattr.patch
 Patch18:	mc-lzma.patch
 Patch19:	mc-hintchk.patch
-Patch20:	mc-7zip.patch
 Patch21:	mc-oldrpmtags.patch
 Patch22:	mc-shellcwd.patch
 Patch23:	mc-cedit-configurable-highlight.patch
@@ -45,28 +42,22 @@ ability to FTP, view tar and zip files, and to poke into RPMs for
 specific files.
 
 %prep
-%setup -q -n %{name}-%{version}-pre1
+%setup -q
 %patch0 -p1 -b .utf8
 %patch1 -p1 -b .extensions
 %patch2 -p1 -b .userhost
 %patch3 -p1 -b .64bit
-%patch4 -p1 -b .laf
-%patch5 -p1 -b .concat
 %patch6 -p1 -b .showfree
 %patch7 -p1 -b .cedit
 %patch8 -p1 -b .delcheck
 %patch9 -p1 -b .etcmc
 %patch10 -p1 -b .exit
-%patch11 -p1 -b .8bit-hex
 %patch12 -p1 -b .ipv6
 %patch13 -p1 -b .newlinedir
-%patch14 -p1 -b .cloexec
 %patch15 -p1 -b .prompt
 %patch16 -p1 -b .refresh
-%patch17 -p1 -b .preserveattr
 %patch18 -p1 -b .lzmavfs
 %patch19 -p1 -b .hintchk
-%patch20 -p1 -b .7zip
 %patch21 -p1 -b .oldrpmtags
 %patch22 -p1 -b .shellcwd
 %patch23 -p1 -b .cedit-configurable-highlight
@@ -132,6 +123,7 @@ done
 popd
 
 %build
+./autogen.sh
 export CFLAGS="-DUTF8=1 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -fgnu89-inline"
 %configure --with-screen=slang \
 	     --enable-charset \
@@ -208,6 +200,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Wed May 17 2009 Jindrich Novy <jnovy@redhat.com> 4.6.2-11
+- update to mc-4.6.2 release
+- drop .8bit-hex, .preserveattrs, .cloexec, .7zip and part of
+  .utf8-look-and-feel patch, applied upstream
+- sync the rest of patches, adopt upstream version of UTF8 patch
+- update URL and source links
+- add required BR
+
 * Fri May 15 2009 Jindrich Novy <jnovy@redhat.com> 4.6.2-10.pre1
 - fix segfault in mc editor when pressing ctrl+right (skip one word)
   in binary file (#500818)

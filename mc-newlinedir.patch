@@ -1,9 +1,10 @@
---- mc-2006-11-14-16/src/main.c.newlinedir	2006-11-20 14:54:21.000000000 +0100
-+++ mc-2006-11-14-16/src/main.c	2006-11-20 14:47:52.000000000 +0100
-@@ -647,7 +647,7 @@
-     }
+diff -up mc-4.6.2/src/main.c.newlinedir mc-4.6.2/src/main.c
+--- mc-4.6.2/src/main.c.newlinedir	2009-05-26 15:55:43.000000000 +0200
++++ mc-4.6.2/src/main.c	2009-05-26 15:56:47.000000000 +0200
+@@ -640,7 +640,7 @@ _do_panel_cd (WPanel *panel, const char 
      directory = *new_dir ? new_dir : home_dir;
  
+     ret_panel=panel;
 -    if (mc_chdir (directory) == -1) {
 +    if (strchr(directory,'\n') || mc_chdir (directory) == -1) {
  	strcpy (panel->cwd, olddir);

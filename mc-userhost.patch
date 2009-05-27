@@ -1,14 +1,51 @@
---- mc-4.6.1a/src/main.c.userhost	2005-10-16 18:11:07.000000000 +0200
-+++ mc-4.6.1a/src/main.c	2005-10-16 18:14:26.000000000 +0200
-@@ -28,6 +28,7 @@
- #include <stdio.h>
- #include <stdlib.h>
- #include <string.h>
-+#include <pwd.h>
+diff -up mc-4.6.2/edit/editwidget.c.userhost mc-4.6.2/edit/editwidget.c
+--- mc-4.6.2/edit/editwidget.c.userhost	2009-05-26 14:45:19.000000000 +0200
++++ mc-4.6.2/edit/editwidget.c	2009-05-26 14:49:35.000000000 +0200
+@@ -46,6 +46,9 @@
+ #include "../src/widget.h"	/* buttonbar_redraw() */
+ #include "../src/menu.h"	/* menubar_new() */
+ #include "../src/key.h"		/* is_idle() */
++#include "../src/main.h"	/* xterm_title_str */
++#include "../src/win.h"		/* xterm_flag */
++#include "../src/layout.h"	/* xterm_title */
  
- #include <sys/types.h>
- #include <sys/stat.h>
-@@ -1608,9 +1609,22 @@ void
+ WEdit *wedit;
+ struct WMenu *edit_menubar;
+@@ -174,6 +177,11 @@ edit_file (const char *_file, int line)
+     Dlg_head *edit_dlg;
+     WButtonBar *edit_bar;
+ 
++    if (xterm_flag && xterm_title && xterm_title_str) {
++	fprintf (stdout, "\33]0;mc - %s/%s\7", xterm_title_str, _file);
++	fflush(stdout); 
++    } 
++
+     if (!made_directory) {
+ 	char *dir = mhl_str_dir_plus_file (home_dir, EDIT_DIR);
+ 	made_directory = (mkdir (dir, 0700) != -1 || errno == EEXIST);
+@@ -208,6 +216,8 @@ edit_file (const char *_file, int line)
+     edit_done_menu (edit_menubar);		/* editmenu.c */
+ 
+     destroy_dlg (edit_dlg);
++    
++    update_xterm_title_path();
+ 
+     return 1;
+ }
+diff -up mc-4.6.2/src/main.c.userhost mc-4.6.2/src/main.c
+--- mc-4.6.2/src/main.c.userhost	2009-05-26 14:45:19.000000000 +0200
++++ mc-4.6.2/src/main.c	2009-05-26 14:48:06.000000000 +0200
+@@ -278,6 +278,9 @@ int midnight_shutdown = 0;
+ /* The user's shell */
+ const char *shell = NULL;
+ 
++/* The xterm title */
++char *xterm_title_str = NULL;
++
+ /* Is the LANG UTF-8 ? */
+ gboolean is_utf8 = FALSE;
+ 
+@@ -1624,9 +1627,23 @@ void
  update_xterm_title_path (void)
  {
      char *p, *s;
@@ -16,6 +53,7 @@
 +    struct passwd *pw;
  
      if (xterm_flag && xterm_title) {
++	if ( xterm_title_str ) g_free (xterm_title_str);
  	p = s = g_strdup (strip_home_and_password (current_panel->cwd));
 +	if ( !gethostname (h, 64) ) {
 +	    h[63] = '\0'; /* Be sure the hostname is NUL terminated */
@@ -31,19 +69,30 @@
  	do {
  #ifndef UTF8
  	    if (!is_printable ((unsigned char) *s))
---- mc-4.6.1a/src/main.h.viewfile	2005-09-05 04:10:48.000000000 +0200
-+++ mc-4.6.1a/src/main.h	2005-10-17 14:41:46.000000000 +0200
-@@ -67,6 +67,7 @@ extern int alternate_plus_minus;
+@@ -1639,7 +1656,7 @@ update_xterm_title_path (void)
+ 	    numeric_keypad_mode ();
+ 	fprintf (stdout, "\33]0;mc - %s\7", p);
+ 	fflush (stdout);
+-	g_free (p);
++	xterm_title_str = p;
+     }
+ }
+ 
+diff -up mc-4.6.2/src/main.h.userhost mc-4.6.2/src/main.h
+--- mc-4.6.2/src/main.h.userhost	2009-05-26 14:45:19.000000000 +0200
++++ mc-4.6.2/src/main.h	2009-05-26 14:46:33.000000000 +0200
+@@ -69,6 +69,7 @@ extern int alternate_plus_minus;
  extern int only_leading_plus_minus;
  extern int output_starts_shell;
  extern int midnight_shutdown;
 +extern char *xterm_title_str;
+ extern gboolean is_utf8;
  extern char cmd_buf [512];
  extern const char *shell;
- 
---- mc-4.6.1a/src/view.c.viewfile	2005-10-17 14:41:46.000000000 +0200
-+++ mc-4.6.1a/src/view.c	2005-10-17 15:11:54.000000000 +0200
-@@ -3344,6 +3344,11 @@ mc_internal_viewer (const char *command,
+diff -up mc-4.6.2/src/view.c.userhost mc-4.6.2/src/view.c
+--- mc-4.6.2/src/view.c.userhost	2009-05-26 14:45:19.000000000 +0200
++++ mc-4.6.2/src/view.c	2009-05-26 14:45:19.000000000 +0200
+@@ -3368,6 +3368,11 @@ mc_internal_viewer (const char *command,
      WButtonBar *bar;
      Dlg_head *view_dlg;
  
@@ -55,7 +104,7 @@
      /* Create dialog and widgets, put them on the dialog */
      view_dlg =
  	create_dlg (0, 0, LINES, COLS, NULL, view_dialog_callback,
-@@ -3367,6 +3372,8 @@ mc_internal_viewer (const char *command,
+@@ -3391,6 +3396,8 @@ mc_internal_viewer (const char *command,
      }
      destroy_dlg (view_dlg);
  
@@ -64,65 +113,3 @@
      return succeeded;
  }
  
---- mc-4.6.1a/src/main.c.viewfile	2005-10-17 14:41:46.000000000 +0200
-+++ mc-4.6.1a/src/main.c	2005-10-17 14:41:46.000000000 +0200
-@@ -270,6 +270,9 @@ int midnight_shutdown = 0;
- /* The user's shell */
- const char *shell = NULL;
- 
-+/* The xterm title */
-+char *xterm_title_str = NULL;
-+
- /* mc_home: The home of MC */
- char *mc_home = NULL;
- 
-@@ -1617,6 +1620,7 @@ update_xterm_title_path (void)
-     struct passwd *pw;
- 
-     if (xterm_flag && xterm_title) {
-+	if ( xterm_title_str ) g_free (xterm_title_str);
- 	p = s = g_strdup (strip_home_and_password (current_panel->cwd));
- 	if ( !gethostname (h, 64) ) {
- 	    h[63] = '\0'; /* Be sure the hostname is NUL terminated */
-@@ -1639,7 +1643,7 @@ update_xterm_title_path (void)
- 	} while (*++s);
- 	fprintf (stdout, "\33]0;mc - %s\7", p);
- 	fflush (stdout);
--	g_free (p);
-+	xterm_title_str = p;
-     }
- }
- 
---- mc-4.6.1a/edit/editwidget.c.viewfile	2005-10-17 14:41:46.000000000 +0200
-+++ mc-4.6.1a/edit/editwidget.c	2005-10-17 14:41:46.000000000 +0200
-@@ -44,6 +44,9 @@
- #include "../src/widget.h"	/* buttonbar_redraw() */
- #include "../src/menu.h"	/* menubar_new() */
- #include "../src/key.h"		/* is_idle() */
-+#include "../src/main.h"	/* xterm_title_str */
-+#include "../src/win.h"		/* xterm_flag */
-+#include "../src/layout.h"	/* xterm_title */
- 
- WEdit *wedit;
- struct WMenu *edit_menubar;
-@@ -184,6 +187,11 @@ edit_file (const char *_file, int line)
-     static int made_directory = 0;
-     Dlg_head *edit_dlg;
-     WButtonBar *edit_bar;
-+    
-+    if (xterm_flag && xterm_title && xterm_title_str) {
-+	fprintf (stdout, "\33]0;mc - %s/%s\7", xterm_title_str, _file);
-+	fflush(stdout);
-+    }
- 
-     if (!made_directory) {
- 	char *dir = concat_dir_and_file (home_dir, EDIT_DIR);
-@@ -219,6 +227,8 @@ edit_file (const char *_file, int line)
-     edit_done_menu (edit_menubar);		/* editmenu.c */
- 
-     destroy_dlg (edit_dlg);
-+    
-+    update_xterm_title_path();
- 
-     return 1;
- }
