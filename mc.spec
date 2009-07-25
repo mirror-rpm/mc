@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.6.2
-Release:	11%{?dist}
+Release:	12%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -200,6 +200,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Sat Jul 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:4.6.2-12
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
+
 * Wed May 17 2009 Jindrich Novy <jnovy@redhat.com> 4.6.2-11
 - update to mc-4.6.2 release
 - drop .8bit-hex, .preserveattrs, .cloexec, .7zip and part of
