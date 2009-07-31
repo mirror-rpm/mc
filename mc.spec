@@ -1,38 +1,23 @@
+%define alphatag 20090731git
+
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.6.2
-Release:	12%{?dist}
+Version:	4.6.99
+Release:	0.%{alphatag}%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
-# tarball from http://www.midnight-commander.org/downloads/3
-Source0:	mc-%{version}.tar.gz
+# tarball created from git clone git://midnight-commander.org/git/mc.git
+Source0:	mc-%{version}-%{alphatag}.tar.bz2
 URL:		http://www.midnight-commander.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel
-BuildRequires:	gettext cvs automake autoconf
-Requires:	dev >= 0:3.3-3
+BuildRequires:	gettext cvs automake autoconf libtool
+Requires:	dev >= 3.3-3
 
-# UTF-8 patch from http://www.midnight-commander.org/downloads/4
-Patch0:		mc-4.6.2-utf8.patch
-Patch1:		mc-extensions.patch
-Patch2:		mc-userhost.patch
-Patch3:		mc-64bit.patch
-Patch6:		mc-showfree.patch
-Patch7:		mc-cedit.patch
-Patch8:		mc-delcheck.patch
-Patch9:		mc-etcmc.patch
-Patch10:	mc-exit.patch
-Patch12:	mc-ipv6.patch
-Patch13:	mc-newlinedir.patch
-Patch15:	mc-prompt.patch
-Patch16:	mc-refresh.patch
-Patch18:	mc-lzma.patch
-Patch19:	mc-hintchk.patch
-Patch21:	mc-oldrpmtags.patch
-Patch22:	mc-shellcwd.patch
-Patch23:	mc-cedit-configurable-highlight.patch
-Patch24:	mc-edit-segv.patch
+Patch1:		mc-ipv6.patch
+Patch2:		mc-prompt.patch
+Patch3:		mc-exit.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -43,88 +28,13 @@ specific files.
 
 %prep
 %setup -q
-%patch0 -p1 -b .utf8
-%patch1 -p1 -b .extensions
-%patch2 -p1 -b .userhost
-%patch3 -p1 -b .64bit
-%patch6 -p1 -b .showfree
-%patch7 -p1 -b .cedit
-%patch8 -p1 -b .delcheck
-%patch9 -p1 -b .etcmc
-%patch10 -p1 -b .exit
-%patch12 -p1 -b .ipv6
-%patch13 -p1 -b .newlinedir
-%patch15 -p1 -b .prompt
-%patch16 -p1 -b .refresh
-%patch18 -p1 -b .lzmavfs
-%patch19 -p1 -b .hintchk
-%patch21 -p1 -b .oldrpmtags
-%patch22 -p1 -b .shellcwd
-%patch23 -p1 -b .cedit-configurable-highlight
-%patch24 -p1 -b .edit-segv
-
-# convert files in /lib to UTF-8
-pushd lib
-for i in mc.hint mc.hint.es mc.hint.it mc.hint.nl; do
-  iconv -f iso-8859-1 -t utf-8 < ${i} > ${i}.tmp
-  mv -f ${i}.tmp ${i}
-done
-
-for i in mc.hint.cs mc.hint.hu mc.hint.pl; do
-  iconv -f iso-8859-2 -t utf-8 < ${i} > ${i}.tmp
-  mv -f ${i}.tmp ${i}
-done
-
-for i in mc.hint.sr mc.menu.sr; do
-  iconv -f iso-8859-5 -t utf-8 < ${i} > ${i}.tmp
-  mv -f ${i}.tmp ${i}
-done
-
-iconv -f koi8-r -t utf8 < mc.hint.ru > mc.hint.ru.tmp
-mv -f mc.hint.ru.tmp mc.hint.ru
-iconv -f koi8-u -t utf8 < mc.hint.uk > mc.hint.uk.tmp
-mv -f mc.hint.uk.tmp mc.hint.uk
-iconv -f big5 -t utf8 < mc.hint.zh > mc.hint.zh.tmp
-mv -f mc.hint.zh.tmp mc.hint.zh
-popd
-
-
-# convert man pages in /doc to UTF-8
-pushd doc
-
-pushd ru
-for i in mc.1.in xnc.hlp; do
-  iconv -f koi8-r -t utf-8 < ${i} > ${i}.tmp
-  mv -f ${i}.tmp ${i}
-done
-popd
-
-pushd sr
-for i in mc.1.in mcserv.8.in xnc.hlp; do
-  iconv -f iso-8859-5 -t utf-8 < ${i} > ${i}.tmp
-  mv -f ${i}.tmp ${i}
-done
-popd
-
-for d in es it; do
-  for i in mc.1.in xnc.hlp; do
-    iconv -f iso-8859-3 -t utf-8 < ${d}/${i} > ${d}/${i}.tmp
-    mv -f ${d}/${i}.tmp ${d}/${i}
-  done
-done
-
-for d in hu pl; do
-  for i in mc.1.in xnc.hlp; do
-    iconv -f iso-8859-2 -t utf-8 < ${d}/${i} > ${d}/${i}.tmp
-    mv -f ${d}/${i}.tmp ${d}/${i}
-  done
-done
-
-popd
+%patch1 -p1 -b .ipv6
+%patch2 -p1 -b .prompt
+%patch3 -p1 -b .exit
 
 %build
 ./autogen.sh
-export CFLAGS="-DUTF8=1 -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -fgnu89-inline"
+export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
 %configure --with-screen=slang \
 	     --enable-charset \
 	     --with-samba \
@@ -134,33 +44,13 @@ make %{?_smp_mflags}
 
 %install 
 rm -rf $RPM_BUILD_ROOT
-install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
-install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/mc
-install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/mc/extfs
-install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/mc/syntax
 
 make install DESTDIR="$RPM_BUILD_ROOT"
 
-install lib/{mc.sh,mc.csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
-
-# move configuration files to /etc/mc to make it FHS compliant (#2188)
-mv -f $RPM_BUILD_ROOT%{_datadir}/mc/{cedit.menu,edit.indent.rc,edit.spell.rc,\
-mc.ext,mc.lib,mc.menu,mc.charsets} $RPM_BUILD_ROOT%{_sysconfdir}/mc
-mv -f $RPM_BUILD_ROOT%{_datadir}/mc/extfs/*.ini $RPM_BUILD_ROOT%{_sysconfdir}/mc/extfs
-mv -f $RPM_BUILD_ROOT%{_datadir}/mc/syntax/Syntax $RPM_BUILD_ROOT%{_sysconfdir}/mc/syntax
-
-# install man pages in various languages
-for l in es hu it pl ru sr; do
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/${l}
-mkdir -p $RPM_BUILD_ROOT%{_mandir}/${l}/man1
-install -m 644 doc/${l}/mc.1 $RPM_BUILD_ROOT%{_mandir}/${l}/man1
-done
-
-for I in /etc/pam.d/mcserv \
-	/etc/rc.d/init.d/mcserv \
-	/etc/mc.global; do
-	rm -rf ${RPM_BUILD_ROOT}${I}
-done
+install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
+install contrib/{mc.sh,mc.csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
+#mkdir -p $RPM_BUILD_ROOT%{_datadir}/mc/bin
+#mv $RPM_BUILD_ROOT%{_libexecdir}/mc/{mc.sh,mc.csh,mc-wrapper.sh,mc-wrapper.csh} $RPM_BUILD_ROOT%{_datadir}/mc/bin
 
 %find_lang %{name}
 
@@ -169,14 +59,14 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(-, root, root)
-
-%doc FAQ COPYING NEWS README
+%doc doc/FAQ doc/COPYING doc/NEWS doc/README
 %{_bindir}/mc
 %{_bindir}/mcedit
 %{_bindir}/mcmfmt
 %{_bindir}/mcview
 %{_datadir}/mc/*
 %attr(4711, vcsa, root) %{_libexecdir}/mc/cons.saver
+%{_libexecdir}/mc/mc*
 %{_mandir}/man1/*
 %lang(es) %{_mandir}/es/man1/mc.1*
 %lang(hu) %{_mandir}/hu/man1/mc.1*
@@ -185,7 +75,7 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ru) %{_mandir}/ru/man1/mc.1*
 %lang(sr) %{_mandir}/sr/man1/mc.1*
 %{_sysconfdir}/profile.d/*
-%config %{_sysconfdir}/mc/syntax/Syntax
+%config %{_sysconfdir}/mc/Syntax
 %config %{_sysconfdir}/mc/mc.charsets
 %config %{_sysconfdir}/mc/mc.lib
 %config(noreplace) %{_sysconfdir}/mc/*edit*
@@ -195,11 +85,14 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{_sysconfdir}/mc/extfs/sfs.ini
 %dir %{_datadir}/mc
 %dir %{_sysconfdir}/mc
-%dir %{_sysconfdir}/mc/syntax
 %dir %{_sysconfdir}/mc/extfs
 %dir %{_libexecdir}/mc
 
 %changelog
+* Fri Jul 31 2009 Jindrich Novy <jnovy@redhat.com> 4.6.99-0.20090731git
+- update to latest GIT mc
+- forwardport prompt fix and exit patch, keep IPv6 patch and drop the others
+
 * Sat Jul 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:4.6.2-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
