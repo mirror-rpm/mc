@@ -1,18 +1,15 @@
-%define alphatag 20090731git
-
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.6.99
-Release:	0.%{alphatag}%{?dist}
+Version:	4.7.0
+Release:	0.1.pre1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
 # tarball created from git clone git://midnight-commander.org/git/mc.git
-Source0:	mc-%{version}-%{alphatag}.tar.bz2
+Source0:	mc-%{version}-pre1.tar.bz2
 URL:		http://www.midnight-commander.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel
-BuildRequires:	gettext cvs automake autoconf libtool
 Requires:	dev >= 3.3-3
 
 Patch1:		mc-ipv6.patch
@@ -27,13 +24,12 @@ ability to FTP, view tar and zip files, and to poke into RPMs for
 specific files.
 
 %prep
-%setup -q
+%setup -q -n mc-%{version}-pre1
 %patch1 -p1 -b .ipv6
 %patch2 -p1 -b .prompt
 %patch3 -p1 -b .exit
 
 %build
-./autogen.sh
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
 %configure --with-screen=slang \
 	     --enable-charset \
@@ -49,8 +45,6 @@ make install DESTDIR="$RPM_BUILD_ROOT"
 
 install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 install contrib/{mc.sh,mc.csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
-#mkdir -p $RPM_BUILD_ROOT%{_datadir}/mc/bin
-#mv $RPM_BUILD_ROOT%{_libexecdir}/mc/{mc.sh,mc.csh,mc-wrapper.sh,mc-wrapper.csh} $RPM_BUILD_ROOT%{_datadir}/mc/bin
 
 %find_lang %{name}
 
@@ -89,6 +83,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Mon Aug  3 2009 Jindrich Novy <jnovy@redhat.com> 4.7.0-0.1.pre1
+- update to 4.7.0-pre1 (fixes #513757)
+
 * Fri Jul 31 2009 Jindrich Novy <jnovy@redhat.com> 4.6.99-0.20090731git
 - update to latest GIT mc
 - forwardport prompt fix and exit patch, keep IPv6 patch and drop the others
