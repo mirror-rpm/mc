@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.7.0
-Release:	0.1.pre1%{?dist}
+Release:	0.2.pre1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -15,6 +15,7 @@ Requires:	dev >= 3.3-3
 Patch1:		mc-ipv6.patch
 Patch2:		mc-prompt.patch
 Patch3:		mc-exit.patch
+Patch4:		mc-extensions.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -28,6 +29,7 @@ specific files.
 %patch1 -p1 -b .ipv6
 %patch2 -p1 -b .prompt
 %patch3 -p1 -b .exit
+%patch4 -p1 -b .extensions
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
@@ -83,6 +85,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Wed Aug  5 2009 Jindrich Novy <jnovy@redhat.com> 4.7.0-0.2.pre1
+- update extension binding to be more Fedora-like
+- update to upstream IPv6 patch
+
 * Mon Aug  3 2009 Jindrich Novy <jnovy@redhat.com> 4.7.0-0.1.pre1
 - update to 4.7.0-pre1 (fixes #513757)
 
