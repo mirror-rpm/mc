@@ -1,0 +1,41 @@
+diff -d -urpN mc.7/src/search/glob.c mc.8/src/search/glob.c
+--- mc.7/src/search/glob.c	2009-06-29 14:06:35.000000000 +0200
++++ mc.8/src/search/glob.c	2009-07-03 12:40:36.000000000 +0200
+@@ -141,8 +142,36 @@ mc_search__run_glob (mc_search_t * mc_se
+ }
+ 
+ /* --------------------------------------------------------------------------------------------- */
++static GString *
++mc_search__translate_replace_glob_to_regex (gchar *str)
++{
++    GString *buff = g_string_new ("");
++    int cnt = '0';
++
++    while (*str) {
++	char c = *str++;
++	switch (c) {
++	case '*':
++	case '?':
++	    g_string_append_c (buff, '\\');
++	    c = ++cnt;
++	    break;
++	/* breaks copying: mc uses "\0" internally, it must not be changed */
++	/*case '\\':*/
++	case '&':
++	    g_string_append_c (buff, '\\');
++	    break;
++	}
++	g_string_append_c (buff, c);
++    }
++    return buff;
++}
++
+ GString *
+ mc_search_glob_prepare_replace_str (mc_search_t * mc_search, GString * replace_str)
+ {
+-    return mc_search_regex_prepare_replace_str (mc_search, replace_str);
++    GString *repl = mc_search__translate_replace_glob_to_regex(replace_str->str);
++    GString *res = mc_search_regex_prepare_replace_str (mc_search, repl);
++    g_string_free (repl, TRUE);
++    return res;
+ }
