@@ -10,18 +10,6 @@ diff -up mc-4.7.0-pre1/configure.ac.extensions mc-4.7.0-pre1/configure.ac
  
  dnl
  dnl Ovverriding mmap support.  This has to be before AC_FUNC_MMAP is used.
-diff -up mc-4.7.0-pre1/configure.extensions mc-4.7.0-pre1/configure
---- mc-4.7.0-pre1/configure.extensions	2009-07-31 20:49:03.000000000 +0200
-+++ mc-4.7.0-pre1/configure	2009-08-05 12:51:08.000000000 +0200
-@@ -15250,7 +15250,7 @@ else
- fi
- 
- 
--for ac_prog in gnome-moz-remote mozilla konqueror opera netscape
-+for ac_prog in firefox gnome-moz-remote mozilla konqueror opera netscape
- do
-   # Extract the first word of "$ac_prog", so it can be a program name with args.
- set dummy $ac_prog; ac_word=$2
 diff -up mc-4.7.0-pre1/misc/mc.ext.in.extensions mc-4.7.0-pre1/misc/mc.ext.in
 --- mc-4.7.0-pre1/misc/mc.ext.in.extensions	2009-06-23 20:55:11.000000000 +0200
 +++ mc-4.7.0-pre1/misc/mc.ext.in	2009-08-05 13:01:48.000000000 +0200
