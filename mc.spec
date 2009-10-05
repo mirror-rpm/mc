@@ -1,12 +1,12 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.7.0
-Release:	0.4.pre2%{?dist}
+Release:	0.5.pre3%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
 # tarball created from git clone git://midnight-commander.org/git/mc.git
-Source0:	mc-%{version}-pre2.tar.bz2
+Source0:	mc-%{version}-pre3.tar.bz2
 URL:		http://www.midnight-commander.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel
@@ -23,7 +23,7 @@ ability to FTP, view tar and zip files, and to poke into RPMs for
 specific files.
 
 %prep
-%setup -q -n mc-%{version}-pre2
+%setup -q -n mc-%{version}-pre3
 %patch1 -p1 -b .exit
 %patch2 -p1 -b .extensions
 
@@ -71,8 +71,8 @@ rm -rf $RPM_BUILD_ROOT
 %config %{_sysconfdir}/mc/mc.charsets
 %config %{_sysconfdir}/mc/mc.lib
 %config(noreplace) %{_sysconfdir}/mc/*edit*
-%config(noreplace) %{_sysconfdir}/mc/mc.ext
-%config(noreplace) %{_sysconfdir}/mc/mc.menu
+%config(noreplace) %{_sysconfdir}/mc/mc.*
+%config(noreplace) %{_sysconfdir}/mc/*.ini
 %config(noreplace) %{_sysconfdir}/mc/extfs/extfs.ini
 %config(noreplace) %{_sysconfdir}/mc/extfs/sfs.ini
 %dir %{_datadir}/mc
@@ -81,6 +81,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Mon Oct  5 2009 Jindrich Novy <jnovy@redhat.com> 4.7.0-0.5.pre3
+- update to 4.7.0-pre3
+
 * Tue Sep  1 2009 Jindrich Novy <jnovy@redhat.com> 4.7.0-0.4.pre2
 - update to 4.7.0-pre2
 
