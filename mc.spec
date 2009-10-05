@@ -9,7 +9,7 @@ Group:		System Environment/Shells
 Source0:	mc-%{version}-pre3.tar.bz2
 URL:		http://www.midnight-commander.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	glib2-devel e2fsprogs-devel slang-devel
+BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel
 Requires:	dev >= 3.3-3
 
 Patch1:		mc-exit.patch
@@ -83,6 +83,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Mon Oct  5 2009 Jindrich Novy <jnovy@redhat.com> 4.7.0-0.5.pre3
 - update to 4.7.0-pre3
+- add BR: gpm-devel
 
 * Tue Sep  1 2009 Jindrich Novy <jnovy@redhat.com> 4.7.0-0.4.pre2
 - update to 4.7.0-pre2
