@@ -1,0 +1,61 @@
+diff -up mc-4.7.0/vfs/vfs.c.jn mc-4.7.0/vfs/vfs.c
+--- mc-4.7.0/vfs/vfs.c.jn	2009-10-12 13:57:18.000000000 +0200
++++ mc-4.7.0/vfs/vfs.c	2009-10-12 14:34:04.000000000 +0200
+@@ -675,6 +675,9 @@ int
+ mc_ctl (int handle, int ctlop, void *arg)
+ {
+     struct vfs_class *vfs = vfs_op (handle);
++    
++    if (vfs == NULL)
++        return 0;
+ 
+     return vfs->ctl ? (*vfs->ctl)(vfs_info (handle), ctlop, arg) : 0;
+ }
+@@ -708,6 +711,10 @@ mc_close (int handle)
+ 	return -1;
+     
+     vfs = vfs_op (handle);
++    
++    if (vfs == NULL)
++    	return -1;
++    
+     if (handle < 3)
+ 	return close (handle);
+ 
+@@ -798,6 +805,8 @@ mc_readdir (DIR *dirp)
+     }
+     handle = *(int *) dirp;
+     vfs = vfs_op (handle);
++    if (vfs == NULL)
++    	return NULL;
+     dirinfo = vfs_info (handle);
+     if (vfs->readdir) {
+         entry = (*vfs->readdir) (dirinfo->info);
+@@ -820,6 +829,9 @@ mc_closedir (DIR *dirp)
+     int result;
+     struct vfs_dirinfo *dirinfo;
+ 
++    if (vfs == NULL)
++    	return -1;
++
+     dirinfo = vfs_info (handle);
+     if (dirinfo->converter != str_cnv_from_term) str_close_conv (dirinfo->converter);
+ 
+@@ -874,6 +886,8 @@ int mc_fstat (int handle, struct stat *b
+     if (handle == -1)
+ 	return -1;
+     vfs = vfs_op (handle);
++    if (vfs == NULL)
++    	return -1;
+     result = vfs->fstat ? (*vfs->fstat) (vfs_info (handle), buf) : -1;
+     if (result == -1)
+ 	errno = vfs->name ? ferrno (vfs) : E_NOTSUPP;
+@@ -967,6 +981,8 @@ off_t mc_lseek (int fd, off_t offset, in
+ 	return -1;
+ 
+     vfs = vfs_op (fd);
++    if (vfs == NULL)
++    	return -1;
+     result = vfs->lseek ? (*vfs->lseek)(vfs_info (fd), offset, whence) : -1;
+     if (result == -1)
+         errno = vfs->lseek ? ferrno (vfs) : E_NOTSUPP;
