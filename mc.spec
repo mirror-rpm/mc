@@ -1,20 +1,18 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.7.0
-Release:	0.6.pre3%{?dist}
+Release:	0.7.pre4%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
 # tarball created from git clone git://midnight-commander.org/git/mc.git
-Source0:	mc-%{version}-pre3.tar.bz2
+Source0:	mc-%{version}-pre4.tar.bz2
 URL:		http://www.midnight-commander.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel
 Requires:	dev >= 3.3-3
 
-Patch1:		mc-exit.patch
 Patch2:		mc-extensions.patch
-Patch3:		mc-vfsfail.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -24,10 +22,8 @@ ability to FTP, view tar and zip files, and to poke into RPMs for
 specific files.
 
 %prep
-%setup -q -n mc-%{version}-pre3
-%patch1 -p1 -b .exit
+%setup -q -n mc-%{version}-pre4
 %patch2 -p1 -b .extensions
-%patch3 -p1 -b .vfsfail
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
@@ -83,6 +79,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Mon Nov 02 2009 Jindrich Novy <jnovy@redhat.com> 4.7.0-0.7.pre4
+- update to 4.7.0-pre4
+
 * Mon Oct 12 2009 Jindrich Novy <jnovy@redhat.com> 4.7.0-0.6.pre3
 - fix segfault while browsing various archives via VFS (#528268)
 
