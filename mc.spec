@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.7.0
-Release:	0.7.pre4%{?dist}
+Release:	0.8.pre4%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -12,7 +12,8 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel
 Requires:	dev >= 3.3-3
 
-Patch2:		mc-extensions.patch
+Patch0:		mc-extensions.patch
+Patch1:		mc-rpmvfs.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -23,7 +24,8 @@ specific files.
 
 %prep
 %setup -q -n mc-%{version}-pre4
-%patch2 -p1 -b .extensions
+%patch0 -p1 -b .extensions
+%patch1 -p1 -b .rpmvfs
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
@@ -79,6 +81,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Tue Dec 15 2009 Jindrich Novy <jnovy@redhat.com> 4.7.0-0.8.pre4
+- fix rpmvfs empty directory handling (#529645)
+- fix bindings (#532784)
+
 * Mon Nov 02 2009 Jindrich Novy <jnovy@redhat.com> 4.7.0-0.7.pre4
 - update to 4.7.0-pre4
 
