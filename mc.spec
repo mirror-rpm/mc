@@ -1,19 +1,19 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.7.0
-Release:	0.8.pre4%{?dist}
+Release:	0.9.pre4.20091221git%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
 # tarball created from git clone git://midnight-commander.org/git/mc.git
-Source0:	mc-%{version}-pre4.tar.bz2
+Source0:	mc-%{version}-pre4-20091221git.tar.bz2
 URL:		http://www.midnight-commander.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
+BuildRequires:	gettext cvs automake autoconf libtool
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel
 Requires:	dev >= 3.3-3
 
 Patch0:		mc-extensions.patch
-Patch1:		mc-rpmvfs.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -23,20 +23,22 @@ ability to FTP, view tar and zip files, and to poke into RPMs for
 specific files.
 
 %prep
-%setup -q -n mc-%{version}-pre4
+%setup -q
 %patch0 -p1 -b .extensions
-%patch1 -p1 -b .rpmvfs
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
-%configure --with-screen=slang \
-	     --enable-charset \
-	     --with-samba \
-	     --without-x \
-	     --with-gpm-mouse
+./autogen.sh
+%configure	--with-screen=slang \
+		--enable-charset \
+		--with-samba \
+		--without-x \
+		--with-gpm-mouse \
+		--disable-rpath \
+		--enable-vfs-mcfs
 make %{?_smp_mflags}
 
-%install 
+%install
 rm -rf $RPM_BUILD_ROOT
 
 make install DESTDIR="$RPM_BUILD_ROOT"
@@ -70,17 +72,24 @@ rm -rf $RPM_BUILD_ROOT
 %config %{_sysconfdir}/mc/Syntax
 %config %{_sysconfdir}/mc/mc.charsets
 %config %{_sysconfdir}/mc/mc.lib
+%config(noreplace) %{_sysconfdir}/mc/mc.ext
 %config(noreplace) %{_sysconfdir}/mc/*edit*
-%config(noreplace) %{_sysconfdir}/mc/mc.*
+%config(noreplace) %{_sysconfdir}/mc/mc.keymap*
+%config(noreplace) %{_sysconfdir}/mc/mc.menu*
 %config(noreplace) %{_sysconfdir}/mc/*.ini
-%config(noreplace) %{_sysconfdir}/mc/extfs/extfs.ini
-%config(noreplace) %{_sysconfdir}/mc/extfs/sfs.ini
+%config(noreplace) %{_sysconfdir}/mc/extfs/*.ini
 %dir %{_datadir}/mc
 %dir %{_sysconfdir}/mc
 %dir %{_sysconfdir}/mc/extfs
 %dir %{_libexecdir}/mc
 
 %changelog
+* Mon Dec 21 2009 Jindrich Novy <jnovy@redhat.com> 4.7.0-0.9.pre4.20091221git
+- provide yum-repo.syntax (#549014)
+- avoid occasional crash while reading panels (#548987)
+- remove duplicates from filelist
+- enable mcvfs, disable rpath
+
 * Tue Dec 15 2009 Jindrich Novy <jnovy@redhat.com> 4.7.0-0.8.pre4
 - fix rpmvfs empty directory handling (#529645)
 - fix bindings (#532784)
