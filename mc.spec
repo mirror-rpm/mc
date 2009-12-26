@@ -1,15 +1,14 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.7.0
-Release:	0.9.pre4.20091221git%{?dist}
+Release:	1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
 # tarball created from git clone git://midnight-commander.org/git/mc.git
-Source0:	mc-%{version}-pre4-20091221git.tar.bz2
+Source0:	mc-%{version}.tar.lzma
 URL:		http://www.midnight-commander.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	gettext cvs automake autoconf libtool
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel
 Requires:	dev >= 3.3-3
 
@@ -28,7 +27,6 @@ specific files.
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
-./autogen.sh
 %configure	--with-screen=slang \
 		--enable-charset \
 		--with-samba \
@@ -84,6 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Sat Dec 26 2009 Jindrich Novy <jnovy@redhat.com> 4.7.0-1
+- update to official 4.7.0
+
 * Mon Dec 21 2009 Jindrich Novy <jnovy@redhat.com> 4.7.0-0.9.pre4.20091221git
 - provide yum-repo.syntax (#549014)
 - avoid occasional crash while reading panels (#548987)
