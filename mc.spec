@@ -1,6 +1,6 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.7.0
+Version:	4.7.0.1
 Release:	1%{?dist}
 Epoch:		1
 License:	GPLv2
@@ -82,6 +82,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc
 
 %changelog
+* Sat Jan  2 2010 Jindrich Novy <jnovy@redhat.com> 4.7.0.1-1
+- update to 4.7.0.1
+- update bindings to use xdg-open wherever possible
+
 * Sat Dec 26 2009 Jindrich Novy <jnovy@redhat.com> 4.7.0-1
 - update to official 4.7.0
 

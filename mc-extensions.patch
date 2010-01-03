@@ -107,7 +107,7 @@ diff -up mc-4.7.0-pre4/misc/mc.ext.in.extensions mc-4.7.0-pre4/misc/mc.ext.in
  # html
  regex/\.([hH][tT][mM][lL]?)$
 -	Open=(if test -n "@X11_WWW@" && test -n "$DISPLAY"; then (@X11_WWW@ file://%d/%p &) 1>&2; else links %f || lynx -force_html %f || ${PAGER:-more} %f; fi) 2>/dev/null
-+	Open=(if test -n "$DISPLAY"; then (xdg-open file://%d/%p &) 1>&2; else links %f || lynx -force_html %f || ${PAGER:-more} %f; fi) 2>/dev/null
++	Open=xdg-open file://%d/%p 1>&2
  	View=%view{ascii} links -dump %f 2>/dev/null || w3m -dump %f 2>/dev/null || lynx -dump -force_html %f
  
  # StarOffice 5.2
@@ -116,30 +116,30 @@ diff -up mc-4.7.0-pre4/misc/mc.ext.in.extensions mc-4.7.0-pre4/misc/mc.ext.in
  # Microsoft Word Document
  regex/\.([Dd][oO][cCtT]|[Ww][rR][iI])$
 -	Open=(abiword %f >/dev/null 2>&1 &)
-+	Open=(ooffice %f &)
++	Open=(xdg-open %f &)
 +#	Open=(abiword %f >/dev/null 2>&1 &)
  	View=%view{ascii} antiword -t %f || catdoc -w %f || word2x -f text %f - || strings %f
  type/^Microsoft\ Word
 -	Open=(abiword %f >/dev/null 2>&1 &)
-+	Open=(ooffice %f &)
++	Open=(xdg-open %f &)
 +#	Open=(abiword %f >/dev/null 2>&1 &)
  	View=%view{ascii} antiword -t %f || catdoc -w %f || word2x -f text %f - || strings %f
  
  # RTF document
  regex/\.([rR][tT][fF])$
 -	Open=(abiword %f >/dev/null 2>&1 &)
-+	Open=(ooffice %f &)
++	Open=(xdg-open %f &)
 +#	Open=(abiword %f >/dev/null 2>&1 &)
  
  # Microsoft Excel Worksheet
  regex/\.([xX][lL][sSwW])$
 -	Open=(gnumeric %f >/dev/null 2>&1 &)
-+	Open=(ooffice %f &)
++	Open=(xdg-open %f &)
 +#	Open=(gnumeric %f >/dev/null 2>&1 &)
  	View=%view{ascii} xls2csv %f || strings %f
  type/^Microsoft\ Excel
 -	Open=(gnumeric %f >/dev/null 2>&1 &)
-+	Open=(ooffice %f &)
++	Open=(xdg-open %f &)
 +#	Open=(gnumeric %f >/dev/null 2>&1 &)
  	View=%view{ascii} xls2csv %f || strings %f
  
