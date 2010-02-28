@@ -1,6 +1,6 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.7.0.2
+Version:	4.7.1
 Release:	1%{?dist}
 Epoch:		1
 License:	GPLv2
@@ -59,6 +59,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/mc/*
 %attr(4711, vcsa, root) %{_libexecdir}/mc/cons.saver
 %{_libexecdir}/mc/mc*
+%{_libexecdir}/mc/extfs.d/*
 %{_mandir}/man1/*
 %lang(es) %{_mandir}/es/man1/mc.1*
 %lang(hu) %{_mandir}/hu/man1/mc.1*
@@ -75,13 +76,15 @@ rm -rf $RPM_BUILD_ROOT
 %config(noreplace) %{_sysconfdir}/mc/mc.keymap*
 %config(noreplace) %{_sysconfdir}/mc/mc.menu*
 %config(noreplace) %{_sysconfdir}/mc/*.ini
-%config(noreplace) %{_sysconfdir}/mc/extfs/*.ini
 %dir %{_datadir}/mc
 %dir %{_sysconfdir}/mc
-%dir %{_sysconfdir}/mc/extfs
 %dir %{_libexecdir}/mc
+%dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Mon Mar  1 2010 Jindrich Novy <jnovy@redhat.com> 4.7.1-1
+- update to 4.7.1
+
 * Wed Feb  3 2010 Jindrich Novy <jnovy@redhat.com> 4.7.0.2-1
 - update to 4.7.0.2
 
