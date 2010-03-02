@@ -1,0 +1,22 @@
+diff -up mc-4.7.1/src/find.c.findfix mc-4.7.1/src/find.c
+--- mc-4.7.1/src/find.c.findfix	2010-02-26 12:34:03.000000000 +0100
++++ mc-4.7.1/src/find.c	2010-03-02 15:46:55.000000000 +0100
+@@ -1004,8 +1004,7 @@ init_find_vars (void)
+ static char *
+ make_fullname (const char *dirname, const char *filename)
+ {
+-
+-    if (strcmp(dirname, ".") == 0 || strcmp(dirname, "."PATH_SEP_STR) == 0)
++    if (dirname == NULL || strcmp(dirname, ".") == 0 || strcmp(dirname, "."PATH_SEP_STR) == 0)
+ 	return g_strdup (filename);
+     if (strncmp(dirname, "."PATH_SEP_STR, 2) == 0)
+ 	return concat_dir_and_file (dirname + 2, filename);
+@@ -1258,7 +1257,7 @@ find_file (const char *start_dir, const 
+ 	    if ((le->text == NULL) || (entry->data == NULL))
+ 		continue;
+ 
+-	    if (content_pattern != NULL)
++	    if (content_pattern != NULL && strchr (le->text + 4, ':'))
+ 		lc_filename = strchr (le->text + 4, ':') + 1;
+ 	    else
+ 		lc_filename = le->text + 4;
