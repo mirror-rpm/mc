@@ -1,0 +1,27 @@
+commit d2a9152cec8db6d21af77bb91490666a85e48d55
+Author: Andrew Borodin <aborodin@vmail.ru>
+Date:   Sat Mar 6 11:08:18 2010 +0300
+
+    Ticket #2087: crash in standalone editor and viewer.
+    
+    Don't try update file manager panels if mc runs as standalone editor or viewer.
+    
+    Signed-off-by: Andrew Borodin <aborodin@vmail.ru>
+
+diff --git a/src/execute.c b/src/execute.c
+index e8f9ad3..16c0898 100644
+--- a/src/execute.c
++++ b/src/execute.c
+@@ -304,8 +304,10 @@ toggle_panels (void)
+     }
+ #endif				/* HAVE_SUBSHELL_SUPPORT */
+ 
+-    update_panels (UP_OPTIMIZE, UP_KEEPSEL);
+-    update_xterm_title_path ();
++    if ((view_one_file == NULL) && (edit_one_file == NULL)) {
++	update_panels (UP_OPTIMIZE, UP_KEEPSEL);
++	update_xterm_title_path ();
++    }
+     repaint_screen ();
+ }
+ 
