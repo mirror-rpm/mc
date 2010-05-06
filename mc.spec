@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.7.1
-Release:	3%{?dist}
+Version:	4.7.2
+Release:	1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -13,8 +13,6 @@ BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel
 Requires:	dev >= 3.3-3
 
 Patch0:		mc-extensions.patch
-Patch1:		mc-findfix.patch
-Patch2:		mc-mceditcrash.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -26,8 +24,6 @@ specific files.
 %prep
 %setup -q
 %patch0 -p1 -b .extensions
-%patch1 -p1 -b .findfix
-%patch2 -p1 -b .mceditcrash
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
@@ -60,6 +56,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/mcedit
 %{_bindir}/mcmfmt
 %{_bindir}/mcview
+%{_bindir}/mcdiff
 %{_datadir}/mc/*
 %attr(4711, vcsa, root) %{_libexecdir}/mc/cons.saver
 %{_libexecdir}/mc/mc*
@@ -86,6 +83,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Thu May  6 2010 Jindrich Novy <jnovy@redhat.com> 4.7.2-1
+- update to 4.7.2
+- remove patches applied upstream
+
 * Thu Mar 18 2010 Jindrich Novy <jnovy@redhat.com> 4.7.1-3
 - patches from upstream:
   - fix crash in mcedit ran stand-alone (#571570)
