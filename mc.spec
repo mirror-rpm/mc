@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.7.2
-Release:	2%{?dist}
+Version:	4.7.3
+Release:	1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -63,6 +63,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(4711, vcsa, root) %{_libexecdir}/mc/cons.saver
 %{_libexecdir}/mc/mc*
 %{_libexecdir}/mc/extfs.d/*
+%{_libexecdir}/mc/fish/*
 %{_mandir}/man1/*
 %lang(es) %{_mandir}/es/man1/mc.1*
 %lang(hu) %{_mandir}/hu/man1/mc.1*
@@ -82,9 +83,13 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/mc
 %dir %{_sysconfdir}/mc
 %dir %{_libexecdir}/mc
+%dir %{_libexecdir}/mc/fish
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Wed Jul  7 2010 Jindrich Novy <jnovy@redhat.com> 4.7.3-1
+- update to 4.7.3
+
 * Wed Jun  9 2010 Jindrich Novy <jnovy@redhat.com> 4.7.2-2
 - BR: groff (#602115)
 - fix segfault in mcview (#602124)
