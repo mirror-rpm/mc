@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.7.3
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -14,6 +14,7 @@ Requires:	dev >= 3.3-3
 
 Patch0:		mc-extensions.patch
 Patch1:		mc-mcviewsegfault.patch
+Patch2:		mc-achownsegfault.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -26,6 +27,7 @@ specific files.
 %setup -q
 %patch0 -p1 -b .extensions
 %patch1 -p1 -b .mcviewsegfault
+%patch2 -p1 -b .achownsegfault
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
@@ -87,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Wed Sep  1 2010 Jindrich Novy <jnovy@redhat.com> 4.7.3-2
+- fix segfault in advanced chown dialog (#625801)
+
 * Wed Jul  7 2010 Jindrich Novy <jnovy@redhat.com> 4.7.3-1
 - update to 4.7.3
 
