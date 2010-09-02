@@ -16,6 +16,7 @@ Patch0:		mc-extensions.patch
 Patch1:		mc-mcviewsegfault.patch
 Patch2:		mc-achownsegfault.patch
 Patch3:		mc-dircopying.patch
+Patch4:		mc-dirname.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -30,6 +31,7 @@ specific files.
 %patch1 -p1 -b .mcviewsegfault
 %patch2 -p1 -b .achownsegfault
 %patch3 -p1 -b .dircopying
+%patch4 -p1 -b .dirname
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
@@ -93,6 +95,8 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Thu Sep  2 2010 Jindrich Novy <jnovy@redhat.com> 4.7.3-3
 - fix broken directory copying, backport from upstream (#624973)
+- backport patch fixing crash while copying files to directory
+  with '?' letters in its name (#576622)
 
 * Wed Sep  1 2010 Jindrich Novy <jnovy@redhat.com> 4.7.3-2
 - fix segfault in advanced chown dialog (#625801)
