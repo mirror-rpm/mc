@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.7.3
-Release:	3%{?dist}
+Release:	4%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -17,6 +17,8 @@ Patch1:		mc-mcviewsegfault.patch
 Patch2:		mc-achownsegfault.patch
 Patch3:		mc-dircopying.patch
 Patch4:		mc-dirname.patch
+Patch5:		mc-replacefix.patch
+Patch6:		mc-historyfix.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -32,6 +34,8 @@ specific files.
 %patch2 -p1 -b .achownsegfault
 %patch3 -p1 -b .dircopying
 %patch4 -p1 -b .dirname
+%patch5 -p1 -b .replacefix
+%patch6 -p1 -b .historyfix
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
@@ -93,6 +97,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Fri Sep  3 2010 Jindrich Novy <jnovy@redhat.com> 4.7.3-4
+- fix segfault when pressing Cancel in Replace String dialog (#629847)
+- show proper contents in history and fix memleak (ticket #2299)
+
 * Thu Sep  2 2010 Jindrich Novy <jnovy@redhat.com> 4.7.3-3
 - fix broken directory copying, backport from upstream (#624973)
 - backport patch fixing crash while copying files to directory
