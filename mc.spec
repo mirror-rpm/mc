@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.7.3
-Release:	4%{?dist}
+Version:	4.7.4
+Release:	1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -14,11 +14,6 @@ Requires:	dev >= 3.3-3
 
 Patch0:		mc-extensions.patch
 Patch1:		mc-mcviewsegfault.patch
-Patch2:		mc-achownsegfault.patch
-Patch3:		mc-dircopying.patch
-Patch4:		mc-dirname.patch
-Patch5:		mc-replacefix.patch
-Patch6:		mc-historyfix.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -31,14 +26,9 @@ specific files.
 %setup -q
 %patch0 -p1 -b .extensions
 %patch1 -p1 -b .mcviewsegfault
-%patch2 -p1 -b .achownsegfault
-%patch3 -p1 -b .dircopying
-%patch4 -p1 -b .dirname
-%patch5 -p1 -b .replacefix
-%patch6 -p1 -b .historyfix
 
 %build
-export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS"
+export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-strict-aliasing"
 %configure	--with-screen=slang \
 		--enable-charset \
 		--with-samba \
@@ -97,6 +87,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Tue Sep  7 2010 Jindrich Novy <jnovy@redhat.com> 4.7.4-1
+- update to 4.7.4 (#630900)
+
 * Fri Sep  3 2010 Jindrich Novy <jnovy@redhat.com> 4.7.3-4
 - fix segfault when pressing Cancel in Replace String dialog (#629847)
 - show proper contents in history and fix memleak (ticket #2299)
