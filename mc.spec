@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.7.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -31,10 +31,10 @@ specific files.
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-strict-aliasing"
 %configure	--with-screen=slang \
 		--enable-charset \
-		--with-samba \
 		--without-x \
 		--with-gpm-mouse \
 		--disable-rpath \
+		--enable-vfs-smb \
 		--enable-vfs-mcfs
 make %{?_smp_mflags}
 
@@ -87,6 +87,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Fri Sep 24 2010 Jindrich Novy <jnovy@redhat.com> 4.7.4-2
+- enable samba VFS (#637059)
+
 * Tue Sep  7 2010 Jindrich Novy <jnovy@redhat.com> 4.7.4-1
 - update to 4.7.4 (#630900)
 
