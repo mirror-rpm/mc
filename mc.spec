@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.7.4
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -87,6 +87,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Wed Sep 29 2010 jkeating - 1:4.7.4-3
+- Rebuilt for gcc bug 634757
+
 * Fri Sep 24 2010 Jindrich Novy <jnovy@redhat.com> 4.7.4-2
 - enable samba VFS (#637059)
 
