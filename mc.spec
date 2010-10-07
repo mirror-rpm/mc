@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.7.4
-Release:	3%{?dist}
+Release:	4%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -14,6 +14,7 @@ Requires:	dev >= 3.3-3
 
 Patch0:		mc-extensions.patch
 Patch1:		mc-mcviewsegfault.patch
+Patch2:		mc-globfix.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -26,6 +27,7 @@ specific files.
 %setup -q
 %patch0 -p1 -b .extensions
 %patch1 -p1 -b .mcviewsegfault
+%patch2 -p1 -b .globfix
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-strict-aliasing"
@@ -60,7 +62,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/mcview
 %{_bindir}/mcdiff
 %{_datadir}/mc/*
-%attr(4711, vcsa, root) %{_libexecdir}/mc/cons.saver
+%attr(4711, root, root) %{_libexecdir}/mc/cons.saver
 %{_libexecdir}/mc/mc*
 %{_libexecdir}/mc/extfs.d/*
 %{_libexecdir}/mc/fish/*
@@ -87,6 +89,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Thu Oct  7 2010 Jindrich Novy <jnovy@redhat.com> 4.7.4-4
+- fix globbing (#629679), thanks to Denys Vlasenko
+- don't use vcsa for cons.saver (#640365)
+
 * Wed Sep 29 2010 jkeating - 1:4.7.4-3
 - Rebuilt for gcc bug 634757
 
