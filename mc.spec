@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.7.4
-Release:	4%{?dist}
+Release:	5%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -62,7 +62,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/mcview
 %{_bindir}/mcdiff
 %{_datadir}/mc/*
-%attr(4711, root, root) %{_libexecdir}/mc/cons.saver
+%attr(711, root, root) %{_libexecdir}/mc/cons.saver
 %{_libexecdir}/mc/mc*
 %{_libexecdir}/mc/extfs.d/*
 %{_libexecdir}/mc/fish/*
@@ -89,6 +89,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Fri Oct 15 2010 Jindrich Novy <jnovy@redhat.com> 4.7.4-5
+- make cons.saver not suid root, it is no more needed (#640365)
+
 * Thu Oct  7 2010 Jindrich Novy <jnovy@redhat.com> 4.7.4-4
 - fix globbing (#629679), thanks to Denys Vlasenko
 - don't use vcsa for cons.saver (#640365)
