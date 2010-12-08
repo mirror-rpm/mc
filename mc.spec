@@ -1,12 +1,12 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.7.4
-Release:	5%{?dist}
+Version:	4.7.5
+Release:	0.1.pre1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
 # tarball created from git clone git://midnight-commander.org/git/mc.git
-Source0:	mc-%{version}.tar.lzma
+Source0:	mc-%{version}-pre1.tar.lzma
 URL:		http://www.midnight-commander.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel groff
@@ -24,10 +24,9 @@ ability to FTP, view tar and zip files, and to poke into RPMs for
 specific files.
 
 %prep
-%setup -q
+%setup -q -n mc-4.7.5-pre1
 %patch0 -p1 -b .extensions
 %patch1 -p1 -b .mcviewsegfault
-%patch2 -p1 -b .globfix
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-strict-aliasing"
@@ -58,7 +57,6 @@ rm -rf $RPM_BUILD_ROOT
 %doc doc/FAQ doc/COPYING doc/NEWS doc/README
 %{_bindir}/mc
 %{_bindir}/mcedit
-%{_bindir}/mcmfmt
 %{_bindir}/mcview
 %{_bindir}/mcdiff
 %{_datadir}/mc/*
@@ -74,9 +72,6 @@ rm -rf $RPM_BUILD_ROOT
 %lang(ru) %{_mandir}/ru/man1/mc.1*
 %lang(sr) %{_mandir}/sr/man1/mc.1*
 %{_sysconfdir}/profile.d/*
-%config %{_sysconfdir}/mc/Syntax
-%config %{_sysconfdir}/mc/mc.charsets
-%config %{_sysconfdir}/mc/mc.lib
 %config(noreplace) %{_sysconfdir}/mc/mc.ext
 %config(noreplace) %{_sysconfdir}/mc/*edit*
 %config(noreplace) %{_sysconfdir}/mc/mc.keymap*
@@ -89,6 +84,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Wed Dec  8 2010 Jindrich Novy <jnovy@redhat.com> 4.7.5-0.1.pre1
+- update to 4.7.5 stable prerelease
+
 * Fri Oct 15 2010 Jindrich Novy <jnovy@redhat.com> 4.7.4-5
 - make cons.saver not suid root, it is no more needed (#640365)
 
