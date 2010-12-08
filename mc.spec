@@ -14,7 +14,6 @@ Requires:	dev >= 3.3-3
 
 Patch0:		mc-extensions.patch
 Patch1:		mc-mcviewsegfault.patch
-Patch2:		mc-globfix.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
