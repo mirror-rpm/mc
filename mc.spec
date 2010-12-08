@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.7.5
-Release:	0.1.pre1%{?dist}
+Release:	0.2.pre1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -14,6 +14,7 @@ Requires:	dev >= 3.3-3
 
 Patch0:		mc-extensions.patch
 Patch1:		mc-mcviewsegfault.patch
+Patch2:		mc-vfscrash.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -26,6 +27,7 @@ specific files.
 %setup -q -n mc-4.7.5-pre1
 %patch0 -p1 -b .extensions
 %patch1 -p1 -b .mcviewsegfault
+%patch2 -p1 -b .vfscrash
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-strict-aliasing"
@@ -83,6 +85,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Wed Dec  8 2010 Jindrich Novy <jnovy@redhat.com> 4.7.5-0.2.pre1
+- fix crash in opening mc VFS (#661290, #588795, #653156)
+- fix crash while creating a VFS timestamp (#660308)
+
 * Wed Dec  8 2010 Jindrich Novy <jnovy@redhat.com> 4.7.5-0.1.pre1
 - update to 4.7.5 stable prerelease
 
