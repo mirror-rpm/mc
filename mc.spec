@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.7.5
-Release:	0.3.pre1%{?dist}
+Release:	1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -87,6 +87,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Tue Dec 28 2010 Jindrich Novy <jnovy@redhat.com> 4.7.5-1
+- update to mc-4.7.5
+
 * Thu Dec  9 2010 Jindrich Novy <jnovy@redhat.com> 4.7.5-0.3.pre1
 - fix crash in progress bar handling (#643256)
 
