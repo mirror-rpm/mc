@@ -6,7 +6,7 @@ Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
 # tarball created from git clone git://midnight-commander.org/git/mc.git
-Source0:	mc-%{version}-pre1.tar.lzma
+Source0:	mc-%{version}.tar.lzma
 URL:		http://www.midnight-commander.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel groff
@@ -14,8 +14,6 @@ Requires:	dev >= 3.3-3
 
 Patch0:		mc-extensions.patch
 Patch1:		mc-mcviewsegfault.patch
-Patch2:		mc-vfscrash.patch
-Patch3:		mc-fileguicrash.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -25,11 +23,9 @@ ability to FTP, view tar and zip files, and to poke into RPMs for
 specific files.
 
 %prep
-%setup -q -n mc-4.7.5-pre1
+%setup -q
 %patch0 -p1 -b .extensions
 %patch1 -p1 -b .mcviewsegfault
-%patch2 -p1 -b .vfscrash
-%patch3 -p1 -b .fileguicrash
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-strict-aliasing"
@@ -89,6 +85,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Tue Dec 28 2010 Jindrich Novy <jnovy@redhat.com> 4.7.5-1
 - update to mc-4.7.5
+- drop filegui and vfscrash patches - applied upstream
 
 * Thu Dec  9 2010 Jindrich Novy <jnovy@redhat.com> 4.7.5-0.3.pre1
 - fix crash in progress bar handling (#643256)
