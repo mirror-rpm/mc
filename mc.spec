@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.7.5.1
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
@@ -83,6 +83,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Tue Feb 08 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:4.7.5.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_15_Mass_Rebuild
+
 * Mon Feb  7 2011 Jindrich Novy <jnovy@redhat.com> 4.7.5.1-1
 - update to 4.7.5.1
 
