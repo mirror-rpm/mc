@@ -1,6 +1,6 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.7.5.3
+Version:	4.7.5.4
 Release:	1%{?dist}
 Epoch:		1
 License:	GPLv2
@@ -83,6 +83,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Thu Sep 15 2011 Jindrich Novy <jnovy@redhat.com> 4.7.5.4-1
+- update to 4.7.5.4
+
 * Wed Jul 27 2011 Jindrich Novy <jnovy@redhat.com> 4.7.5.3-1
 - update to 4.7.5.3
 
