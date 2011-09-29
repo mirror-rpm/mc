@@ -1,12 +1,11 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.7.5.4
+Version:	4.7.5.5
 Release:	1%{?dist}
 Epoch:		1
 License:	GPLv2
 Group:		System Environment/Shells
-# tarball created from git clone git://midnight-commander.org/git/mc.git
-Source0:	mc-%{version}.tar.lzma
+Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
 URL:		http://www.midnight-commander.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel groff
@@ -83,6 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Mon Sep 29 2011 Jindrich Novy <jnovy@redhat.com> 4.7.5.5-1
+- update to 4.7.5.5
+
 * Thu Sep 15 2011 Jindrich Novy <jnovy@redhat.com> 4.7.5.4-1
 - update to 4.7.5.4
 
