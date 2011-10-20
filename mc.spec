@@ -1,9 +1,9 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.7.5.5
+Version:	4.8.0
 Release:	1%{?dist}
 Epoch:		1
-License:	GPLv2
+License:	GPLv3+
 Group:		System Environment/Shells
 Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
 URL:		http://www.midnight-commander.org/
@@ -82,6 +82,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Thu Oct 20 2011 Jindrich Novy <jnovy@redhat.com> 4.8.0-1
+- update to 4.8.0
+- update license to GPLv3+
+
 * Mon Sep 29 2011 Jindrich Novy <jnovy@redhat.com> 4.7.5.5-1
 - update to 4.7.5.5
 
