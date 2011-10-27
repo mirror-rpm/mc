@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.8.0
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 License:	GPLv3+
 Group:		System Environment/Shells
@@ -82,6 +82,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Wed Oct 26 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:4.8.0-2
+- Rebuilt for glibc bug#747377
+
 * Thu Oct 20 2011 Jindrich Novy <jnovy@redhat.com> 4.8.0-1
 - update to 4.8.0
 - update license to GPLv3+
