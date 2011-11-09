@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.8.0
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		1
 License:	GPLv3+
 Group:		System Environment/Shells
@@ -45,7 +45,7 @@ make install DESTDIR="$RPM_BUILD_ROOT"
 install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 install contrib/{mc.sh,mc.csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 
-%find_lang %{name}
+%find_lang %{name} --with-man
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -63,12 +63,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_libexecdir}/mc/extfs.d/*
 %{_libexecdir}/mc/fish/*
 %{_mandir}/man1/*
-%lang(es) %{_mandir}/es/man1/mc.1*
-%lang(hu) %{_mandir}/hu/man1/mc.1*
-%lang(it) %{_mandir}/it/man1/mc.1*
-%lang(pl) %{_mandir}/pl/man1/mc.1*
-%lang(ru) %{_mandir}/ru/man1/mc.1*
-%lang(sr) %{_mandir}/sr/man1/mc.1*
 %{_sysconfdir}/profile.d/*
 %config(noreplace) %{_sysconfdir}/mc/mc.ext
 %config(noreplace) %{_sysconfdir}/mc/*edit*
@@ -82,6 +76,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Wed Nov 09 2011 Jindrich Novy <jnovy@redhat.com> 4.8.0-3
+- run xdg-open for images and DjVu files (#532784)
+- tell find-lang about localized man pages
+
 * Wed Oct 26 2011 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:4.8.0-2
 - Rebuilt for glibc bug#747377
 
