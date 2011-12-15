@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.8.0
-Release:	3%{?dist}
+Version:	4.8.1
+Release:	1%{?dist}
 Epoch:		1
 License:	GPLv3+
 Group:		System Environment/Shells
@@ -76,6 +76,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Thu Dec 15 2011 Jindrich Novy <jnovy@redhat.com> 4.8.1-1
+- update to 4.8.1 (#767962)
+
 * Wed Nov 09 2011 Jindrich Novy <jnovy@redhat.com> 4.8.0-3
 - run xdg-open for images and DjVu files (#532784)
 - tell find-lang about localized man pages
