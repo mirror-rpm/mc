@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.8.1
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		1
 License:	GPLv3+
 Group:		System Environment/Shells
@@ -9,7 +9,6 @@ Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
 URL:		http://www.midnight-commander.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel groff
-Requires:	dev >= 3.3-3
 
 Patch0:		mc-extensions.patch
 Patch1:		mc-mcviewsegfault.patch
@@ -76,6 +75,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Wed Feb  8 2012 Kay Sievers <kay@redhat.com> - 1:4.8.1-3
+- Drop dependency on 'dev' package; it is gone since many years
+
 * Fri Jan 13 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:4.8.1-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_17_Mass_Rebuild
 
