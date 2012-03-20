@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.8.1
-Release:	3%{?dist}
+Version:	4.8.2
+Release:	1%{?dist}
 Epoch:		1
 License:	GPLv3+
 Group:		System Environment/Shells
@@ -11,7 +11,6 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel groff
 
 Patch0:		mc-extensions.patch
-Patch1:		mc-mcviewsegfault.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -23,7 +22,6 @@ specific files.
 %prep
 %setup -q
 %patch0 -p1 -b .extensions
-%patch1 -p1 -b .mcviewsegfault
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-strict-aliasing"
@@ -75,6 +73,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/extfs.d
 
 %changelog
+* Tue Mar 20 2012 Slava Zanko <slavazanko@gmail.com> 1:4.8.2-1
+- update to 4.8.2
+
 * Wed Feb  8 2012 Kay Sievers <kay@redhat.com> - 1:4.8.1-3
 - Drop dependency on 'dev' package; it is gone since many years
 
