@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.8.4
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 License:	GPLv3+
 Group:		System Environment/Shells
@@ -9,6 +9,7 @@ Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
 URL:		http://www.midnight-commander.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel groff
+BuildRequires:	aspell-devel libssh2-devel >= 1.2.5
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -28,6 +29,8 @@ export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-st
 		--with-gpm-mouse \
 		--disable-rpath \
 		--enable-vfs-smb \
+		--enable-vfs-sftp \
+		--enable-aspell \
 		--enable-vfs-mcfs
 make %{?_smp_mflags}
 
