@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.8.4
-Release:	3%{?dist}
+Release:	4%{?dist}
 Epoch:		1
 License:	GPLv3+
 Group:		System Environment/Shells
@@ -10,6 +10,8 @@ URL:		http://www.midnight-commander.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel groff
 BuildRequires:	aspell-devel libssh2-devel >= 1.2.5
+Patch1:		mc-aspell.patch
+Patch2:		mc-altminus.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -20,6 +22,8 @@ specific files.
 
 %prep
 %setup -q
+%patch1 -p0 -b .spell
+%patch2 -p1 -b .altminus
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-strict-aliasing"
@@ -75,6 +79,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/ext.d
 
 %changelog
+* Tue Jul 31 2012 Jindrich Novy <jnovy@redhat.com> 4.8.4-4
+- fix segfault if aspell dicts aren't present
+- fix segfault in mcedit when pressing alt-minus
+
 * Fri Jul 27 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:4.8.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
