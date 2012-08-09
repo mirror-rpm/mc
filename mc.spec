@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.8.4
-Release:	4%{?dist}
+Release:	5%{?dist}
 Epoch:		1
 License:	GPLv3+
 Group:		System Environment/Shells
@@ -24,6 +24,7 @@ specific files.
 %setup -q
 %patch1 -p0 -b .spell
 %patch2 -p1 -b .altminus
+%patch3 -p1 -b .exit
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-strict-aliasing"
@@ -79,6 +80,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/ext.d
 
 %changelog
+* Thu Aug 09 2012 Jindrich Novy <jnovy@redhat.com> 4.8.4-5
+- handle overlapping menus correctly (#844392)
+  (https://www.midnight-commander.org/ticket/2817)
+
 * Tue Jul 31 2012 Jindrich Novy <jnovy@redhat.com> 4.8.4-4
 - fix segfault if aspell dicts aren't present
 - fix segfault in mcedit when pressing alt-minus
