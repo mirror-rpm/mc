@@ -1,0 +1,31 @@
+--- ./src/filemanager/ext.c
++++ ./src/filemanager/ext.c
+@@ -155,12 +155,13 @@
+     {
+         const char symbol;
+         const char *name;
++        const char *delim;
+     } export_variables[] = {
+-        {'p', "MC_EXT_BASENAME"},
+-        {'d', "MC_EXT_CURRENTDIR"},
+-        {'s', "MC_EXT_SELECTED"},
+-        {'t', "MC_EXT_ONLYTAGGED"},
+-        {'\0', NULL}
++        {'p', "MC_EXT_BASENAME", ""},
++        {'d', "MC_EXT_CURRENTDIR", ""},
++        {'s', "MC_EXT_SELECTED", "\""},
++        {'t', "MC_EXT_ONLYTAGGED", "\""},
++        {'\0', NULL, 0}
+     };
+     /* *INDENT-ON* */
+ 
+@@ -178,7 +179,8 @@
+         if (text != NULL)
+         {
+             g_string_append_printf (export_vars_string,
+-                                    "%s=%s\nexport %s\n", export_variables[i].name, text,
++                                    "%s=%s%s%s\nexport %s\n", export_variables[i].name,
++                                    export_variables[i].delim, text, export_variables[i].delim,
+                                     export_variables[i].name);
+             g_free (text);
+         }

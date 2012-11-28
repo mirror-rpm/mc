@@ -1,12 +1,13 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.8.6
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 License:	GPLv3+
 Group:		System Environment/Shells
 Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
 URL:		http://www.midnight-commander.org/
+Patch0:		mc-ext.c_quote_mc_ext_env_vars.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel groff
 BuildRequires:	aspell-devel libssh2-devel >= 1.2.5
@@ -20,6 +21,7 @@ specific files.
 
 %prep
 %setup -q
+%patch0 -p1 -b .CVE-2012-4463
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-strict-aliasing"
@@ -75,6 +77,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/ext.d
 
 %changelog
+* Wed Nov 28 2012 Jindrich Novy <jnovy@redhat.com> 4.8.6-2
+- sanitize of MC_EXT_SELECTED variable when viewing
+  multiple files, CVE-2012-4463 (#862814)
+  https://www.midnight-commander.org/ticket/2913
+
 * Thu Sep 20 2012 Jindrich Novy <jnovy@redhat.com> 4.8.6-1
 - update to 4.8.6 (#857512)
 
