@@ -1,13 +1,12 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.8.6
-Release:	2%{?dist}
+Version:	4.8.7
+Release:	1%{?dist}
 Epoch:		1
 License:	GPLv3+
 Group:		System Environment/Shells
 Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
 URL:		http://www.midnight-commander.org/
-Patch0:		mc-ext.c_quote_mc_ext_env_vars.diff
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel groff
 BuildRequires:	aspell-devel libssh2-devel >= 1.2.5
@@ -21,7 +20,6 @@ specific files.
 
 %prep
 %setup -q
-%patch0 -p1 -b .CVE-2012-4463
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-strict-aliasing"
@@ -77,6 +75,11 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/ext.d
 
 %changelog
+* Wed Jan 02 2013 Jindrich Novy <jnovy@redhat.com> 4.8.7-1
+- update to 4.8.7 (#890662)
+- drop patch for CVE-2012-4463 - applied upstream
+- fix chagelog dates
+
 * Wed Nov 28 2012 Jindrich Novy <jnovy@redhat.com> 4.8.6-2
 - sanitize of MC_EXT_SELECTED variable when viewing
   multiple files, CVE-2012-4463 (#862814)
@@ -99,7 +102,7 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Jul 27 2012 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:4.8.4-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_18_Mass_Rebuild
 
-* Tue Jul 18 2012 Jindrich Novy <jnovy@redhat.com> 4.8.4-1
+* Wed Jul 18 2012 Jindrich Novy <jnovy@redhat.com> 4.8.4-1
 - update to 4.8.4
 
 * Mon Apr 23 2012 Jindrich Novy <jnovy@redhat.com> 1:4.8.3-1
@@ -128,7 +131,7 @@ rm -rf $RPM_BUILD_ROOT
 - update to 4.8.0
 - update license to GPLv3+
 
-* Mon Sep 29 2011 Jindrich Novy <jnovy@redhat.com> 4.7.5.5-1
+* Thu Sep 29 2011 Jindrich Novy <jnovy@redhat.com> 4.7.5.5-1
 - update to 4.7.5.5
 
 * Thu Sep 15 2011 Jindrich Novy <jnovy@redhat.com> 4.7.5.4-1
@@ -261,7 +264,7 @@ rm -rf $RPM_BUILD_ROOT
 * Sat Jul 25 2009 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:4.6.2-12
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_12_Mass_Rebuild
 
-* Wed May 17 2009 Jindrich Novy <jnovy@redhat.com> 4.6.2-11
+* Sun May 17 2009 Jindrich Novy <jnovy@redhat.com> 4.6.2-11
 - update to mc-4.6.2 release
 - drop .8bit-hex, .preserveattrs, .cloexec, .7zip and part of
   .utf8-look-and-feel patch, applied upstream
@@ -378,7 +381,7 @@ rm -rf $RPM_BUILD_ROOT
   doesn't leave them open while execve()ing commands (#217027)
 - more general fix for #215909
 
-* Thu Nov 27 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-36
+* Mon Nov 27 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-36
 - don't crash when temporary directory cannot be created (#217342)
 
 * Thu Nov 16 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-35
@@ -389,7 +392,7 @@ rm -rf $RPM_BUILD_ROOT
   disable support for directories with '\n' in name to avoid
   further issues (remove .uglydir patch) and report chdir error
 
-* Wed Nov  2 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-34
+* Thu Nov  2 2006 Jindrich Novy <jnovy@redhat.com> 4.6.1a-34
 - fix #214255 - sh vfs disconnects with special character in filename
 - drop fish-upload patch, applied upstream
 
@@ -540,7 +543,7 @@ rm -rf $RPM_BUILD_ROOT
 - use evince instead of gv to view ps files
 - align mini status bar with main panels
 
-* Fri Dec  1 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-4
+* Thu Dec  1 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-4
 - don't segfault when LANG is not set, thanks to Andy Shevchenko (#174070)
 - drop specsyntax patch, applied upstream
 - sync NVRE with Fedoras
@@ -561,7 +564,7 @@ rm -rf $RPM_BUILD_ROOT
 - add slang2 support to utf8 patch (Leonard den Ottolander)
 - update %%description
 
-* Mon Nov  5 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.21
+* Sat Nov  5 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.21
 - add vertical scrollbars to main panels and listboxes
 - fix memleak in menu.c caused by UTF-8 patch
 - display UTF-8 characters corectly in mcview (#172571)
@@ -570,7 +573,7 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Oct 25 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.20
 - don't display UTF-8 characters as questionmarks in xterm title (#170971)
 
-* Mon Oct 16 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.19
+* Sun Oct 16 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.19
 - update from CVS
 - convert spec to UTF-8
 - sync utf8, promptfix, 64bit patches
@@ -617,7 +620,7 @@ rm -rf $RPM_BUILD_ROOT
 - sync .utf8, .userhost patch
 - drop upstreamed .fixes patch
 
-* Wed Jun 06 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.10
+* Mon Jun 06 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.10
 - update from CVS
 - sync with .utf8 patch and some minor gcc4 fixups
 - add .fixes patch
@@ -625,7 +628,7 @@ rm -rf $RPM_BUILD_ROOT
 - update .userhost, .64bit patch
 - add mcview
 
-* Thu May 04 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.9
+* Wed May 04 2005 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.9
 - update from CVS
 - sync with .utf8 patch
 - fix broken charset conversion feature in the .utf8 patch, 
@@ -676,7 +679,7 @@ rm -rf $RPM_BUILD_ROOT
 - update from CVS - problem in uzip.in fixed by upstream (#141844)
 - fix msglen patch to deal with wide UTF-8 characters (#141875)
 
-* Wed Dec  9 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.1
+* Thu Dec  9 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1a-0.1
 - update from CVS
 - sync UTF-8 patches with upstream
 - drop upstreamed badsize, growbuf patches
@@ -693,7 +696,7 @@ rm -rf $RPM_BUILD_ROOT
 - add growbuf patch from Roland Illig #141422 to view files
   in /proc and /sys properly
 
-* Fri Nov 24 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.10
+* Wed Nov 24 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.10
 - update from CVS
 - update promptfix patch, drop upstreamed strippwd patch
 - add badsize patch to fix displaying of filesizes >2GB
@@ -703,7 +706,7 @@ rm -rf $RPM_BUILD_ROOT
 * Fri Nov 12 2004 Jindrich Novy <jnovy@redhat.com>
 - convert man pages to UTF-8 (#138871)
 
-* Thu Nov  8 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.9
+* Mon Nov  8 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.9
 - update from CVS
 - convert help files in /doc to UTF-8
 - add --enable-charset (#76486)
@@ -734,7 +737,7 @@ rm -rf $RPM_BUILD_ROOT
 - merged hp48.in patch to extfs patch (from Leonard den Ottolander)
 - rebuilt
 
-* Thu Oct 08 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.6
+* Fri Oct 08 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.6
 - update from CVS
 - drop upstreamed vcsa and xtermaliases patches
 - sync the rest of the patches with upstream
@@ -748,12 +751,12 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Sep 21 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.4
 - fixed .strippwd patch to deal better with ':' and '@' in URL
 
-* Thu Sep 17 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.3
+* Fri Sep 17 2004 Jindrich Novy <jnovy@redhat.com> 4.6.1-0.3
 - patch to prevent displaying passwords in ftp paths (#131088)
   - also removes pswd from Delete/Copy/Error dialogs, etc.
 - added patch to fix/add extensions in mc.ext.in (#124242)
 
-* Thu Sep 17 2004 Karel Zak <zakkr@zf.jcu.cz>
+* Fri Sep 17 2004 Karel Zak <zakkr@zf.jcu.cz>
 - patch to prevent hangs on directory with '\n' in name, (#127164)
 - UTF8 hints support
 - original hint files conversion to UTF8 in the spec file
@@ -954,7 +957,7 @@ rm -rf $RPM_BUILD_ROOT
 - use %%{_tmppath}
 - langify
 
-* Tue Feb 21 2001 Akira TAGOH <tagoh@redhat.com>
+* Wed Feb 21 2001 Akira TAGOH <tagoh@redhat.com>
 - Fixed install some desktop icons for specific language.
 
 * Fri Feb 16 2001 Akira TAGOH <tagoh@redhat.com>
@@ -1040,10 +1043,10 @@ rm -rf $RPM_BUILD_ROOT
 * Tue Mar  7 2000 Jeff Johnson <jbj@redhat.com>
 - rebuild for sparc baud rates > 38400.
 
-* Wed Feb 22 2000 Preston Brown <pbrown@redhat.com>
+* Tue Feb 22 2000 Preston Brown <pbrown@redhat.com>
 - fix mc.sh, function was not exported
 
-* Wed Feb 17 2000 Jakub Jelinek <jakub@redhat.com>
+* Thu Feb 17 2000 Jakub Jelinek <jakub@redhat.com>
 - builtin cpio vfs, change rpm extfs to use it -
   should speed up e.g. copyout from rpm by orders of magnitude
   patch by Jan Hudec <jhud7196@artax.karlin.mff.cuni.cz>
@@ -1060,7 +1063,7 @@ rm -rf $RPM_BUILD_ROOT
 - use /bin/rm instead of rm so that aliases won't interfere with the
   script
 
-* Fri Sep 25 1999 Bill Nottingham <notting@redhat.com>
+* Sat Sep 25 1999 Bill Nottingham <notting@redhat.com>
 - chkconfig --del in %%preun, not %postun
 
 * Wed Sep 22 1999 Michael Fulbright <drmike@redhat.com>
@@ -1070,7 +1073,7 @@ rm -rf $RPM_BUILD_ROOT
 - moved configure to setup
 - buildrequires gpm-devel so mouse works in console
 
-* Wed Jul 22 1999 Michael Fulbright <drmike@redhat.com>
+* Thu Jul 22 1999 Michael Fulbright <drmike@redhat.com>
 - added ${prefix}/lib/mc/syntax to mc file list
 - turned off samba support
 
@@ -1098,14 +1101,14 @@ rm -rf $RPM_BUILD_ROOT
 * Wed Mar 31 1999 Michael Fulbright <drmike@redhat.com>
 - fixed errata support URL
 
-* Tue Mar 25 1999 Michael Fulbright <drmike@redhat.com>
+* Thu Mar 25 1999 Michael Fulbright <drmike@redhat.com>
 - version 4.5.29
 - added default desktop icons for Red Hat desktop
 - added redhat-logos to requirements
 - added README.desktop to doc list for gmc
 - added locale data
 
-* Fri Mar 25 1999 Preston Brown <pbrown@redhat.com>
+* Thu Mar 25 1999 Preston Brown <pbrown@redhat.com>
 - patched so that TERM variable set to xterm produces color
 
 * Mon Mar 22 1999 Michael Fulbright <drmike@redhat.com>
@@ -1238,12 +1241,12 @@ rm -rf $RPM_BUILD_ROOT
 - removed %%{prefix}/lib/mc/bin/create_vcs,
 - removed %%{prefix}/lib/mc/term.
 
-* Wed May 9 1997 Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>
+* Fri May 9 1997 Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>
 
 - changed source url,
 - fixed link mcedit to mc,
 
-* Tue May 7 1997 Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>
+* Wed May 7 1997 Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>
 
 - new version 3.5.27,
 - %%dir %%{prefix}/lib/mc/icons and icons removed from tkmc,
