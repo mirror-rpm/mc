@@ -10,6 +10,7 @@ URL:		http://www.midnight-commander.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel groff
 BuildRequires:	aspell-devel libssh2-devel >= 1.2.5
+Patch0:		mc-cpiosegfault.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -20,6 +21,7 @@ specific files.
 
 %prep
 %setup -q
+%patch0 -p1 -b .cpiosegfault
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-strict-aliasing"
@@ -75,6 +77,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/ext.d
 
 %changelog
+* Thu Mar 14 2013 Jindrich Novy <jnovy@redhat.com> 4.8.7-2
+- fix segfault in cpio VFS while reading corrupted RPM (#921414)
+
 * Thu Feb 14 2013 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:4.8.7-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_19_Mass_Rebuild
 
