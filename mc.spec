@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.8.7
-Release:	3%{?dist}
+Version:	4.8.8
+Release:	1%{?dist}
 Epoch:		1
 License:	GPLv3+
 Group:		System Environment/Shells
@@ -70,7 +70,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/profile.d/*
 %config(noreplace) %{_sysconfdir}/mc/mc.ext
 %config(noreplace) %{_sysconfdir}/mc/*edit*
-%config(noreplace) %{_sysconfdir}/mc/mc.keymap*
+%config(noreplace) %{_sysconfdir}/mc/mc*.keymap
 %config(noreplace) %{_sysconfdir}/mc/mc.menu*
 %config(noreplace) %{_sysconfdir}/mc/*.ini
 %dir %{_datadir}/mc
@@ -81,6 +81,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/ext.d
 
 %changelog
+* Tue Apr 04 2013 Jindrich Novy <jnovy@redhat.com> 4.8.8-1
+- update to 4.8.8
+
 * Thu Mar 21 2013 Jindrich Novy <jnovy@redhat.com> 4.8.7-3
 - attempt to fix segfault while passing messages to widgets (#907045, #912033)
 - fix possible segfault when freeing a VFS (#923415)
