@@ -1,6 +1,6 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.8.8
+Version:	4.8.10
 Release:	2%{?dist}
 Epoch:		1
 License:	GPLv3+
@@ -81,6 +81,10 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/ext.d
 
 %changelog
+* Sat aug 03 2013 Jindrich Novy <novyjindrich@gmail.com> 4.8.10
+- update to 4.8.10 (#984540)
+- sync patches
+
 * Wed Jul 17 2013 Petr Pisar <ppisar@redhat.com> - 1:4.8.8-2
 - Perl 5.18 rebuild
 
