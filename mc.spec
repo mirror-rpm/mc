@@ -81,14 +81,14 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/ext.d
 
 %changelog
-* Sat aug 03 2013 Jindrich Novy <novyjindrich@gmail.com> 4.8.10
+* Sat Aug 03 2013 Jindrich Novy <novyjindrich@gmail.com> 4.8.10
 - update to 4.8.10 (#984540)
 - sync patches
 
 * Wed Jul 17 2013 Petr Pisar <ppisar@redhat.com> - 1:4.8.8-2
 - Perl 5.18 rebuild
 
-* Tue Apr 04 2013 Jindrich Novy <jnovy@redhat.com> 4.8.8-1
+* Thu Apr 04 2013 Jindrich Novy <jnovy@redhat.com> 4.8.8-1
 - update to 4.8.8
 
 * Thu Mar 21 2013 Jindrich Novy <jnovy@redhat.com> 4.8.7-3
