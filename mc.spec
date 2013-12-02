@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.8.10
-Release:	2%{?dist}
+Version:	4.8.11
+Release:	1%{?dist}
 Epoch:		1
 License:	GPLv3+
 Group:		System Environment/Shells
@@ -81,6 +81,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/ext.d
 
 %changelog
+* Mon Dec 02 2013 Jindrich Novy <novyjindrich@gmail.com> 4.8.11
+- update to 4.8.11
+
 * Sat Aug 03 2013 Jindrich Novy <novyjindrich@gmail.com> 4.8.10
 - update to 4.8.10 (#984540)
 - sync patches
