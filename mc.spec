@@ -1,6 +1,6 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.8.11
+Version:	4.8.12
 Release:	2%{?dist}
 Epoch:		1
 License:	GPLv3+
@@ -10,9 +10,6 @@ URL:		http://www.midnight-commander.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel groff
 BuildRequires:	aspell-devel libssh2-devel >= 1.2.5
-Patch0:		mc-cpiosegfault.patch
-Patch1:		mc-widgetsegfault.patch
-Patch2:		mc-VFSsegfault.patch
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -23,9 +20,6 @@ specific files.
 
 %prep
 %setup -q
-%patch0 -p1 -b .cpiosegfault
-%patch1 -p1 -b .widgetsegfault
-%patch2 -p1 -b .VFSsegfault
 
 %build
 export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-strict-aliasing"
@@ -81,6 +75,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/ext.d
 
 %changelog
+* Mon Jun 09 2014 Jindrich Novy <novyjindrich@gmail.com> 4.8.12
+- update to 4.8.12
+
 * Sat Jun 07 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:4.8.11-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_Mass_Rebuild
 
