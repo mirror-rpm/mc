@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.8.12
-Release:	3%{?dist}
+Version:	4.8.13
+Release:	1%{?dist}
 Epoch:		1
 License:	GPLv3+
 Group:		System Environment/Shells
@@ -75,6 +75,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/ext.d
 
 %changelog
+* Fri Sep 05 2014 Jindrich Novy <novyjindrich@gmail.com> 4.8.13
+- update to 4.8.13
+
 * Sun Aug 17 2014 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1:4.8.12-3
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_21_22_Mass_Rebuild
 
