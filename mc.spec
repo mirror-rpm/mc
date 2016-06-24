@@ -8,7 +8,7 @@ Group:		System Environment/Shells
 Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
 URL:		http://www.midnight-commander.org/
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	glib2-devel e2fsprogs-devel slang-devel gpm-devel groff
+BuildRequires:	glib2-devel e2fsprogs-devel perl-generators slang-devel gpm-devel groff
 BuildRequires:	aspell-devel libssh2-devel >= 1.2.5
 
 %description
