@@ -1,6 +1,6 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.8.17
+Version:	4.8.18
 Release:	2%{?dist}
 Epoch:		1
 License:	GPLv3+
@@ -75,6 +75,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/ext.d
 
 %changelog
+* Wed Nov 09 2016 Jon Ciesla <limburgher@gmail.com> - 1:4.8.18-1
+- 4.8.18
+
 * Wed Sep 21 2016 Jon Ciesla <limburgher@gmail.com> - 1:4.8.17-1
 - 4.8.17
 
