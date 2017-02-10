@@ -1,7 +1,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.8.18
-Release:	3%{?dist}
+Release:	4%{?dist}
 Epoch:		1
 License:	GPLv3+
 Group:		System Environment/Shells
@@ -81,6 +81,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/ext.d
 
 %changelog
+* Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.8.18-4
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
+
 * Fri Dec 09 2016 Richard W.M. Jones <rjones@redhat.com> - 1:4.8.18-3
 - Downstream-only patch to make mc use /var/tmp for large temporary files
   (RHBZ#895444).
