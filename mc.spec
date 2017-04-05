@@ -1,19 +1,24 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.8.18
-Release:	4%{?dist}
+Version:	4.8.19
+Release:	1%{?dist}
 Epoch:		1
 License:	GPLv3+
 Group:		System Environment/Shells
-Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
 URL:		http://www.midnight-commander.org/
-BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildRequires:	glib2-devel e2fsprogs-devel perl-generators slang-devel gpm-devel groff
-BuildRequires:	aspell-devel libssh2-devel >= 1.2.5
-
+Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
 # Downstream-only patch to make mc use /var/tmp for large temporary
 # files.  See also: https://bugzilla.redhat.com/show_bug.cgi?id=895444
-Patch1:         mc-tmpdir.patch
+Patch0:		%{name}-tmpdir.patch
+BuildRequires:	aspell-devel
+BuildRequires:	e2fsprogs-devel
+BuildRequires:	glib2-devel
+BuildRequires:	gpm-devel
+BuildRequires:	groff-base
+BuildRequires:	libssh2-devel >= 1.2.5
+BuildRequires:	ncurses-devel
+BuildRequires:	perl-generators
+BuildRequires:	pkgconfig
 
 %description
 Midnight Commander is a visual shell much like a file manager, only
@@ -23,35 +28,37 @@ ability to FTP, view tar and zip files, and to poke into RPMs for
 specific files.
 
 %prep
-%setup -q
-
-%patch1 -p0
+%autosetup -p0
 
 %build
-export CFLAGS="-D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE $RPM_OPT_FLAGS -Wno-strict-aliasing"
-%configure	--with-screen=slang \
-		--enable-charset \
-		--without-x \
-		--with-gpm-mouse \
-		--disable-rpath \
-		--enable-vfs-smb \
-		--enable-vfs-sftp \
-		--enable-aspell \
-		--enable-vfs-mcfs
-make %{?_smp_mflags}
+%configure \
+	CFLAGS="%{optflags} -Wno-strict-aliasing" \
+	--disable-rpath \
+	--enable-aspell \
+	--enable-charset \
+	--enable-largefile \
+	--enable-vfs-cpio \
+	--enable-vfs-extfs \
+	--enable-vfs-fish \
+	--enable-vfs-ftp \
+	--enable-vfs-sfs \
+	--enable-vfs-sftp \
+	--enable-vfs-smb \
+	--enable-vfs-tar \
+	--without-x \
+	--with-gpm-mouse \
+	--with-screen=ncurses \
+	%{nil}
+%{make_build}
 
 %install
-rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 
-make install DESTDIR="$RPM_BUILD_ROOT"
+%{make_install}
 
-install -d -m 755 $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
-install contrib/{mc.sh,mc.csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
+install contrib/mc.{sh,csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
 
 %find_lang %{name} --with-man
-
-%clean
-rm -rf $RPM_BUILD_ROOT
 
 %files -f %{name}.lang
 %defattr(-, root, root)
@@ -81,6 +88,22 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libexecdir}/mc/ext.d
 
 %changelog
+* Mon Mar 27 2017 Tomasz Kłoczko <kloczek@fedoraproject.org> - 1:4.8.19-1
+- updated to 4.8.19
+- drop use slang and use ncurses. There are only few packages which are using
+  slang. As ncurses support is fully working now it makes more sense to
+  use it instead slang (Solaris 11.3 mc uses now ncurses)
+- instead passing -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE to CFLAGS use
+  --enable-largefile autoconf param
+- removed Group, BuildRoot and %%clear (new packaging policy)
+- added pkgconfig to BuildRequires
+- replaced groff by groff-base in BuildRequires (only nfroff is used)
+- use %%autosetup in %%prep
+- added using %%{make_build} and %%{make_build} macros
+- "rm -rf $RPM_BUILD_ROOT" on beginning %%install is no longer needed
+- mcfs is no longer supported (removed --enable-vfs-mcfs autoconf option)
+- added explicit enabled other VFSesess to force necessary checks
+
 * Fri Feb 10 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.8.18-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_26_Mass_Rebuild
 
