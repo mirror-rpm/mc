@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.8.19
-Release:	2%{?dist}
+Release:	3%{?dist}
 Epoch:		1
 License:	GPLv3+
 URL:		http://www.midnight-commander.org/
@@ -17,7 +17,7 @@ BuildRequires:	glib2-devel
 BuildRequires:	gpm-devel
 BuildRequires:	groff-base
 BuildRequires:	libssh2-devel >= 1.2.5
-BuildRequires:	%{?with_slang:slang-devel}%{!?with_slang:slang-devel}
+BuildRequires:	%{?with_slang:slang-devel}%{!?with_slang:ncurses-devel}
 BuildRequires:	perl-generators
 BuildRequires:	pkgconfig
 
@@ -81,6 +81,9 @@ install contrib/mc.{sh,csh} %{buildroot}%{_sysconfdir}/profile.d
 %{_mandir}/man1/*
 
 %changelog
+* Fri May 05 2017 Gwyn Ciesla <limburgher@gmail.com> - 1:4.8.19-3
+- Fix conditional.
+
 * Thu May 04 2017 Tomasz Kłoczko <kloczek@fedoraproject.org> - 1:4.8.19-2
 - go back to slang as it is serious issue with shift-f6 when ncurses is used
   displaying "Delete" instead "Move As" dialog (#1436394)
