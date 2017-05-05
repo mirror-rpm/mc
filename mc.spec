@@ -1,10 +1,11 @@
+%bcond_without	slang
+
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.8.19
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 License:	GPLv3+
-Group:		System Environment/Shells
 URL:		http://www.midnight-commander.org/
 Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
 # Downstream-only patch to make mc use /var/tmp for large temporary
@@ -16,16 +17,15 @@ BuildRequires:	glib2-devel
 BuildRequires:	gpm-devel
 BuildRequires:	groff-base
 BuildRequires:	libssh2-devel >= 1.2.5
-BuildRequires:	ncurses-devel
+BuildRequires:	%{?with_slang:slang-devel}%{!?with_slang:slang-devel}
 BuildRequires:	perl-generators
 BuildRequires:	pkgconfig
 
 %description
-Midnight Commander is a visual shell much like a file manager, only
-with many more features. It is a text mode application, but it also
-includes mouse support. Midnight Commander's best features are its
-ability to FTP, view tar and zip files, and to poke into RPMs for
-specific files.
+Midnight Commander is a visual shell much like a file manager, only with
+many more features. It is a text mode application, but it also includes
+mouse support. Midnight Commander's best features are its ability to FTP,
+view tar and zip files, and to poke into RPMs for specific files.
 
 %prep
 %autosetup -p0
@@ -45,49 +45,54 @@ specific files.
 	--enable-vfs-sftp \
 	--enable-vfs-smb \
 	--enable-vfs-tar \
-	--without-x \
+	--with-x \
 	--with-gpm-mouse \
-	--with-screen=ncurses \
+	--with-screen=%{?with_slang:slang}%{!?with_slang:ncurses} \
 	%{nil}
 %{make_build}
 
 %install
-install -d $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
+install -d %{buildroot}%{_sysconfdir}/profile.d
 
 %{make_install}
 
-install contrib/mc.{sh,csh} $RPM_BUILD_ROOT%{_sysconfdir}/profile.d
+install contrib/mc.{sh,csh} %{buildroot}%{_sysconfdir}/profile.d
 
 %find_lang %{name} --with-man
 
 %files -f %{name}.lang
-%defattr(-, root, root)
-%doc doc/FAQ doc/COPYING doc/NEWS doc/README
-%{_bindir}/mc
-%{_bindir}/mcedit
-%{_bindir}/mcview
-%{_bindir}/mcdiff
-%{_datadir}/mc/*
-%attr(711, root, root) %{_libexecdir}/mc/cons.saver
-%{_libexecdir}/mc/mc*
-%{_libexecdir}/mc/extfs.d/*
-%{_libexecdir}/mc/ext.d/*
-%{_libexecdir}/mc/fish/*
-%{_mandir}/man1/*
-%{_sysconfdir}/profile.d/*
+%license doc/COPYING
+%doc doc/FAQ doc/NEWS doc/README
+/etc/profile.d/*
+%dir %{_sysconfdir}/mc
 %config(noreplace) %{_sysconfdir}/mc/mc.ext
 %config(noreplace) %{_sysconfdir}/mc/*edit*
 %config(noreplace) %{_sysconfdir}/mc/mc*.keymap
 %config(noreplace) %{_sysconfdir}/mc/mc.menu*
 %config(noreplace) %{_sysconfdir}/mc/*.ini
-%dir %{_datadir}/mc
-%dir %{_sysconfdir}/mc
+%{_bindir}/*
 %dir %{_libexecdir}/mc
-%dir %{_libexecdir}/mc/fish
-%dir %{_libexecdir}/mc/extfs.d
-%dir %{_libexecdir}/mc/ext.d
+%attr(755,root,root) %{_libexecdir}/mc/cons.saver
+%{_libexecdir}/mc/mc*
+%{_libexecdir}/mc/extfs.d
+%{_libexecdir}/mc/ext.d
+%{_libexecdir}/mc/fish
+%{_datadir}/mc
+%{_mandir}/man1/*
 
 %changelog
+* Thu May 04 2017 Tomasz Kłoczko <kloczek@fedoraproject.org> - 1:4.8.19-2
+- go back to slang as it is serious issue with shift-f6 when ncurses is used
+  displaying "Delete" instead "Move As" dialog (#1436394)
+- added slang %%bcond to simplify experiments with switching to ncurses
+- reformat %%description to 80 cols
+- really remove Group
+- %%defattr() is no longer needed
+- simplifications in %%files
+- use %%{buildroot} macro
+- build --with-x (it does not add X11 libraries dependencies)
+- cons.saver no longer need to be 711 (changed to 755)
+
 * Mon Mar 27 2017 Tomasz Kłoczko <kloczek@fedoraproject.org> - 1:4.8.19-1
 - updated to 4.8.19
 - drop use slang and use ncurses. There are only few packages which are using
