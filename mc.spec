@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.8.19
-Release:	3%{?dist}
+Release:	4%{?dist}
 Epoch:		1
 License:	GPLv3+
 URL:		http://www.midnight-commander.org/
@@ -11,6 +11,7 @@ Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
 # Downstream-only patch to make mc use /var/tmp for large temporary
 # files.  See also: https://bugzilla.redhat.com/show_bug.cgi?id=895444
 Patch0:		%{name}-tmpdir.patch
+Patch1:		mc-tmpdir-cwd.patch
 BuildRequires:	aspell-devel
 BuildRequires:	e2fsprogs-devel
 BuildRequires:	glib2-devel
@@ -29,6 +30,7 @@ view tar and zip files, and to poke into RPMs for specific files.
 
 %prep
 %autosetup -p0
+%patch1 -p1
 
 %build
 %configure \
@@ -81,6 +83,9 @@ install contrib/mc.{sh,csh} %{buildroot}%{_sysconfdir}/profile.d
 %{_mandir}/man1/*
 
 %changelog
+* Mon May 15 2017 Gwyn Ciesla <limburgher@gmail.com> - 1:4.8.19-4
+- Patch to fix tmpdir default, wrapper scripts.
+
 * Fri May 05 2017 Gwyn Ciesla <limburgher@gmail.com> - 1:4.8.19-3
 - Fix conditional.
 
