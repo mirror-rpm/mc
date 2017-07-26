@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.8.19
-Release:	5%{?dist}
+Release:	6%{?dist}
 Epoch:		1
 License:	GPLv3+
 URL:		http://www.midnight-commander.org/
@@ -82,6 +82,9 @@ install contrib/mc.{sh,csh} %{buildroot}%{_sysconfdir}/profile.d
 %{_mandir}/man1/*
 
 %changelog
+* Wed Jul 26 2017 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.8.19-6
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_27_Mass_Rebuild
+
 * Wed May 17 2017 Gwyn Ciesla <limburgher@gmail.com> - 1:4.8.19-5
 - Apply correct patch.
 
