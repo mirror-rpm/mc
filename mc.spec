@@ -1297,16 +1297,13 @@ install contrib/mc.{sh,csh} %{buildroot}%{_sysconfdir}/profile.d
 - Added more documentation files on termcap, terminfo, xterm
 
 * Thu Oct 30 1997 Michael K. Johnson <johnsonm@redhat.com>
-
 - Added dependency on portmap
 
 * Wed Oct 29 1997 Michael K. Johnson <johnsonm@redhat.com>
-
 - fixed spec file.
 - Updated to 4.1.8
 
 * Sun Oct 26 1997 Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>
-
 - updated to 4.1.6
 - added %%attr macros in %%files,
 - a few simplification in %%install,
@@ -1314,27 +1311,22 @@ install contrib/mc.{sh,csh} %{buildroot}%{_sysconfdir}/profile.d
 - fixed installing %%{_sysconfdir}/X11/wmconfig/tkmc.
 
 * Thu Oct 23 1997 Michael K. Johnson <johnsonm@redhat.com>
-
 - updated to 4.1.5
 - added wmconfig
 
 * Wed Oct 15 1997 Erik Troan <ewt@redhat.com>
-
 - chkconfig is for mcserv package, not mc one
 
 * Tue Oct 14 1997 Erik Troan <ewt@redhat.com>
-
 - patched init script for chkconfig
 - don't turn on the service by default
 
 * Fri Oct 10 1997 Michael K. Johnson <johnsonm@redhat.com>
-
 - Converted to new PAM conventions.
 - Updated to 4.1.3
 - No longer needs glibc patch.
 
 * Thu May 22 1997 Michele Marziani <marziani@fe.infn.it>
-
 - added support for mc alias in %%{_sysconfdir}/profile.d/mc.csh (for csh and tcsh)
 - lowered number of SysV init scripts in %%{_sysconfdir}/rc.d/rc[0,1,6].d
   (mcserv needs to be killed before inet)
@@ -1343,14 +1335,12 @@ install contrib/mc.{sh,csh} %{buildroot}%{_sysconfdir}/profile.d
 - minor cleanup of spec file: redundant directives and comments removed
 
 * Sun May 18 1997 Michele Marziani <marziani@fe.infn.it>
-
 - removed all references to non-existent mc.rpmfs
 - added mcedit.1 to the %%files section
 - reverted to un-gzipped man pages (RedHat style)
 - removed double install line for mcserv.pamd
 
 * Tue May 13 1997 Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>
-
 - added new rpmfs script,
 - removed mcfn_install from mc (adding mc() to bash enviroment is in
   %%{_sysconfdir}/profile.d/mc.sh),
@@ -1359,25 +1349,21 @@ install contrib/mc.{sh,csh} %{buildroot}%{_sysconfdir}/profile.d
 - removed %%{prefix}/lib/mc/term.
 
 * Fri May 9 1997 Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>
-
 - changed source url,
 - fixed link mcedit to mc,
 
 * Wed May 7 1997 Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>
-
 - new version 3.5.27,
 - %%dir %%{prefix}/lib/mc/icons and icons removed from tkmc,
 - added commented xmc part.
 
 * Tue Apr 22 1997 Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>
-
 - FIX spec:
    - added URL field,
    - in mc added missing %%{prefix}/lib/mc/mc.ext, %%{prefix}/lib/mc/mc.hint,
      %%{prefix}/lib/mc/mc.hlp, %%{prefix}/lib/mc/mc.lib, %%{prefix}/lib/mc/mc.menu.
 
 * Fri Apr 18 1997 Tomasz Kłoczko <kloczek@rudy.mif.pg.gda.pl>
-
 - added making packages: tkmc, mcserv (xmc not work yet),
 - gziped man pages,
 - added %%{_sysconfdir}/pamd.d/mcserv PAM config file.
