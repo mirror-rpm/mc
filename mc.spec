@@ -50,12 +50,12 @@ view tar and zip files, and to poke into RPMs for specific files.
 	--with-gpm-mouse \
 	--with-screen=%{?with_slang:slang}%{!?with_slang:ncurses} \
 	%{nil}
-%{make_build}
+%make_build
 
 %install
 install -d %{buildroot}%{_sysconfdir}/profile.d
 
-%{make_install}
+%make_install
 
 install contrib/mc.{sh,csh} %{buildroot}%{_sysconfdir}/profile.d
 
