@@ -8,10 +8,7 @@ Epoch:		1
 License:	GPLv3+
 URL:		http://www.midnight-commander.org/
 Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
-# Downstream-only patch to make mc use /var/tmp for large temporary
-# files.  See also: https://bugzilla.redhat.com/show_bug.cgi?id=895444
 Patch0:		%{name}-tmpdir.patch
-Patch1:		Extends-TMPDIR_DEFAULT-to-mc-wrapper-scripts.patch
 BuildRequires:	aspell-devel
 BuildRequires:	e2fsprogs-devel
 BuildRequires:	glib2-devel
@@ -29,7 +26,7 @@ mouse support. Midnight Commander's best features are its ability to FTP,
 view tar and zip files, and to poke into RPMs for specific files.
 
 %prep
-%autosetup -p0
+%autosetup -p1
 
 %build
 %configure \
