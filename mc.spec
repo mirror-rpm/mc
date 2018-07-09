@@ -9,6 +9,7 @@ License:	GPLv3+
 URL:		http://www.midnight-commander.org/
 Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
 Patch0:		%{name}-tmpdir.patch
+BuildRequires:  gcc
 BuildRequires:	aspell-devel
 BuildRequires:	e2fsprogs-devel
 BuildRequires:	glib2-devel
