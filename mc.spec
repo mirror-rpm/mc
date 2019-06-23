@@ -28,6 +28,7 @@ view tar and zip files, and to poke into RPMs for specific files.
 
 %prep
 %autosetup -p1
+sed -i -e 's|/usr/bin/python|/usr/bin/python2|g' configure
 
 %build
 %configure \
