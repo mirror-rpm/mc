@@ -2,8 +2,8 @@
 
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.8.21
-Release:	4%{?dist}
+Version:	4.8.23
+Release:	1%{?dist}
 Epoch:		1
 License:	GPLv3+
 URL:		http://www.midnight-commander.org/
@@ -28,10 +28,10 @@ view tar and zip files, and to poke into RPMs for specific files.
 
 %prep
 %autosetup -p1
-sed -i -e 's|/usr/bin/python|/usr/bin/python2|g' configure
 
 %build
 %configure \
+	PYTHON=/usr/bin/python2 \
 	CFLAGS="%{optflags} -Wno-strict-aliasing" \
 	--disable-rpath \
 	--enable-aspell \
@@ -81,6 +81,10 @@ install contrib/mc.{sh,csh} %{buildroot}%{_sysconfdir}/profile.d
 %{_mandir}/man1/*
 
 %changelog
+* Thu Aug 22 2019 Jindrich Novy <jnovy@redhat.com> - 1:4.8.23-1
+- update to 4.8.23
+- set the Python path properly as env var, don't sed the configure directly
+
 * Thu Jul 25 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.8.21-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_31_Mass_Rebuild
 
