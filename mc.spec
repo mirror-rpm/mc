@@ -3,7 +3,7 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Version:	4.8.23
-Release:	1%{?dist}
+Release:	2%{?dist}
 Epoch:		1
 License:	GPLv3+
 URL:		http://www.midnight-commander.org/
@@ -65,10 +65,8 @@ install contrib/mc.{sh,csh} %{buildroot}%{_sysconfdir}/profile.d
 %doc doc/FAQ doc/NEWS doc/README
 /etc/profile.d/*
 %dir %{_sysconfdir}/mc
-%config(noreplace) %{_sysconfdir}/mc/mc.ext
-%config(noreplace) %{_sysconfdir}/mc/*edit*
-%config(noreplace) %{_sysconfdir}/mc/mc*.keymap
-%config(noreplace) %{_sysconfdir}/mc/mc.menu*
+%{_sysconfdir}/mc/edit*
+%config(noreplace) %{_sysconfdir}/mc/mc*
 %config(noreplace) %{_sysconfdir}/mc/*.ini
 %{_bindir}/*
 %dir %{_libexecdir}/mc
@@ -81,6 +79,9 @@ install contrib/mc.{sh,csh} %{buildroot}%{_sysconfdir}/profile.d
 %{_mandir}/man1/*
 
 %changelog
+* Tue Sep 24 2019 Jindrich Novy <jnovy@redhat.com> - 1:4.8.23-2
+- fix rpmlint warnings and simplify filelist
+
 * Thu Aug 22 2019 Jindrich Novy <jnovy@redhat.com> - 1:4.8.23-1
 - update to 4.8.23
 - set the Python path properly as env var, don't sed the configure directly
