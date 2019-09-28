@@ -9,10 +9,10 @@ License:	GPLv3+
 URL:		http://www.midnight-commander.org/
 Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
 Patch0:		%{name}-tmpdir.patch
-Patch0:		%{name}-spec.syntax.patch
-Patch1:		%{name}-rpm.patch
-Patch2:		%{name}-python3.patch
-Patch3:		%{name}-default_setup.patch
+Patch1:		%{name}-spec.syntax.patch
+Patch2:		%{name}-rpm.patch
+Patch3:		%{name}-python3.patch
+Patch4:		%{name}-default_setup.patch
 BuildRequires:	aspell-devel
 BuildRequires:	e2fsprogs-devel
 BuildRequires:  gcc
@@ -67,7 +67,7 @@ Midnight Commander s3+ and UC1541 EXTFS backend scripts.
 %install
 %make_install
 
-%__install contrib/mc.{sh,csh} -D %{buildroot}%{_sysconfdir}/profile.d
+%__install contrib/mc.{sh,csh} -Dt %{buildroot}%{_sysconfdir}/profile.d
 
 %find_lang %{name} --with-man
 
