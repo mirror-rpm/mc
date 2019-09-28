@@ -2,23 +2,28 @@
 
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
-Version:	4.8.23
-Release:	2%{?dist}
 Epoch:		1
+Version:	4.8.23
+Release:	3%{?dist}
 License:	GPLv3+
 URL:		http://www.midnight-commander.org/
 Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
 Patch0:		%{name}-tmpdir.patch
+Patch0:		%{name}-spec.syntax.patch
+Patch1:		%{name}-rpm.patch
+Patch2:		%{name}-python3.patch
+Patch3:		%{name}-default_setup.patch
 BuildRequires:	aspell-devel
 BuildRequires:	e2fsprogs-devel
 BuildRequires:  gcc
 BuildRequires:	glib2-devel
 BuildRequires:	gpm-devel
 BuildRequires:	groff-base
-BuildRequires:	libssh2-devel >= 1.2.5
+BuildRequires:	libssh2-devel	>= 1.2.5
 BuildRequires:	%{?with_slang:slang-devel}%{!?with_slang:ncurses-devel}
 BuildRequires:	perl-generators
 BuildRequires:	pkgconfig
+Suggests:	mc-python
 
 %description
 Midnight Commander is a visual shell much like a file manager, only with
@@ -26,13 +31,21 @@ many more features. It is a text mode application, but it also includes
 mouse support. Midnight Commander's best features are its ability to FTP,
 view tar and zip files, and to poke into RPMs for specific files.
 
+%package python
+Summary:	Midnight Commander s3+ and UC1541 EXTFS backend scripts
+BuildArch:	noarch
+Requires:	%{name} = %{epoch}:%{version}-%{release}
+Requires:	python3-boto
+
+%description python
+Midnight Commander s3+ and UC1541 EXTFS backend scripts.
+
 %prep
 %autosetup -p1
 
 %build
 %configure \
-	PYTHON=/usr/bin/python2 \
-	CFLAGS="%{optflags} -Wno-strict-aliasing" \
+	PYTHON=%{__python3} \
 	--disable-rpath \
 	--enable-aspell \
 	--enable-charset \
@@ -52,11 +65,9 @@ view tar and zip files, and to poke into RPMs for specific files.
 %make_build
 
 %install
-install -d %{buildroot}%{_sysconfdir}/profile.d
-
 %make_install
 
-install contrib/mc.{sh,csh} %{buildroot}%{_sysconfdir}/profile.d
+%__install contrib/mc.{sh,csh} -D %{buildroot}%{_sysconfdir}/profile.d
 
 %find_lang %{name} --with-man
 
@@ -77,8 +88,22 @@ install contrib/mc.{sh,csh} %{buildroot}%{_sysconfdir}/profile.d
 %{_libexecdir}/mc/fish
 %{_datadir}/mc
 %{_mandir}/man1/*
+%exclude %{_libexecdir}/mc/extfs.d/{s3+,uc1541}
+
+%files python
+%{_libexecdir}/mc/extfs.d/{s3+,uc1541}
 
 %changelog
+* Sat 28 Sep 2019 Tomasz Kłoczko <kloczek@fedoraproject.org> - 1:4.8.23-3
+- add python3 patch: port to python3 (added python3 patch)
+- added python subpackage with s3+ and uc1541 extfs backend scrips to minimise
+  base package dependencies
+- added python3-boto to python subpackage dependencies
+- use -Wno-strict-aliasing in CFLAGS is no longer needed
+- added spec.syntax patch: improve rpm spec files syntax colouring
+- added default_setup patch: enable by default lynx navigate with arrows keys
+  and auto save setup
+
 * Tue Sep 24 2019 Jindrich Novy <jnovy@redhat.com> - 1:4.8.23-2
 - fix rpmlint warnings and simplify filelist
 
