@@ -94,8 +94,8 @@ Midnight Commander s3+ and UC1541 EXTFS backend scripts.
 %{_libexecdir}/mc/extfs.d/{s3+,uc1541}
 
 %changelog
-* Sat 28 Sep 2019 Tomasz Kłoczko <kloczek@fedoraproject.org> - 1:4.8.23-3
-- add python3 patch: port to python3 (added python3 patch)
+* Sat Sep 28 2019 Tomasz Kłoczko <kloczek@fedoraproject.org> - 1:4.8.23-3
+- add python3 patch: port to python3
 - added python subpackage with s3+ and uc1541 extfs backend scrips to minimise
   base package dependencies
 - added python3-boto to python subpackage dependencies
