@@ -4,7 +4,7 @@ Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Epoch:		1
 Version:	4.8.23
-Release:	4%{?dist}
+Release:	5%{?dist}
 License:	GPLv3+
 URL:		http://www.midnight-commander.org/
 Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
@@ -22,6 +22,8 @@ BuildRequires:	groff-base
 BuildRequires:	libssh2-devel	>= 1.2.5
 BuildRequires:	%{?with_slang:slang-devel}%{!?with_slang:ncurses-devel}
 BuildRequires:	pkgconfig
+BuildRequires:	perl-interpreter
+Requires:	aspell-en
 Suggests:	mc-python
 
 %description
@@ -93,6 +95,12 @@ Midnight Commander s3+ and UC1541 EXTFS backend scripts.
 %{_libexecdir}/mc/extfs.d/{s3+,uc1541}
 
 %changelog
+* Mon Oct 07 2019 Jindrich Novy <jnovy@redhat.com> - 1:4.8.23-5
+- just keep perl-interpreter BR because of man2hlp,
+  it is a perl script required by build
+- require aspell-en, otherwise an annoying error prompt
+  is displayed while editing any file
+
 * Mon Oct 07 2019 Jindrich Novy <jnovy@redhat.com> - 1:4.8.23-4
 - drop unneeded BR: perl-generators
 
