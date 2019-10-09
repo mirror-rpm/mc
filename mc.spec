@@ -4,7 +4,7 @@ Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Epoch:		1
 Version:	4.8.23
-Release:	6%{?dist}
+Release:	7%{?dist}
 License:	GPLv3+
 URL:		http://www.midnight-commander.org/
 Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
@@ -13,7 +13,6 @@ Patch1:		%{name}-spec.syntax.patch
 Patch2:		%{name}-rpm.patch
 Patch3:		%{name}-python3.patch
 Patch4:		%{name}-default_setup.patch
-BuildRequires:	aspell-devel
 BuildRequires:	e2fsprogs-devel
 BuildRequires:  gcc
 BuildRequires:	glib2-devel
@@ -23,7 +22,6 @@ BuildRequires:	libssh2-devel	>= 1.2.5
 BuildRequires:	%{?with_slang:slang-devel}%{!?with_slang:ncurses-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	perl-generators
-Requires:	aspell-en
 Suggests:	mc-python
 
 %description
@@ -48,7 +46,6 @@ Midnight Commander s3+ and UC1541 EXTFS backend scripts.
 %configure \
 	PYTHON=%{__python3} \
 	--disable-rpath \
-	--enable-aspell \
 	--enable-charset \
 	--enable-largefile \
 	--enable-vfs-cpio \
@@ -95,6 +92,11 @@ Midnight Commander s3+ and UC1541 EXTFS backend scripts.
 %{_libexecdir}/mc/extfs.d/{s3+,uc1541}
 
 %changelog
+* Wed Oct 09 2019 Jindrich Novy <jnovy@redhat.com> - 1:4.8.23-7
+- disable aspell support until it is clear how to set up
+  aspell dependencies or avoiding annoying error message
+  when no dictionary is found every time a file is edited
+
 * Mon Oct 07 2019 Jindrich Novy <jnovy@redhat.com> - 1:4.8.23-6
 - re-add BR: perl-generators, it is required for generating
   rpm deps from the embedded VFS perl scriptlets
