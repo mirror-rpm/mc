@@ -3,12 +3,11 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Epoch:		1
-Version:	4.8.23
-Release:	7%{?dist}
+Version:	4.8.24
+Release:	1%{?dist}
 License:	GPLv3+
 URL:		http://www.midnight-commander.org/
 Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
-Patch0:		%{name}-tmpdir.patch
 Patch1:		%{name}-spec.syntax.patch
 Patch2:		%{name}-rpm.patch
 Patch3:		%{name}-python3.patch
@@ -92,6 +91,10 @@ Midnight Commander s3+ and UC1541 EXTFS backend scripts.
 %{_libexecdir}/mc/extfs.d/{s3+,uc1541}
 
 %changelog
+* Mon Jan 20 2020 Jindrich Novy <jnovy@redhat.com> - 1:4.8.24-1
+- update to 4.8.24
+- drop merged tmpdir patch
+
 * Wed Oct 09 2019 Jindrich Novy <jnovy@redhat.com> - 1:4.8.23-7
 - disable aspell support until it is clear how to set up
   aspell dependencies or avoiding annoying error message
