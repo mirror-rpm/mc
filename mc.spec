@@ -3,17 +3,15 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Epoch:		1
-Version:	4.8.24
-Release:	4%{?dist}
+Version:	4.8.25
+Release:	1%{?dist}
 License:	GPLv3+
 URL:		http://www.midnight-commander.org/
-Source0:	http://www.midnight-commander.org/downloads/mc-%{version}.tar.xz
+Source0:	https://github.com/MidnightCommander/mc/archive/%{version}.tar.gz
 Patch1:		%{name}-spec.syntax.patch
-Patch2:		%{name}-rpm.patch
 Patch3:		%{name}-python3.patch
 Patch4:		%{name}-default_setup.patch
 Patch5:		%{name}-tmpdir.patch
-Patch6:		%{name}-gcc10.patch
 BuildRequires:	e2fsprogs-devel
 BuildRequires:  gcc
 BuildRequires:	glib2-devel
@@ -44,6 +42,7 @@ Midnight Commander s3+ and UC1541 EXTFS backend scripts.
 %autosetup -p1
 
 %build
+./autogen.sh
 %configure \
 	PYTHON=%{__python3} \
 	--disable-rpath \
@@ -93,6 +92,9 @@ Midnight Commander s3+ and UC1541 EXTFS backend scripts.
 %{_libexecdir}/mc/extfs.d/{s3+,uc1541}
 
 %changelog
+* Fri Jul 17 2020 Jindrich Novy <jnovy@redhat.com> - 1:4.8.25-1
+- update to 4.8.25
+
 * Fri Jan 31 2020 Jindrich Novy <jnovy@redhat.com> - 1:4.8.24-4
 - fix gcc-10 build failure
 
