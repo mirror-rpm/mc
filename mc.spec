@@ -13,6 +13,7 @@ Patch3:		%{name}-python3.patch
 Patch4:		%{name}-default_setup.patch
 Patch5:		%{name}-tmpdir.patch
 # deps for autogen.sh
+BuildRequires: make
 BuildRequires:	autoconf
 BuildRequires:	automake
 BuildRequires:	gettext-devel
