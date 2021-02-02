@@ -4,7 +4,7 @@ Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Epoch:		1
 Version:	4.8.26
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv3+
 URL:		http://www.midnight-commander.org/
 Source0:	https://github.com/MidnightCommander/mc/archive/%{version}.tar.gz
@@ -24,7 +24,10 @@ BuildRequires:	gcc
 BuildRequires:	glib2-devel
 BuildRequires:	gpm-devel
 BuildRequires:	groff-base
-BuildRequires:	libssh2-devel	>= 1.2.5
+# disabled (needs to be ported to use libssh instead of libssh2)
+#BuildRequires:	libssh2-devel	>= 1.2.5
+# (configure line was also changed from --enable-vfs-sftp to --disable-vfs-sftp
+# - this is the only part of mc which uses libssh2)
 BuildRequires:	%{?with_slang:slang-devel}%{!?with_slang:ncurses-devel}
 BuildRequires:	pkgconfig
 BuildRequires:	perl-generators
@@ -60,7 +63,7 @@ Midnight Commander s3+ and UC1541 EXTFS backend scripts.
 	--enable-vfs-fish \
 	--enable-vfs-ftp \
 	--enable-vfs-sfs \
-	--enable-vfs-sftp \
+	--disable-vfs-sftp \
 	--enable-vfs-smb \
 	--enable-vfs-tar \
 	--with-x \
@@ -99,6 +102,9 @@ Midnight Commander s3+ and UC1541 EXTFS backend scripts.
 %{_libexecdir}/mc/extfs.d/{s3+,uc1541}
 
 %changelog
+* Tue Feb 02 2021 Denys Vlasenko <dvlasenk@redhat.com> - 1:4.8.26-3
+- Avoid usage of libssh2
+
 * Tue Jan 26 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.8.26-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
