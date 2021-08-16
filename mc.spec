@@ -3,8 +3,8 @@
 Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Epoch:		1
-Version:	4.8.26
-Release:	4%{?dist}
+Version:	4.8.27
+Release:	1%{?dist}
 License:	GPLv3+
 URL:		http://www.midnight-commander.org/
 Source0:	https://github.com/MidnightCommander/mc/archive/%{version}.tar.gz
@@ -52,6 +52,7 @@ Midnight Commander s3+ and UC1541 EXTFS backend scripts.
 %autosetup -p1
 
 %build
+sed -i "s,PREV_MC_VERSION=\"unknown\",PREV_MC_VERSION=\"%{version}\"," version.sh
 ./autogen.sh
 %configure \
 	PYTHON=%{__python3} \
@@ -102,6 +103,10 @@ Midnight Commander s3+ and UC1541 EXTFS backend scripts.
 %{_libexecdir}/mc/extfs.d/{s3+,uc1541}
 
 %changelog
+* Mon Aug 16 2021 Jindrich Novy <jnovy@redhat.com> - 1:4.8.27-1
+- update to https://github.com/MidnightCommander/mc/releases/tag/v4.8.27
+- fix mc --version (#1858573)
+
 * Thu Jul 22 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.8.26-4
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_35_Mass_Rebuild
 
