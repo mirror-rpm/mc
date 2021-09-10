@@ -4,7 +4,7 @@ Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Epoch:		1
 Version:	4.8.27
-Release:	1%{?dist}
+Release:	2%{?dist}
 License:	GPLv3+
 URL:		http://www.midnight-commander.org/
 Source0:	https://github.com/MidnightCommander/mc/archive/%{version}.tar.gz
@@ -65,7 +65,7 @@ sed -i "s,PREV_MC_VERSION=\"unknown\",PREV_MC_VERSION=\"%{version}\"," version.s
 	--enable-vfs-ftp \
 	--enable-vfs-sfs \
 	--disable-vfs-sftp \
-	--enable-vfs-smb \
+	--disable-vfs-smb \
 	--enable-vfs-tar \
 	--with-x \
 	--with-gpm-mouse \
@@ -103,6 +103,10 @@ sed -i "s,PREV_MC_VERSION=\"unknown\",PREV_MC_VERSION=\"%{version}\"," version.s
 %{_libexecdir}/mc/extfs.d/{s3+,uc1541}
 
 %changelog
+* Fri Sep 10 2021 Jindrich Novy <jnovy@redhat.com> - 1:4.8.27-2
+- disable samba VFS
+- Related: #2002331
+
 * Mon Aug 16 2021 Jindrich Novy <jnovy@redhat.com> - 1:4.8.27-1
 - update to https://github.com/MidnightCommander/mc/releases/tag/v4.8.27
 - fix mc --version (#1858573)
