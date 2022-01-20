@@ -4,7 +4,7 @@ Summary:	User-friendly text console file manager and visual shell
 Name:		mc
 Epoch:		1
 Version:	4.8.27
-Release:	2%{?dist}
+Release:	3%{?dist}
 License:	GPLv3+
 URL:		http://www.midnight-commander.org/
 Source0:	https://github.com/MidnightCommander/mc/archive/%{version}.tar.gz
@@ -103,6 +103,9 @@ sed -i "s,PREV_MC_VERSION=\"unknown\",PREV_MC_VERSION=\"%{version}\"," version.s
 %{_libexecdir}/mc/extfs.d/{s3+,uc1541}
 
 %changelog
+* Thu Jan 20 2022 Fedora Release Engineering <releng@fedoraproject.org> - 1:4.8.27-3
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_36_Mass_Rebuild
+
 * Fri Sep 10 2021 Jindrich Novy <jnovy@redhat.com> - 1:4.8.27-2
 - disable samba VFS
 - Related: #2002331
